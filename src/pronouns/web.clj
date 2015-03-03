@@ -40,8 +40,8 @@
       trace/wrap-stacktrace))
 
 (defn -main []
-  (let [port (or (Integer. (env :port))
-                 (:default-server-port config))]
+  (let [port (Integer. (env :port (:default-server-port config)))
+                 ]
     (jetty/run-jetty app {:port port})))
 
 ;; For interactive development:
