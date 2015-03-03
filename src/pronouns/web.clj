@@ -36,8 +36,8 @@
 
 (defn -main []
   (let [port (or (Integer. (env :port))
-                 (:default-server-port config))])
-  (jetty/run-jetty app {:port port}))
+                 (:default-server-port config))]
+    (jetty/run-jetty app {:port port})))
 
 ;; For interactive development:
 ;; (.stop server)
