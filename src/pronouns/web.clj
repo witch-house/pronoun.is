@@ -10,7 +10,7 @@
             [ring.adapter.jetty :as jetty]
             [environ.core :refer [env]]))
 
-(def config {:server-port 5000})
+(def config {:default-server-port 5000})
 
 (defroutes app-routes
   (GET "/" []
@@ -30,12 +30,14 @@
 
 (def app
   (-> app-routes
-      ; logger/wrap-with-logger
+      logger/wrap-with-logger
       wrap-error-page
       trace/wrap-stacktrace))
 
 (defn -main []
-  (jetty/run-jetty app {:port (:server-port config)}))
+  (let [port (or (Integer. (env :port))
+                 (:default-server-port config))])
+  (jetty/run-jetty app {:port port}))
 
 ;; For interactive development:
 ;; (.stop server)
