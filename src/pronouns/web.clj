@@ -13,6 +13,15 @@
 
 (def config {:default-server-port 5000})
 
+(defn render-examples-page
+  [subject object possessive-determiner possessive-pronoun reflexive]
+  (s/join "\n"
+          [(str subject " went to the park")
+           (str "I went with " object)
+           (str subject " brought " possessive-determiner " frisbee")
+           (str "at least I think it was " possessive-pronoun)
+           (str subject " threw it to " reflexive)]))
+
 (defroutes app-routes
   (GET "/" []
        {:status 200
@@ -21,7 +30,15 @@
   (GET "/:subject/:object/:possessive-determiner/:possessive-pronoun/:reflexive" {params :params}
        {:status 200
         :headers {"Content-Type" "text/plain"}
-        :body (str (:subject params) " goes to the park")})
+        ;; ew this is super gross there's certainly a better way
+        :body (let [{:keys
+                     [subject object possessive-determiner possessive-pronoun reflexive]}
+                    params]
+                (render-examples-page subject
+                                      object
+                                      possessive-determiner
+                                      possessive-pronoun
+                                      reflexive))})
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
@@ -40,8 +57,8 @@
       trace/wrap-stacktrace))
 
 (defn -main []
-  (let [port (Integer. (env :port (:default-server-port config)))
-                 ]
+  (let [port (Integer. (:port env
+                              (:default-server-port config)))]
     (jetty/run-jetty app {:port port})))
 
 ;; For interactive development:
