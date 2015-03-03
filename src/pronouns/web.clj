@@ -3,6 +3,7 @@
             [compojure.handler :refer [site]]
             [compojure.route :as route]
             [clojure.java.io :as io]
+            [clojure.string :as s]
             [ring.middleware.logger :as logger]
             [ring.middleware.stacktrace :as trace]
             [ring.middleware.session :as session]
@@ -17,6 +18,10 @@
        {:status 200
         :headers {"Content-Type" "text/plain"}
         :body "a blurb explaining how to use this site"})
+  (GET "/:subject/:object/:possessive-determiner/:possessive-pronoun/:reflexive" {params :params}
+       {:status 200
+        :headers {"Content-Type" "text/plain"}
+        :body (str (:subject params) " goes to the park")})
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
