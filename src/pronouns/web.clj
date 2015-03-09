@@ -11,34 +11,48 @@
             [ring.adapter.jetty :as jetty]
             [environ.core :refer [env]]))
 
-(def config {:default-server-port 5000})
+(def config {:default-server-port 5000
+             :pronoun-table-path "resources/pronouns.tab"})
+
+(defn slurp-tabfile [path]
+  (let [lines (s/split (slurp path) #"\n")]
+    (map #(s/split % #"\t") lines)))
+
+(defn lookup [inputs]
+  (let [pronouns-table (slurp-tabfile (:pronoun-table-path config))
+        n (count inputs)
+        filtered-table (filter #(= inputs (take n %)) pronouns-table)]
+    (first filtered-table)))
+
+(defn parse-pronouns-with-lookup [pronouns-string]
+  (let [inputs (s/split pronouns-string #"/")
+        n (count inputs)]
+    (if (>= n 5)
+      (take 5 inputs)
+      (lookup inputs))))
 
 (defn render-examples-page
-  [subject object possessive-determiner possessive-pronoun reflexive]
-  (s/join "\n"
-          [(str subject " went to the park")
-           (str "I went with " object)
-           (str subject " brought " possessive-determiner " frisbee")
-           (str "at least I think it was " possessive-pronoun)
-           (str subject " threw it to " reflexive)]))
+  ([subject object possessive-determiner possessive-pronoun reflexive]
+     (s/join "\n"
+             [(str subject " went to the park")
+              (str "I went with " object)
+              (str subject " brought " possessive-determiner " frisbee")
+              (str "at least I think it was " possessive-pronoun)
+              (str subject " threw it to " reflexive)]))
+  ([error-message]
+     error-message))
 
 (defroutes app-routes
   (GET "/" []
        {:status 200
         :headers {"Content-Type" "text/plain"}
         :body "a blurb explaining how to use this site"})
-  (GET "/:subject/:object/:possessive-determiner/:possessive-pronoun/:reflexive" {params :params}
+  (GET "/*" {params :params}
        {:status 200
         :headers {"Content-Type" "text/plain"}
-        ;; ew this is super gross there's certainly a better way
-        :body (let [{:keys
-                     [subject object possessive-determiner possessive-pronoun reflexive]}
-                    params]
-                (render-examples-page subject
-                                      object
-                                      possessive-determiner
-                                      possessive-pronoun
-                                      reflexive))})
+        :body (let [pronouns (parse-pronouns-with-lookup {:* params})]
+                (apply render-examples-page pronouns))})
+
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
