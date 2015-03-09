@@ -39,8 +39,8 @@
               (str subject " brought " possessive-determiner " frisbee")
               (str "at least I think it was " possessive-pronoun)
               (str subject " threw it to " reflexive)]))
-  ([error-message]
-     error-message))
+  ([nothing]
+     "We couldn't find those pronouns in our database, please let us know to add them!"))
 
 (defroutes app-routes
   (GET "/" []
@@ -50,7 +50,7 @@
   (GET "/*" {params :params}
        {:status 200
         :headers {"Content-Type" "text/plain"}
-        :body (let [pronouns (parse-pronouns-with-lookup {:* params})]
+        :body (let [pronouns (parse-pronouns-with-lookup (:* params))]
                 (apply render-examples-page pronouns))})
 
   (ANY "*" []
