@@ -51,7 +51,7 @@
        {:status 200
         :headers {"Content-Type" "text/plain"}
         :body (let [pronouns (parse-pronouns-with-lookup (:* params))]
-                (apply render-examples-page pronouns))})
+                (apply render-examples-page (or pronouns [:error])))})
 
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
