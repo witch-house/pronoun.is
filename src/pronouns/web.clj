@@ -40,7 +40,9 @@
               (str "at least I think it was " possessive-pronoun)
               (str subject " threw it to " reflexive)]))
   ([nothing]
-     "We couldn't find those pronouns in our database, please let us know to add them!"))
+     (str "We couldn't find those pronouns in our database, please ask us to "
+          "add them, or issue a pull request at "
+          "https://github.com/witch-house/pronoun.is/blob/master/resources/pronouns.tab")))
 
 (defroutes app-routes
   (GET "/" []
