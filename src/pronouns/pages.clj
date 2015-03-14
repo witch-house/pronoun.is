@@ -72,7 +72,9 @@
   [subject object possessive-determiner possessive-pronoun reflexive]
   (html
    [:html
-    [:head ""]
+    [:head
+     [:title "Pronoun examples"]
+     [:link {:rel "stylesheet" :href "/pronouns.css"}]]
     [:body
      (examples-block subject object possessive-determiner possessive-pronoun reflexive)
      (about-block)

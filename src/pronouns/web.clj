@@ -28,6 +28,11 @@
         :headers {"Content-Type" "text/html"}
         :body (pages/pronouns (:* params) pronouns-table)})
 
+  (GET "/pronouns.css" {params :params}
+       {:status 200
+       :headers {"Content-Type" "text/css"}
+       :body (slurp (io/resource "pronouns.css"))})
+
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
