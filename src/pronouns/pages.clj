@@ -34,7 +34,7 @@
 (defn reflexive-example
   [subject reflexive]
   (wrap-para
-   [:span#sentence (wrap-pronoun subject) " threw it to " (wrap-pronoun reflexive)]))
+   [:span#sentence (wrap-pronoun subject) " threw the frisbee to " (wrap-pronoun reflexive)]))
 
 
 (defn twitter-name [name]
