@@ -78,8 +78,25 @@
       (take 5 inputs)
       (u/table-lookup inputs pronouns-table))))
 
-(defn front []
-  (str "pronoun.is is a www site for showing people how to use pronouns"))
+;; we could choose to display the entire row for the label.
+;; currently the first two entries are enough to disambiguate the
+;; pronouns -- will that always be true?
+(defn make-link [row]
+  (let [link (str "/" (s/join "/" row))
+        label (str (first row) "/" (first (rest row)))]
+    [:li [:a {:href link} label]]))
+
+(defn front [pronouns-table]
+  (let [links (map make-link (sort pronouns-table))]
+    (html
+     [:html
+      [:head
+       [:title "Main Page"]
+       [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+      [:body
+       [:p "pronoun.is is a www site for showing people how to use pronouns"]
+       [:p "here are some pronouns the site knows about:"]
+       [:ul links]]])))
 
 (defn not-found []
   (str "We couldn't find those pronouns in our database, please ask us to "
