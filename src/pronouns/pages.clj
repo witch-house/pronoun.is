@@ -3,55 +3,47 @@
             [pronouns.util :as u]
             [hiccup.core :refer :all]))
 
-
 (defn wrap-pronoun
   [pronoun]
   [:b pronoun])
 
 (defn wrap-para
   [whatever]
-  [:p whatever]
-  )
+  [:p whatever])
 
 (defn subject-example
   [subject]
   (wrap-para
-  [:span#sentence (wrap-pronoun subject) " went to the park."]))
+   [:span#sentence (wrap-pronoun subject) " went to the park."]))
 
 (defn object-example
   [object]
   (wrap-para
-  [:span#sentence "I went with " (wrap-pronoun object) "."]
-  ))
+   [:span#sentence "I went with " (wrap-pronoun object) "."]))
 
 (defn posessive-determiner-example
   [subject possessive-determiner]
   (wrap-para
-  [:span#sentence (wrap-pronoun subject) " brought " (wrap-pronoun possessive-determiner) " frisbee."]
-  ))
+   [:span#sentence (wrap-pronoun subject) " brought " (wrap-pronoun possessive-determiner) " frisbee."]))
 
 (defn possessive-pronoun-example
   [possessive-pronoun]
   (wrap-para
-  [:span#sentence "At least I think it was " (wrap-pronoun possessive-pronoun) "."]
-  ))
+   [:span#sentence "At least I think it was " (wrap-pronoun possessive-pronoun) "."]))
 
 (defn reflexive-example
   [subject reflexive]
   (wrap-para
-  [:span#sentence (wrap-pronoun subject) " threw it to " (wrap-pronoun reflexive)]
-  ))
+   [:span#sentence (wrap-pronoun subject) " threw it to " (wrap-pronoun reflexive)]))
 
 
 (defn twitter-name [name]
-  [:a {:href (str "https://www.twitter.com/" name)} (str "@" name)]
-)
+  [:a {:href (str "https://www.twitter.com/" name)} (str "@" name)])
 
 (defn contact-block []
   [:div {:class "contact"}
    [:p "Written by " (twitter-name "morganastra") " and " (twitter-name "thelseraphim") "."]
-   [:p "visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github."]]]
-)
+   [:p "visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github."]]])
 
 
 (defn about-block []
@@ -61,10 +53,8 @@
     [:tt "http://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
     " displays examples of your pronouns. If we have a good guess we'll let you use just the first one or two."]
    [:p "Quick examples:"]
-   [:p "My name is Thel Seraphim, my " [:a {:href "http://pronoun.is/she"} "http://pronoun.is/she"] "."]
-   [:p "My name is Morgan Astra, my " [:a {:href "http://pronoun.is/ze/zir"} "http://pronoun.is/ze/zir"] "."]
-   ]
-)
+   [:p "My name is Thel Seraphim, my " [:a {:href "http://pronoun.is/she"} "pronoun.is/she"] "."]
+   [:p "My name is Morgan, my " [:a {:href "http://pronoun.is/ze/zir"} "pronoun.is/ze/zir"] "."]])
 
 
 
@@ -78,20 +68,15 @@
    (possessive-pronoun-example possessive-pronoun)
    (reflexive-example subject reflexive)])
 
-
-
 (defn format-pronoun-examples
   [subject object possessive-determiner possessive-pronoun reflexive]
   (html
    [:html
-   [:head ""]
-   [:body
-    (examples-block subject object possessive-determiner possessive-pronoun reflexive)
-    (about-block)
-    (contact-block)]
-    ]
-   )
- )
+    [:head ""]
+    [:body
+     (examples-block subject object possessive-determiner possessive-pronoun reflexive)
+     (about-block)
+     (contact-block)]]))
 
 
 (defn parse-pronouns-with-lookup [pronouns-string pronouns-table]
