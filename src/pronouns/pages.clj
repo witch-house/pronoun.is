@@ -42,8 +42,8 @@
 
 (defn contact-block []
   [:div {:class "contact"}
-   [:p "Written by " (twitter-name "morganastra") " and " (twitter-name "thelseraphim") "."]
-   [:p "visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github."]]])
+   [:p "Written by " (twitter-name "morganastra") " and " (twitter-name "thelseraphim") ". "
+   "Visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github!"]]])
 
 
 (defn about-block []
