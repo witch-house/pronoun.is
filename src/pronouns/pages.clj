@@ -61,7 +61,7 @@
 (defn examples-block
   [subject object possessive-determiner possessive-pronoun reflexive]
   [:div {:class "examples"}
-   [:p [:h1 "Usage examples:"]]
+   [:p [:h1 "Here are some usage examples for my pronouns:"]]
    (subject-example subject)
    (object-example object)
    (posessive-determiner-example subject possessive-determiner)
