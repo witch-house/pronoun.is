@@ -7,34 +7,29 @@
   [pronoun]
   [:b pronoun])
 
-(defn wrap-para
-  [whatever]
-  [:p whatever])
+(defn render-sentence [& content]
+  [:p [:span.sentence content]]
+)
 
 (defn subject-example
   [subject]
-  (wrap-para
-   [:span#sentence (wrap-pronoun subject) " went to the park."]))
+  (render-sentence (wrap-pronoun (s/capitalize subject)) " went to the park."))
 
 (defn object-example
   [object]
-  (wrap-para
-   [:span#sentence "I went with " (wrap-pronoun object) "."]))
+  (render-sentence "I went with " (wrap-pronoun object) "."))
 
 (defn posessive-determiner-example
   [subject possessive-determiner]
-  (wrap-para
-   [:span#sentence (wrap-pronoun subject) " brought " (wrap-pronoun possessive-determiner) " frisbee."]))
+  (render-sentence (wrap-pronoun (s/capitalize subject)) " brought " (wrap-pronoun possessive-determiner) " frisbee."))
 
 (defn possessive-pronoun-example
   [possessive-pronoun]
-  (wrap-para
-   [:span#sentence "At least I think it was " (wrap-pronoun possessive-pronoun) "."]))
+  (render-sentence "At least I think it was " (wrap-pronoun possessive-pronoun) "."))
 
 (defn reflexive-example
   [subject reflexive]
-  (wrap-para
-   [:span#sentence (wrap-pronoun subject) " threw the frisbee to " (wrap-pronoun reflexive)]))
+  (render-sentence (wrap-pronoun (s/capitalize subject)) " threw the frisbee to " (wrap-pronoun reflexive) "."))
 
 
 (defn twitter-name [name]
