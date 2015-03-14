@@ -60,7 +60,7 @@
     (twitter-name "morganastra")
     ", whose "
     [:a {:href "http://pronoun.is/ze/zir"} "pronoun.is/ze/zir"]
-    " and "
+    ", and "
     (twitter-name "thelseraphim")
     ", whose "
     [:a {:href "http://pronoun.is/she"} "pronoun.is/she"]
