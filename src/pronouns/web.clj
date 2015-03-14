@@ -20,8 +20,8 @@
 (defroutes app-routes
   (GET "/" []
        {:status 200
-        :headers {"Content-Type" "text/plain"}
-        :body (pages/front)})
+        :headers {"Content-Type" "text/html"}
+        :body (pages/front pronouns-table)})
 
   (GET "/pronouns.css" {params :params}
      {:status 200
