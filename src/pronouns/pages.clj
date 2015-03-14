@@ -70,7 +70,7 @@
 
 (defn format-pronoun-examples
   [subject object possessive-determiner possessive-pronoun reflexive]
-  (let [title "Pronoun Island: Examples"]
+  (let [title "Pronoun Island: English Language Examples"]
   (html
    [:html
     [:head
@@ -109,7 +109,7 @@
       [:body
        (title-block title)
        [:div {:class "table"}
-       [:p "pronoun.is is a www site for showing people how to use pronouns"]
+       [:p "pronoun.is is a www site for showing people how to use pronouns in English."]
        [:p "here are some pronouns the site knows about:"]
        [:ul links]]]
       (contact-block)])))
