@@ -94,9 +94,11 @@
        [:title "Main Page"]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
+       [:div {:class "table"}
        [:p "pronoun.is is a www site for showing people how to use pronouns"]
        [:p "here are some pronouns the site knows about:"]
-       [:ul links]]])))
+       [:ul links]]]
+      (contact-block)])))
 
 (defn not-found []
   (str "We couldn't find those pronouns in our database, please ask us to "
