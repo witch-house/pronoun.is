@@ -47,18 +47,24 @@
 
 (defn about-block []
   [:div {:class "about"}
-   [:p "Full usage:"]
-   [:p
+   [:p "Full usage: "
     [:tt "http://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
-    " displays examples of your pronouns. If we have a good guess we'll let you use just the first one or two."]
-   [:p "Quick examples:"]
-   [:p "My name is Thel Seraphim, my " [:a {:href "http://pronoun.is/she"} "pronoun.is/she"] "."]
-   [:p "My name is Morgan, my " [:a {:href "http://pronoun.is/ze/zir"} "pronoun.is/ze/zir"] "."]])
+    " displays examples of your pronouns."]
+   [:p "This is a bit unwieldy. If we have a good guess we'll let you use just the first one or two."]])
 
 (defn contact-block []
   (let [twitter-name (fn [handle] [:a {:href (str "https://www.twitter.com/" handle)} (str "@" handle)])]
   [:div {:class "contact"}
-   [:p "Written by " (twitter-name "morganastra") " and " (twitter-name "thelseraphim") ". "
+   [:p
+    "Written by "
+    (twitter-name "morganastra")
+    ", whose "
+    [:a {:href "http://pronoun.is/ze/zir"} "pronoun.is/ze/zir"]
+    " and "
+    (twitter-name "thelseraphim")
+    ", whose "
+    [:a {:href "http://pronoun.is/she"} "pronoun.is/she"]
+    ". "
    "Visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github!"]]]))
 
 
