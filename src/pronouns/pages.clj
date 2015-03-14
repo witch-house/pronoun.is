@@ -31,10 +31,14 @@
   [subject reflexive]
   (render-sentence (wrap-pronoun (s/capitalize subject)) " threw the frisbee to " (wrap-pronoun reflexive) "."))
 
+(defn title-block [title]
+  [:div {:class "title"}
+   [:h1 title]])
+
 (defn examples-block
   [subject object possessive-determiner possessive-pronoun reflexive]
   [:div {:class "examples"}
-   [:p [:h1 "Here are some usage examples for my pronouns:"]]
+   [:p [:h2 "Here are some usage examples for my pronouns:"]]
    (subject-example subject)
    (object-example object)
    (posessive-determiner-example subject possessive-determiner)
@@ -60,15 +64,17 @@
 
 (defn format-pronoun-examples
   [subject object possessive-determiner possessive-pronoun reflexive]
+  (let [title "Pronoun Island: Examples"]
   (html
    [:html
     [:head
-     [:title "Pronoun Island: Examples"]
+     [:title title]
      [:link {:rel "stylesheet" :href "/pronouns.css"}]]
     [:body
+     (title-block title)
      (examples-block subject object possessive-determiner possessive-pronoun reflexive)
      (about-block)
-     (contact-block)]]))
+     (contact-block)]])))
 
 
 (defn parse-pronouns-with-lookup [pronouns-string pronouns-table]
@@ -87,13 +93,15 @@
     [:li [:a {:href link} label]]))
 
 (defn front [pronouns-table]
-  (let [links (map make-link (sort pronouns-table))]
+  (let [links (map make-link (sort pronouns-table))
+        title "Pronoun Island"]
     (html
      [:html
       [:head
-       [:title "Pronoun Island"]
+       [:title title]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
+       (title-block title)
        [:div {:class "table"}
        [:p "pronoun.is is a www site for showing people how to use pronouns"]
        [:p "here are some pronouns the site knows about:"]
