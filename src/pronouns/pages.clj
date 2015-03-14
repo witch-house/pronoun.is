@@ -31,15 +31,15 @@
   [subject reflexive]
   (render-sentence (wrap-pronoun (s/capitalize subject)) " threw the frisbee to " (wrap-pronoun reflexive) "."))
 
-
-(defn twitter-name [name]
-  [:a {:href (str "https://www.twitter.com/" name)} (str "@" name)])
-
-(defn contact-block []
-  [:div {:class "contact"}
-   [:p "Written by " (twitter-name "morganastra") " and " (twitter-name "thelseraphim") ". "
-   "Visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github!"]]])
-
+(defn examples-block
+  [subject object possessive-determiner possessive-pronoun reflexive]
+  [:div {:class "examples"}
+   [:p [:h1 "Here are some usage examples for my pronouns:"]]
+   (subject-example subject)
+   (object-example object)
+   (posessive-determiner-example subject possessive-determiner)
+   (possessive-pronoun-example possessive-pronoun)
+   (reflexive-example subject reflexive)])
 
 (defn about-block []
   [:div {:class "about"}
@@ -51,17 +51,12 @@
    [:p "My name is Thel Seraphim, my " [:a {:href "http://pronoun.is/she"} "pronoun.is/she"] "."]
    [:p "My name is Morgan, my " [:a {:href "http://pronoun.is/ze/zir"} "pronoun.is/ze/zir"] "."]])
 
+(defn contact-block []
+  (let [twitter-name (fn [handle] [:a {:href (str "https://www.twitter.com/" handle)} (str "@" handle)])]
+  [:div {:class "contact"}
+   [:p "Written by " (twitter-name "morganastra") " and " (twitter-name "thelseraphim") ". "
+   "Visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github!"]]]))
 
-
-(defn examples-block
-  [subject object possessive-determiner possessive-pronoun reflexive]
-  [:div {:class "examples"}
-   [:p [:h1 "Here are some usage examples for my pronouns:"]]
-   (subject-example subject)
-   (object-example object)
-   (posessive-determiner-example subject possessive-determiner)
-   (possessive-pronoun-example possessive-pronoun)
-   (reflexive-example subject reflexive)])
 
 (defn format-pronoun-examples
   [subject object possessive-determiner possessive-pronoun reflexive]
