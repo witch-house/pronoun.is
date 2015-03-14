@@ -63,7 +63,7 @@
   (html
    [:html
     [:head
-     [:title "Pronoun examples"]
+     [:title "Pronoun Island: Examples"]
      [:link {:rel "stylesheet" :href "/pronouns.css"}]]
     [:body
      (examples-block subject object possessive-determiner possessive-pronoun reflexive)
@@ -91,7 +91,7 @@
     (html
      [:html
       [:head
-       [:title "Main Page"]
+       [:title "Pronoun Island"]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
        [:div {:class "table"}
