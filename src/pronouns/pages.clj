@@ -1,15 +1,22 @@
 (ns pronouns.pages
   (:require [clojure.string :as s]
-            [pronouns.util :as u]))
+            [pronouns.util :as u]
+            [hiccup.core :refer :all]))
+
+(defn subject-example
+  [subject]
+  [:span#blah [:b subject] " went to the park."])
 
 (defn format-pronoun-examples
   [subject object possessive-determiner possessive-pronoun reflexive]
   (s/join "\n"
           [(str subject " went to the park")
+           (html (subject-example subject))
            (str "I went with " object)
            (str subject " brought " possessive-determiner " frisbee")
            (str "at least I think it was " possessive-pronoun)
            (str subject " threw it to " reflexive)]))
+
 
 (defn parse-pronouns-with-lookup [pronouns-string pronouns-table]
   (let [inputs (s/split pronouns-string #"/")

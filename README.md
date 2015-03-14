@@ -42,8 +42,8 @@ $ java -cp target/pronouns-standalone.jar clojure.main -m pronouns.web
 
 Then browse to localhost:5000
 
-You can also just run quickstart.sh which will do all of these things for you. Do it like this
+You can also just run quickstart.sh which will do all of these things for you. Do it like this to get an example running on port 666
 
 ```
-$ ./quickstart.sh
+$ ./quickstart.sh 666
 ```
