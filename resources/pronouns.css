@@ -11,6 +11,13 @@ body {
 	border:4px solid #eeeeee;
 }
 
+.title {
+	font: large;
+	margin: 8px;
+	padding: 4px 6px 4px 6px;
+	border:4px solid #eeeeee;
+}
+
 .about {
 	font: large;
 	margin: 8px;
