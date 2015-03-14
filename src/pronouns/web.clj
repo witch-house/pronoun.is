@@ -25,7 +25,7 @@
 
   (GET "/*" {params :params}
        {:status 200
-        :headers {"Content-Type" "text/plain"}
+        :headers {"Content-Type" "text/html"}
         :body (pages/pronouns (:* params) pronouns-table)})
 
   (ANY "*" []
