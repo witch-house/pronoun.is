@@ -90,16 +90,14 @@
       (take 5 inputs)
       (u/table-lookup inputs pronouns-table))))
 
-;; we could choose to display the entire row for the label.
-;; currently the first two entries are enough to disambiguate the
-;; pronouns -- will that always be true?
-(defn make-link [row]
-  (let [link (str "/" (s/join "/" row))
-        label (str (first row) "/" (first (rest row)))]
+(defn make-link [pair]
+  (let [link (str "/" (s/join "/" (second pair)))
+        label (str (s/join "/" (first pair)))]
     [:li [:a {:href link} label]]))
 
 (defn front [pronouns-table]
-  (let [links (map make-link (sort pronouns-table))
+  (let [abbreviations (u/abbreviate (sort pronouns-table))
+        links (map make-link abbreviations)
         title "Pronoun Island"]
     (html
      [:html
