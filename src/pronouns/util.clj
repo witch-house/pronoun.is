@@ -15,10 +15,10 @@
   [query-key tabfile]
   (table-lookup query-key (slurp-tabfile tabfile)))
 
-; given a row and its lexically-closest neighbors,
-; determine the smallest abbreviation which is still
-; distinct.
 (defn disambiguate
+  "given a row and its lexically-closest neighbors,
+  determine the smallest abbreviation which is still
+  distinct."
   [prev row next]
   (loop [n 1]
     (let [row-n (take n row)]
@@ -28,10 +28,10 @@
         (= row-n (take n next)) (recur (+ n 1))
         :else row-n))))
 
-; given a list of pronoun rows, return a list of
-; pairs, where the first item is the abbreviation
-; and the second is the original pronoun row.
 (defn abbreviate
+  "given a list of pronoun rows, return a list of
+  pairs, where the first item is the abbreviation
+  and the second is the original pronoun row."
   [sorted-table]
   (loop [acc nil
          prev nil
