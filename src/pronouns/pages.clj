@@ -75,6 +75,7 @@
    [:html
     [:head
      [:title title]
+     [:meta {:name "viewport" :content "width=device-width"}]
      [:link {:rel "stylesheet" :href "/pronouns.css"}]]
     [:body
      (title-block title)
@@ -103,6 +104,7 @@
      [:html
       [:head
        [:title title]
+       [:meta {:name "viewport" :content "width=device-width"}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
        (title-block title)
