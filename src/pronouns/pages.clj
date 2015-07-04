@@ -8,8 +8,7 @@
   [:b pronoun])
 
 (defn render-sentence [& content]
-  [:p [:span.sentence content]]
-)
+  [:p [:span.sentence content]])
 
 (defn subject-example
   [subject]
@@ -21,7 +20,10 @@
 
 (defn posessive-determiner-example
   [subject possessive-determiner]
-  (render-sentence (wrap-pronoun (s/capitalize subject)) " brought " (wrap-pronoun possessive-determiner) " frisbee."))
+  (render-sentence (wrap-pronoun (s/capitalize subject))
+                   " brought "
+                   (wrap-pronoun possessive-determiner)
+                   " frisbee."))
 
 (defn possessive-pronoun-example
   [possessive-pronoun]
@@ -29,7 +31,10 @@
 
 (defn reflexive-example
   [subject reflexive]
-  (render-sentence (wrap-pronoun (s/capitalize subject)) " threw the frisbee to " (wrap-pronoun reflexive) "."))
+  (render-sentence (wrap-pronoun (s/capitalize subject))
+                   " threw the frisbee to "
+                   (wrap-pronoun reflexive)
+                   "."))
 
 (defn title-block [title]
   [:div {:class "title"}
