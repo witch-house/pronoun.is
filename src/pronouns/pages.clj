@@ -96,14 +96,14 @@
       (take 5 inputs)
       (u/table-lookup inputs pronouns-table))))
 
-(defn make-link [abbrev row]
-  (let [link (str "/" (s/join "/" row))
-        label (s/join "/" abbrev)]
+(defn make-link [path]
+  (let [link (str "/" path)
+        label path]
     [:li [:a {:href link} label]]))
 
 (defn front [pronouns-table]
-  (let [abbreviations (u/abbreviate (sort pronouns-table))
-        links (map (fn [entry] (make-link (first entry) (second entry))) abbreviations)
+  (let [abbreviations (u/abbreviate pronouns-table)
+        links (map make-link abbreviations)
         title "Pronoun Island"]
     (html
      [:html

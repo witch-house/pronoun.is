@@ -28,7 +28,6 @@
      :headers {"Content-Type" "text/css"}
      :body (slurp (io/resource "pronouns.css"))})
 
-
   (GET "/*" {params :params}
        {:status 200
         :headers {"Content-Type" "text/html"}

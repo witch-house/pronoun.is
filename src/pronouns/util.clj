@@ -15,35 +15,6 @@
   [query-key tabfile]
   (table-lookup query-key (slurp-tabfile tabfile)))
 
-(defn disambiguate
-  "given a row and its lexically-closest neighbors,
-  determine the smallest abbreviation which is still
-  distinct."
-  [prev row next]
-  (loop [n 1]
-    (let [row-n (take n row)]
-      (cond
-        (>= n 5) row
-        (= row-n (take n prev)) (recur (+ n 1))
-        (= row-n (take n next)) (recur (+ n 1))
-        :else row-n))))
-
-(defn abbreviate
-  "given a list of pronoun rows, return a list of
-  pairs, where the first item is the abbreviation
-  and the second is the original pronoun row."
-  [sorted-table]
-  (loop [acc nil
-         prev nil
-         row (first sorted-table)
-         todo (rest sorted-table)]
-    (let [next (first todo)
-          abbrev (disambiguate prev row next)
-          pair (list abbrev row)
-          acc2 (conj acc pair)]
-      (if (empty? todo) (reverse acc2)
-          (recur acc2 row next (rest todo))))))
-
 (defn minimum-unambiguous-path
   ([pronouns-table sections] (minimum-unambiguous-path pronouns-table sections 1))
   ([pronouns-table sections number-of-sections]
@@ -53,3 +24,8 @@
         0 nil
         1 (clojure.string/join "/" sections-subset)
         (recur pronouns-table sections (+ number-of-sections 1))))))
+
+(defn abbreviate
+  "given a list of pronoun rows, return a list of minimum unabiguous paths"
+  [pronouns-table]
+  (map (partial minimum-unambiguous-path pronouns-table) pronouns-table))
