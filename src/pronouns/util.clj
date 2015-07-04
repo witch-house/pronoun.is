@@ -48,7 +48,7 @@
   ([pronouns-table sections] (minimum-unambiguous-path pronouns-table sections 1))
   ([pronouns-table sections number-of-sections]
     (let [sections-subset (take number-of-sections sections)
-          results (filter (fn [pronouns] (= (take number-of-sections pronouns) sections-subset)) pronouns-table)]
+          results (filter #(= (take number-of-sections %) sections-subset) pronouns-table)]
       (case (count results)
         0 nil
         1 (clojure.string/join "/" sections-subset)
