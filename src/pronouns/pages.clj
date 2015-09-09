@@ -65,10 +65,6 @@
     (twitter-name "morganastra")
     ", whose "
     [:a {:href "http://pronoun.is/ze/zir"} "pronoun.is/ze/zir"]
-    ", and "
-    (twitter-name "thelseraphim")
-    ", whose "
-    [:a {:href "http://pronoun.is/she"} "pronoun.is/she"]
     ". "
    "Visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github!"]]]))
 
