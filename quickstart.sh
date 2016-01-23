@@ -1,6 +1,5 @@
 #!/bin/sh
 
-export port=$1
+export PORT=6666
 lein uberjar
-open http://localhost:"$port"/ze/zir
 java -cp target/pronouns-standalone.jar clojure.main -m pronouns.web

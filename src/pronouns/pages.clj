@@ -1,7 +1,8 @@
 (ns pronouns.pages
   (:require [clojure.string :as s]
             [pronouns.util :as u]
-            [hiccup.core :refer :all]))
+            [hiccup.core :refer :all]
+            [hiccup.util :refer [escape-html]]))
 
 (defn wrap-pronoun
   [pronoun]
@@ -121,7 +122,7 @@
        "https://github.com/witch-house/pronoun.is/blob/master/resources/pronouns.tab"))
 
 (defn pronouns [path pronouns-table]
-  (let [pronouns (parse-pronouns-with-lookup path pronouns-table)]
+  (let [pronouns (parse-pronouns-with-lookup (escape-html path) pronouns-table)]
     (if pronouns
       (apply format-pronoun-examples pronouns)
       (not-found))))
