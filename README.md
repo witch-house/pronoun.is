@@ -23,7 +23,7 @@ example values as follows:
 
 subject|object|possessive-determiner|possessive-pronoun|reflexive
 -------|------|---------------------|------------------|---------
-they   | them | their               | theirs           | themself
+they   | them | their               | theirs           | themselves
 
 If you edit it with a text editor, make sure your editor inputs real
 tab characters in that file (a thing your editor might normally be
@@ -50,6 +50,3 @@ $ ./quickstart.sh 666
 
 ## License
 Copyright © 2014-2015 Morgan Astra <m@morganastra.me>
-This work is free. You can redistribute it and/or modify it under the
-terms of the Do What The Fuck You Want To Public License, Version 2,
-as published by Sam Hocevar. See the COPYING file for more details.
