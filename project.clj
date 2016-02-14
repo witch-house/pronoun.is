@@ -11,7 +11,8 @@
                  [ring-basic-authentication "1.0.5"]
                  [environ "0.5.0"]
                  [hiccup "1.0.5"]
-                 [com.cemerick/drawbridge "0.0.6"]]
+                 [com.cemerick/drawbridge "0.0.6"]
+                 [org.clojure/data.json "0.2.6"]]
   :min-lein-version "2.0.0"
   :plugins [[environ/environ.lein "0.2.1"]]
   :hooks [environ.leiningen.hooks]
