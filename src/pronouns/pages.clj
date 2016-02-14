@@ -1,5 +1,6 @@
 (ns pronouns.pages
   (:require [clojure.string :as s]
+            [clojure.data.json :as json]
             [pronouns.util :as u]
             [hiccup.core :refer :all]
             [hiccup.util :refer [escape-html]]))
@@ -60,30 +61,34 @@
 
 (defn contact-block []
   (let [twitter-name (fn [handle] [:a {:href (str "https://www.twitter.com/" handle)} (str "@" handle)])]
-  [:div {:class "contact"}
-   [:p
-    "Written by "
-    (twitter-name "morganastra")
-    ", whose "
-    [:a {:href "http://pronoun.is/ze/zir"} "pronoun.is/ze/zir"]
-    ". "
-   "Visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github!"]]]))
+   [:div {:class "contact"}
+    [:p
+     "Written by "
+     (twitter-name "morganastra")
+     ", whose "
+     [:a {:href "http://pronoun.is/ze/zir"} "pronoun.is/ze/zir"]
+     ". "
+     "Visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github!"]]]))
 
 
 (defn format-pronoun-examples
   [subject object possessive-determiner possessive-pronoun reflexive]
   (let [title "Pronoun Island: English Language Examples"]
-  (html
-   [:html
-    [:head
-     [:title title]
-     [:meta {:name "viewport" :content "width=device-width"}]
-     [:link {:rel "stylesheet" :href "/pronouns.css"}]]
-    [:body
-     (title-block title)
-     (examples-block subject object possessive-determiner possessive-pronoun reflexive)
-     (about-block)
-     (contact-block)]])))
+   (html
+    [:html
+     [:head
+      [:title title]
+      [:meta {:name "viewport" :content "width=device-width"}]
+      [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+     [:body
+      (title-block title)
+      (examples-block subject object possessive-determiner possessive-pronoun reflexive)
+      (about-block)
+      (contact-block)]])))
+
+
+(defn format-pronoun-json [pronouns]
+  (json/write-str pronouns))
 
 
 (defn parse-pronouns-with-lookup [pronouns-string pronouns-table]
@@ -111,9 +116,9 @@
       [:body
        (title-block title)
        [:div {:class "table"}
-       [:p "pronoun.is is a www site for showing people how to use pronouns in English."]
-       [:p "here are some pronouns the site knows about:"]
-       [:ul links]]]
+        [:p "pronoun.is is a www site for showing people how to use pronouns in English."]
+        [:p "here are some pronouns the site knows about:"]
+        [:ul links]]]
       (contact-block)])))
 
 (defn not-found []
@@ -121,8 +126,10 @@
        "add them, or issue a pull request at "
        "https://github.com/witch-house/pronoun.is/blob/master/resources/pronouns.tab"))
 
-(defn pronouns [path pronouns-table]
+(defn pronouns [path pronouns-table accept]
   (let [pronouns (parse-pronouns-with-lookup (escape-html path) pronouns-table)]
     (if pronouns
-      (apply format-pronoun-examples pronouns)
+      (if (= accept :json)
+        (format-pronoun-json pronouns)
+        (apply format-pronoun-examples pronouns))
       (not-found))))

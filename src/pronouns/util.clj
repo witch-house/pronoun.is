@@ -18,12 +18,12 @@
 (defn minimum-unambiguous-path
   ([pronouns-table sections] (minimum-unambiguous-path pronouns-table sections 1))
   ([pronouns-table sections number-of-sections]
-    (let [sections-subset (take number-of-sections sections)
-          results (filter #(= (take number-of-sections %) sections-subset) pronouns-table)]
-      (case (count results)
-        0 nil
-        1 (clojure.string/join "/" sections-subset)
-        (recur pronouns-table sections (+ number-of-sections 1))))))
+   (let [sections-subset (take number-of-sections sections)
+         results (filter #(= (take number-of-sections %) sections-subset) pronouns-table)]
+     (case (count results)
+       0 nil
+       1 (clojure.string/join "/" sections-subset)
+       (recur pronouns-table sections (+ number-of-sections 1))))))
 
 (defn abbreviate
   "given a list of pronoun rows, return a list of minimum unabiguous paths"
