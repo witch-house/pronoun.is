@@ -25,11 +25,11 @@
 
   (GET "/pronouns.css" {params :params}
      {:status 200
-      :headers {"Content-Type" "text/css"}
-      :body (slurp (io/resource "pronouns.css"))})
+     :headers {"Content-Type" "text/css"}
+     :body (slurp (io/resource "pronouns.css"))})
 
   (GET "/*" {params :params headers :headers}
-       (if (= "application/json" (get headers "accept"))
+       (if (= "application/json" (.toLowerCase (get headers "accept")))
          {:status 200
           :headers {"Content-Type" "application/json"}
           :body (pages/pronouns (:* params) pronouns-table :json)}
