@@ -29,3 +29,8 @@
   "given a list of pronoun rows, return a list of minimum unabiguous paths"
   [pronouns-table]
   (map (partial minimum-unambiguous-path pronouns-table) pronouns-table))
+
+(defn pad-pronouns [pronouns]
+  (if (> 5 (count pronouns))
+    (pad-pronouns (conj pronouns ""))
+    pronouns))

@@ -12,7 +12,9 @@
 (declare capitalize)
 (defn capitalize-html [[name attrs content]]
   (if (= :input name)
-    [name (update-in attrs [:placeholder] capitalize) content]
+    [name (-> attrs
+            (update-in [:placeholder] capitalize)
+            (update-in [:value] capitalize)) content]
     [name (assoc attrs :data-capitalize true) (capitalize content)]))
 
 (defn capitalize [html]
@@ -64,20 +66,20 @@
    (possessive-pronoun-example possessive-pronoun)
    (reflexive-example subject reflexive)])
 
-(defn custom-pronoun-block [subject object possessive-determiner possessive-pronoun reflexive]
+(defn custom-pronoun-block
+  [msg input-type [subject object possessive-determiner possessive-pronoun reflexive]]
   [:div {:class "custom-pronoun"}
-   [:p "Fill out the example to create a link for your own pronouns: "
-       [:a {:class "url"}]]
+   [:p msg " " [:a {:class "url"}]]
    [:form
-    (subject-example [:input {:name "subject" :placeholder subject}])
-    (object-example [:input {:name "object" :placeholder object}])
+    (subject-example [:input {:name "subject" input-type subject}])
+    (object-example [:input {:name "object" input-type object}])
     (posessive-determiner-example
       [:span {:data-refer "subject"} subject]
-      [:input {:name "possessive-determiner" :placeholder possessive-determiner}])
-    (possessive-pronoun-example [:input {:name "possessive-pronoun" :placeholder possessive-pronoun}])
+      [:input {:name "possessive-determiner" input-type possessive-determiner}])
+    (possessive-pronoun-example [:input {:name "possessive-pronoun" input-type possessive-pronoun}])
     (reflexive-example
       [:span {:data-refer "subject"} subject]
-      [:input {:name "reflexive" :placeholder reflexive}])]])
+      [:input {:name "reflexive" input-type reflexive}])]])
 
 (defn about-block []
   [:div {:class "about"}
@@ -113,10 +115,8 @@
       (about-block)
       (contact-block)]])))
 
-
-(defn format-pronoun-json [pronouns]
+(defn format-pronoun-json [& pronouns]
   (json/write-str pronouns))
-
 
 (defn parse-pronouns-with-lookup [pronouns-string pronouns-table]
   (let [inputs (s/split pronouns-string #"/")
@@ -146,19 +146,43 @@
         [:p "pronoun.is is a www site for showing people how to use pronouns in English."]
         [:p "here are some pronouns the site knows about:"]
         [:ul links]]
-       (apply custom-pronoun-block (rand-nth pronouns-table))
+       (custom-pronoun-block
+         "Fill out the example to create a link to your own pronouns:"
+         :placeholder (rand-nth pronouns-table))
        (contact-block)
        [:script {:src "/custom-pronouns.js"}]]])))
 
-(defn not-found []
-  (str "We couldn't find those pronouns in our database, please ask us to "
-       "add them, or issue a pull request at "
-       "https://github.com/witch-house/pronoun.is/blob/master/resources/pronouns.tab"))
+(defn not-found [path]
+  (let [pronouns (s/split path #"/")
+        title "Pronoun Island: Not Found"
+        db-url "https://github.com/witch-house/pronoun.is/blob/master/resources/pronouns.tab"]
+    (html
+     [:html
+      [:head
+       [:title title]
+       [:meta {:name "viewport" :content "width=device-width"}]
+       [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+      [:body
+       (title-block title)
+       (custom-pronoun-block
+         [:span "We couldn't find those pronouns in our database. Please ask us "
+          "to add them, " [:a {:href db-url} "issue a pull request"] ", "
+          "or fill out the example for a link to a set of custom pronouns:"]
+         :value (u/pad-pronouns pronouns))
+       (about-block)
+       (contact-block)
+       [:script {:src "/custom-pronouns.js"}]]])))
 
-(defn pronouns [path pronouns-table accept]
+(defn not-found-json [path]
+  (json/write-str {:error "Not found"}))
+
+(defn pronouns-page [path pronouns-table format-pronouns not-found]
   (let [pronouns (parse-pronouns-with-lookup (escape-html path) pronouns-table)]
     (if pronouns
-      (if (= accept :json)
-        (format-pronoun-json pronouns)
-        (apply format-pronoun-examples pronouns))
-      (not-found))))
+      (apply format-pronouns pronouns)
+      (not-found path))))
+
+(defn pronouns [path pronouns-table accept]
+  (if (= accept :json)
+    (pronouns-page path pronouns-table format-pronoun-json not-found-json)
+    (pronouns-page path pronouns-table format-pronoun-examples not-found)))

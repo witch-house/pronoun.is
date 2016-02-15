@@ -34,7 +34,7 @@
         :body (slurp (io/resource "custom-pronouns.js"))})
 
   (GET "/*" {params :params headers :headers}
-       (if (= "application/json" (get headers "accept"))
+       (if (= "application/json" (.toLowerCase (get headers "accept" "*/*")))
          {:status 200
           :headers {"Content-Type" "application/json"}
           :body (pages/pronouns (:* params) pronouns-table :json)}

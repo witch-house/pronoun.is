@@ -18,11 +18,12 @@
 
   function setup() {
     form = document.querySelector('.custom-pronoun form');
-    refers = [].slice.call(form.querySelectorAll('[data-refer]'));
+    refers = arrayFrom(form.querySelectorAll('[data-refer]'));
     urlLink = document.querySelector('.custom-pronoun .url');
 
-    [].slice.call(form.querySelectorAll('[name]')).forEach(function (el) {
-      defaultPronouns[el.name] = el.getAttribute('placeholder');
+    arrayFrom(form.querySelectorAll('[name]')).forEach(function (el) {
+      defaultPronouns[el.name] = (el.getAttribute('placeholder') || '').trim().toLowerCase();
+      pronouns[el.name] = el.value.trim().toLowerCase() || null;
     });
 
     form.addEventListener('input', handleFormInput, false);
@@ -82,7 +83,7 @@
         return el.getAttribute('data-refer') === name;
       })
       .forEach(function (el) {
-        var pronoun = value || defaultPronouns[name];
+        var pronoun = value || defaultPronouns[name] || '';
         el.textContent = el.getAttribute('data-capitalize') ? capitalize(pronoun) : pronoun;
       });
   }
@@ -104,7 +105,9 @@
   // URL formatting stuff
   function urlSections(urlParams, data) {
     var sections = urlParams.map(function(param) {
-      return data[param];
+      if (data[param]) {
+        return encodeURIComponent(data[param]);
+      }
     });
 
     return takeWhile(sections, function(param) {
@@ -139,6 +142,8 @@
   }
 
   function capitalize(str) {
+    if (str.length === 0) return str;
+
     var chars = str.split(''),
       first = chars[0].toUpperCase();
 
@@ -167,7 +172,11 @@
         callback(e);
         return;
       }
-      callback(null, json);
+      if (req.status !== 200 || json.error) {
+        callback(json, null);
+      } else {
+        callback(null, json);
+      }
     }, false);
 
     req.addEventListener('error', function() {
@@ -177,5 +186,9 @@
     req.open("GET", url);
     req.setRequestHeader('Accept', 'application/json');
     req.send();
+  }
+
+  function arrayFrom(arrayLike) {
+    return [].slice.call(arrayLike);
   }
 }());
