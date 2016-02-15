@@ -90,30 +90,30 @@
 
 (defn contact-block []
   (let [twitter-name (fn [handle] [:a {:href (str "https://www.twitter.com/" handle)} (str "@" handle)])]
-   [:div {:class "contact"}
-    [:p
-     "Written by "
-     (twitter-name "morganastra")
-     ", whose "
-     [:a {:href "http://pronoun.is/ze/zir"} "pronoun.is/ze/zir"]
-     ". "
-     "Visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github!"]]]))
+  [:div {:class "contact"}
+   [:p
+    "Written by "
+    (twitter-name "morganastra")
+    ", whose "
+    [:a {:href "http://pronoun.is/ze/zir"} "pronoun.is/ze/zir"]
+    ". "
+   "Visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github!"]]]))
 
 
 (defn format-pronoun-examples
   [subject object possessive-determiner possessive-pronoun reflexive]
   (let [title "Pronoun Island: English Language Examples"]
-   (html
-    [:html
-     [:head
-      [:title title]
-      [:meta {:name "viewport" :content "width=device-width"}]
-      [:link {:rel "stylesheet" :href "/pronouns.css"}]]
-     [:body
-      (title-block title)
-      (examples-block subject object possessive-determiner possessive-pronoun reflexive)
-      (about-block)
-      (contact-block)]])))
+  (html
+   [:html
+    [:head
+     [:title title]
+     [:meta {:name "viewport" :content "width=device-width"}]
+     [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+    [:body
+     (title-block title)
+     (examples-block subject object possessive-determiner possessive-pronoun reflexive)
+     (about-block)
+     (contact-block)]])))
 
 (defn format-pronoun-json [& pronouns]
   (json/write-str pronouns))
@@ -143,9 +143,9 @@
       [:body
        (title-block title)
        [:div {:class "table"}
-        [:p "pronoun.is is a www site for showing people how to use pronouns in English."]
-        [:p "here are some pronouns the site knows about:"]
-        [:ul links]]
+       [:p "pronoun.is is a www site for showing people how to use pronouns in English."]
+       [:p "here are some pronouns the site knows about:"]
+       [:ul links]]
        (custom-pronoun-block
          "Fill out the example to create a link to your own pronouns:"
          :placeholder (rand-nth pronouns-table))

@@ -25,8 +25,8 @@
 
   (GET "/pronouns.css" {params :params}
      {:status 200
-      :headers {"Content-Type" "text/css"}
-      :body (slurp (io/resource "pronouns.css"))})
+     :headers {"Content-Type" "text/css"}
+     :body (slurp (io/resource "pronouns.css"))})
 
   (GET "/custom-pronouns.js" []
        {:status 200
