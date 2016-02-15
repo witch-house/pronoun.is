@@ -32,3 +32,23 @@ body {
 	padding: 4px 6px 4px 6px;
 	border: 4px solid #eeeeee;
 }
+
+.custom-pronoun {
+	display: none;
+	margin: 8px;
+	padding: 4px 6px 4px 6px;
+	border: 4px solid #eeeeee;
+}
+
+.js .custom-pronoun {
+	display: block;
+}
+
+input {
+	background: #FBE7FE;
+	border: none;
+	border-bottom: 1px dotted black;
+	font-family: inherit;
+	font-size: inherit;
+	width: 7em;
+}

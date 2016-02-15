@@ -28,6 +28,11 @@
       :headers {"Content-Type" "text/css"}
       :body (slurp (io/resource "pronouns.css"))})
 
+  (GET "/custom-pronouns.js" []
+       {:status 200
+        :headers {"Content-Type" "application/javascript"}
+        :body (slurp (io/resource "custom-pronouns.js"))})
+
   (GET "/*" {params :params headers :headers}
        (if (= "application/json" (get headers "accept"))
          {:status 200

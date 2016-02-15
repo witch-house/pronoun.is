@@ -9,12 +9,24 @@
   [pronoun]
   [:b pronoun])
 
+(declare capitalize)
+(defn capitalize-html [[name attrs content]]
+  (if (= :input name)
+    [name (update-in attrs [:placeholder] capitalize) content]
+    [name (assoc attrs :data-capitalize true) (capitalize content)]))
+
+(defn capitalize [html]
+  (cond
+    (string? html) (s/capitalize html)
+    (vector? html) (capitalize-html html)
+    :else html))
+
 (defn render-sentence [& content]
   [:p [:span.sentence content]])
 
 (defn subject-example
   [subject]
-  (render-sentence (wrap-pronoun (s/capitalize subject)) " went to the park."))
+  (render-sentence (wrap-pronoun (capitalize subject)) " went to the park."))
 
 (defn object-example
   [object]
@@ -22,7 +34,7 @@
 
 (defn posessive-determiner-example
   [subject possessive-determiner]
-  (render-sentence (wrap-pronoun (s/capitalize subject))
+  (render-sentence (wrap-pronoun (capitalize subject))
                    " brought "
                    (wrap-pronoun possessive-determiner)
                    " frisbee."))
@@ -33,7 +45,7 @@
 
 (defn reflexive-example
   [subject reflexive]
-  (render-sentence (wrap-pronoun (s/capitalize subject))
+  (render-sentence (wrap-pronoun (capitalize subject))
                    " threw the frisbee to "
                    (wrap-pronoun reflexive)
                    "."))
@@ -51,6 +63,21 @@
    (posessive-determiner-example subject possessive-determiner)
    (possessive-pronoun-example possessive-pronoun)
    (reflexive-example subject reflexive)])
+
+(defn custom-pronoun-block [subject object possessive-determiner possessive-pronoun reflexive]
+  [:div {:class "custom-pronoun"}
+   [:p "Fill out the example to create a link for your own pronouns: "
+       [:a {:class "url"}]]
+   [:form
+    (subject-example [:input {:name "subject" :placeholder subject}])
+    (object-example [:input {:name "object" :placeholder object}])
+    (posessive-determiner-example
+      [:span {:data-refer "subject"} subject]
+      [:input {:name "possessive-determiner" :placeholder possessive-determiner}])
+    (possessive-pronoun-example [:input {:name "possessive-pronoun" :placeholder possessive-pronoun}])
+    (reflexive-example
+      [:span {:data-refer "subject"} subject]
+      [:input {:name "reflexive" :placeholder reflexive}])]])
 
 (defn about-block []
   [:div {:class "about"}
@@ -118,8 +145,10 @@
        [:div {:class "table"}
         [:p "pronoun.is is a www site for showing people how to use pronouns in English."]
         [:p "here are some pronouns the site knows about:"]
-        [:ul links]]]
-      (contact-block)])))
+        [:ul links]]
+       (apply custom-pronoun-block (rand-nth pronouns-table))
+       (contact-block)
+       [:script {:src "/custom-pronouns.js"}]]])))
 
 (defn not-found []
   (str "We couldn't find those pronouns in our database, please ask us to "
