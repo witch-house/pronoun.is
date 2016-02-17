@@ -135,7 +135,8 @@
       (apply format-pronouns pronouns)
       (not-found))))
 
-(defn pronouns [path pronouns-table accept]
-  (if (= accept :json)
-    (pronouns-page path pronouns-table format-pronoun-json not-found-json)
-    (pronouns-page path pronouns-table format-pronoun-examples not-found)))
+(defn pronouns [path pronouns-table]
+  (pronouns-page path pronouns-table format-pronoun-examples not-found))
+
+(defn pronouns-json [path pronouns-table]
+  (pronouns-page path pronouns-table format-pronoun-json not-found-json))
