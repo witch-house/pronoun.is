@@ -21,6 +21,10 @@
     refers = arrayFrom(form.querySelectorAll('[data-refer]'));
     urlLink = document.querySelector('.custom-pronoun .url');
 
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+    }, false);
+
     arrayFrom(form.querySelectorAll('[name]')).forEach(function (el) {
       defaultPronouns[el.name] = (el.getAttribute('placeholder') || '').trim().toLowerCase();
       pronouns[el.name] = el.value.trim().toLowerCase() || null;

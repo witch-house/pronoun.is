@@ -70,7 +70,9 @@
   [msg input-type [subject object possessive-determiner possessive-pronoun reflexive]]
   [:div {:class "custom-pronoun"}
    [:p msg " " [:a {:class "url"}]]
-   [:form
+   [:noscript
+    [:p {:class "warning"} "This form is much friendlier with JavaScript enabled."]]
+   [:form {:method "post" :action "/custom-link"}
     (subject-example [:input {:name "subject" input-type subject}])
     (object-example [:input {:name "object" input-type object}])
     (posessive-determiner-example
@@ -79,7 +81,8 @@
     (possessive-pronoun-example [:input {:name "possessive-pronoun" input-type possessive-pronoun}])
     (reflexive-example
       [:span {:data-refer "subject"} subject]
-      [:input {:name "reflexive" input-type reflexive}])]])
+      [:input {:name "reflexive" input-type reflexive}])
+    [:button {:type "submit"} "Get Link"]]])
 
 (defn about-block []
   [:div {:class "about"}
@@ -99,16 +102,18 @@
     ". "
    "Visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github!"]]]))
 
+(defn head [title]
+  [:head
+   [:title title]
+   [:meta {:name "viewport" :content "width=device-width"}]
+   [:link {:rel "stylesheet" :href "/pronouns.css"}]])
 
 (defn format-pronoun-examples
   [subject object possessive-determiner possessive-pronoun reflexive]
   (let [title "Pronoun Island: English Language Examples"]
   (html
    [:html
-    [:head
-     [:title title]
-     [:meta {:name "viewport" :content "width=device-width"}]
-     [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+    (head title)
     [:body
      (title-block title)
      (examples-block subject object possessive-determiner possessive-pronoun reflexive)
@@ -136,10 +141,7 @@
         title "Pronoun Island"]
     (html
      [:html
-      [:head
-       [:title title]
-       [:meta {:name "viewport" :content "width=device-width"}]
-       [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+      (head title)
       [:body
        (title-block title)
        [:div {:class "table"}
@@ -158,10 +160,7 @@
         db-url "https://github.com/witch-house/pronoun.is/blob/master/resources/pronouns.tab"]
     (html
      [:html
-      [:head
-       [:title title]
-       [:meta {:name "viewport" :content "width=device-width"}]
-       [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+      (head title)
       [:body
        (title-block title)
        (custom-pronoun-block
@@ -186,3 +185,33 @@
   (if (= accept :json)
     (pronouns-page path pronouns-table format-pronoun-json not-found-json)
     (pronouns-page path pronouns-table format-pronoun-examples not-found)))
+
+(defn custom-pronoun-page [pronouns]
+  (let [title "Pronoun Island: Custom Pronouns"]
+    (html
+      [:html
+       (head title)
+       [:body
+        (title-block title)
+        (custom-pronoun-block
+          [:span {:class "error"}
+           "You need to fill out every example to create a link to your own pronouns:"]
+          :value
+          pronouns)
+        (about-block)
+        (contact-block)
+        [:script {:src "/custom-pronouns.js"}]]])))
+
+(defn pronouns-from-form [form]
+  (->> ["subject" "object" "possessive-determiner" "possessive-pronoun" "reflexive"]
+       (map #(u/format-pronoun (get form % "")))
+       (vec)))
+
+(defn custom-pronoun-submit [form]
+  (let [pronouns (pronouns-from-form form)]
+    (if (u/complete? pronouns)
+      {:status 303 ; See other
+       :headers {"Location" (str "/" (s/join "/" pronouns))}}
+      {:status 400
+       :headers {"Content-Type" "text/html"}
+       :body (custom-pronoun-page pronouns)})))

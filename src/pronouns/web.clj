@@ -8,6 +8,7 @@
             [ring.middleware.stacktrace :as trace]
             [ring.middleware.session :as session]
             [ring.middleware.session.cookie :as cookie]
+            [ring.middleware.params :as params]
             [ring.adapter.jetty :as jetty]
             [environ.core :refer [env]]
             [pronouns.util :as u]
@@ -42,6 +43,9 @@
           :headers {"Content-Type" "text/html"}
           :body (pages/pronouns (:* params) pronouns-table :html)}))
 
+  (POST "/custom-link" {form :form-params}
+        (pages/custom-pronoun-submit form))
+
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
@@ -57,7 +61,8 @@
   (-> app-routes
       logger/wrap-with-logger
       wrap-error-page
-      trace/wrap-stacktrace))
+      trace/wrap-stacktrace
+      params/wrap-params))
 
 (defn -main []
   (let [port (Integer. (:port env
