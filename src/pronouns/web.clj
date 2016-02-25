@@ -21,7 +21,7 @@
 (defroutes app-routes
   (GET "/" []
        {:status 200
-        :headers {"Content-Type" "text/html"}
+        :headers {"Content-Type" "text/html; charset=utf-8"}
         :body (pages/front pronouns-table)})
 
   (GET "/pronouns.css" {params :params}
@@ -34,14 +34,14 @@
         :headers {"Content-Type" "application/javascript"}
         :body (slurp (io/resource "custom-pronouns.js"))})
 
-  (GET "/*" {params :params headers :headers}
+  (GET "/*" {uri :uri headers :headers}
        (if (= "application/json" (.toLowerCase (get headers "accept" "*/*")))
          {:status 200
           :headers {"Content-Type" "application/json"}
-          :body (pages/pronouns (:* params) pronouns-table :json)}
+          :body (pages/pronouns uri pronouns-table :json)}
          {:status 200
-          :headers {"Content-Type" "text/html"}
-          :body (pages/pronouns (:* params) pronouns-table :html)}))
+          :headers {"Content-Type" "text/html; charset=utf-8"}
+          :body (pages/pronouns uri pronouns-table :html)}))
 
   (POST "/custom-link" {form :form-params}
         (pages/custom-pronoun-submit form))

@@ -3,7 +3,8 @@
             [clojure.data.json :as json]
             [pronouns.util :as u]
             [hiccup.core :refer :all]
-            [hiccup.util :refer [escape-html]]))
+            [hiccup.util :refer [escape-html]]
+            [ring.util.codec :refer [url-decode url-encode]]))
 
 (defn wrap-pronoun
   [pronoun]
@@ -123,8 +124,17 @@
 (defn format-pronoun-json [& pronouns]
   (json/write-str pronouns))
 
+(defn trim-slashes [string]
+  (s/replace string #"^/|/$" ""))
+
+(defn parse-pronoun-uri [pronouns-string]
+  (->> (s/split (trim-slashes pronouns-string) #"/")
+       (map url-decode)
+       (map escape-html)
+       (vec)))
+
 (defn parse-pronouns-with-lookup [pronouns-string pronouns-table]
-  (let [inputs (s/split pronouns-string #"/")
+  (let [inputs (parse-pronoun-uri pronouns-string)
         n (count inputs)]
     (if (>= n 5)
       (take 5 inputs)
@@ -155,7 +165,7 @@
        [:script {:src "/custom-pronouns.js"}]]])))
 
 (defn not-found [path]
-  (let [pronouns (s/split path #"/")
+  (let [pronouns (parse-pronoun-uri path)
         title "Pronoun Island: Not Found"
         db-url "https://github.com/witch-house/pronoun.is/blob/master/resources/pronouns.tab"]
     (html
@@ -167,7 +177,8 @@
          [:span "We couldn't find those pronouns in our database. Please ask us "
           "to add them, " [:a {:href db-url} "issue a pull request"] ", "
           "or fill out the example for a link to a set of custom pronouns:"]
-         :value (u/pad-pronouns pronouns))
+         :value
+         (u/pad-pronouns pronouns))
        (about-block)
        (contact-block)
        [:script {:src "/custom-pronouns.js"}]]])))
@@ -176,7 +187,7 @@
   (json/write-str {:error "Not found"}))
 
 (defn pronouns-page [path pronouns-table format-pronouns not-found]
-  (let [pronouns (parse-pronouns-with-lookup (escape-html path) pronouns-table)]
+  (let [pronouns (parse-pronouns-with-lookup path pronouns-table)]
     (if pronouns
       (apply format-pronouns pronouns)
       (not-found path))))
@@ -211,7 +222,8 @@
   (let [pronouns (pronouns-from-form form)]
     (if (u/complete? pronouns)
       {:status 303 ; See other
-       :headers {"Location" (str "/" (s/join "/" pronouns))}}
+       :headers {"Location" (str "/" (->> (map url-encode pronouns)
+                                          (s/join "/")))}}
       {:status 400
-       :headers {"Content-Type" "text/html"}
+       :headers {"Content-Type" "text/html; charset=utf-8"}
        :body (custom-pronoun-page pronouns)})))
