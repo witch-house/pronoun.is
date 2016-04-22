@@ -29,3 +29,20 @@
   "given a list of pronoun rows, return a list of minimum unabiguous paths"
   [pronouns-table]
   (map (partial minimum-unambiguous-path pronouns-table) pronouns-table))
+
+(defn pad-pronouns [pronouns]
+  (if (> 5 (count pronouns))
+    (pad-pronouns (conj pronouns ""))
+    pronouns))
+
+(defn complete?
+  "does this list of pronouns contain a pronoun for every case?"
+  [pronouns]
+  (= 5 (count (filter string? pronouns))))
+
+(defn format-pronoun [pronoun]
+  (let [p (.toLowerCase (s/trim pronoun))]
+    (if (= "" p)
+      nil
+      p)))
+

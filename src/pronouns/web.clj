@@ -8,6 +8,7 @@
             [ring.middleware.stacktrace :as trace]
             [ring.middleware.session :as session]
             [ring.middleware.session.cookie :as cookie]
+            [ring.middleware.params :as params]
             [ring.adapter.jetty :as jetty]
             [environ.core :refer [env]]
             [pronouns.util :as u]
@@ -20,7 +21,7 @@
 (defroutes app-routes
   (GET "/" []
        {:status 200
-        :headers {"Content-Type" "text/html"}
+        :headers {"Content-Type" "text/html; charset=utf-8"}
         :body (pages/front pronouns-table)})
 
   (GET "/pronouns.css" {params :params}
@@ -28,10 +29,22 @@
      :headers {"Content-Type" "text/css"}
      :body (slurp (io/resource "pronouns.css"))})
 
-  (GET "/*" {params :params}
+  (GET "/custom-pronouns.js" []
        {:status 200
-        :headers {"Content-Type" "text/html"}
-        :body (pages/pronouns (:* params) pronouns-table)})
+        :headers {"Content-Type" "application/javascript"}
+        :body (slurp (io/resource "custom-pronouns.js"))})
+
+  (GET "/*" {uri :uri headers :headers}
+       (if (= "application/json" (.toLowerCase (get headers "accept" "*/*")))
+         {:status 200
+          :headers {"Content-Type" "application/json"}
+          :body (pages/pronouns uri pronouns-table :json)}
+         {:status 200
+          :headers {"Content-Type" "text/html; charset=utf-8"}
+          :body (pages/pronouns uri pronouns-table :html)}))
+
+  (POST "/custom-link" {form :form-params}
+        (pages/custom-pronoun-submit form))
 
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
@@ -48,7 +61,8 @@
   (-> app-routes
       logger/wrap-with-logger
       wrap-error-page
-      trace/wrap-stacktrace))
+      trace/wrap-stacktrace
+      params/wrap-params))
 
 (defn -main []
   (let [port (Integer. (:port env

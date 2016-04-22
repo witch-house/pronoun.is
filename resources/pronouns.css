@@ -32,3 +32,47 @@ body {
 	padding: 4px 6px 4px 6px;
 	border: 4px solid #eeeeee;
 }
+
+.custom-pronoun {
+	margin: 8px;
+	padding: 4px 6px 4px 6px;
+	border: 4px solid #eeeeee;
+}
+
+.custom-pronoun [data-refer] {
+  display: none;
+}
+
+.js .custom-pronoun [data-refer] {
+  display: inline;
+}
+
+.js .custom-pronoun button {
+  display: none;
+}
+
+input {
+	background: #FBE7FE;
+	border: none;
+	border-bottom: 1px dotted black;
+	font-family: inherit;
+	font-size: inherit;
+	width: 7em;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.warning {
+  display: inline-block;
+  margin: 0;
+  padding: 6px;
+  background: #FCEAB5;
+  border: 2px solid #CABB91;
+}
+
+.error {
+  color: #C2002E;
+}

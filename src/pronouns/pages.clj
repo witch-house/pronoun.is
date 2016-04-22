@@ -1,19 +1,35 @@
 (ns pronouns.pages
   (:require [clojure.string :as s]
+            [clojure.data.json :as json]
             [pronouns.util :as u]
             [hiccup.core :refer :all]
-            [hiccup.util :refer [escape-html]]))
+            [hiccup.util :refer [escape-html]]
+            [ring.util.codec :refer [url-decode url-encode]]))
 
 (defn wrap-pronoun
   [pronoun]
   [:b pronoun])
+
+(declare capitalize)
+(defn capitalize-html [[name attrs content]]
+  (if (= :input name)
+    [name (-> attrs
+            (update-in [:placeholder] capitalize)
+            (update-in [:value] capitalize)) content]
+    [name (assoc attrs :data-capitalize true) (capitalize content)]))
+
+(defn capitalize [html]
+  (cond
+    (string? html) (s/capitalize html)
+    (vector? html) (capitalize-html html)
+    :else html))
 
 (defn render-sentence [& content]
   [:p [:span.sentence content]])
 
 (defn subject-example
   [subject]
-  (render-sentence (wrap-pronoun (s/capitalize subject)) " went to the park."))
+  (render-sentence (wrap-pronoun (capitalize subject)) " went to the park."))
 
 (defn object-example
   [object]
@@ -21,7 +37,7 @@
 
 (defn posessive-determiner-example
   [subject possessive-determiner]
-  (render-sentence (wrap-pronoun (s/capitalize subject))
+  (render-sentence (wrap-pronoun (capitalize subject))
                    " brought "
                    (wrap-pronoun possessive-determiner)
                    " frisbee."))
@@ -32,7 +48,7 @@
 
 (defn reflexive-example
   [subject reflexive]
-  (render-sentence (wrap-pronoun (s/capitalize subject))
+  (render-sentence (wrap-pronoun (capitalize subject))
                    " threw the frisbee to "
                    (wrap-pronoun reflexive)
                    "."))
@@ -50,6 +66,24 @@
    (posessive-determiner-example subject possessive-determiner)
    (possessive-pronoun-example possessive-pronoun)
    (reflexive-example subject reflexive)])
+
+(defn custom-pronoun-block
+  [msg input-type [subject object possessive-determiner possessive-pronoun reflexive]]
+  [:div {:class "custom-pronoun"}
+   [:p msg " " [:a {:class "url"}]]
+   [:noscript
+    [:p {:class "warning"} "This form is much friendlier with JavaScript enabled."]]
+   [:form {:method "post" :action "/custom-link"}
+    (subject-example [:input {:name "subject" input-type subject}])
+    (object-example [:input {:name "object" input-type object}])
+    (posessive-determiner-example
+      [:span {:data-refer "subject"} subject]
+      [:input {:name "possessive-determiner" input-type possessive-determiner}])
+    (possessive-pronoun-example [:input {:name "possessive-pronoun" input-type possessive-pronoun}])
+    (reflexive-example
+      [:span {:data-refer "subject"} subject]
+      [:input {:name "reflexive" input-type reflexive}])
+    [:button {:type "submit"} "Get Link"]]])
 
 (defn about-block []
   [:div {:class "about"}
@@ -69,25 +103,38 @@
     ". "
    "Visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github!"]]]))
 
+(defn head [title]
+  [:head
+   [:title title]
+   [:meta {:name "viewport" :content "width=device-width"}]
+   [:link {:rel "stylesheet" :href "/pronouns.css"}]])
 
 (defn format-pronoun-examples
   [subject object possessive-determiner possessive-pronoun reflexive]
   (let [title "Pronoun Island: English Language Examples"]
   (html
    [:html
-    [:head
-     [:title title]
-     [:meta {:name "viewport" :content "width=device-width"}]
-     [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+    (head title)
     [:body
      (title-block title)
      (examples-block subject object possessive-determiner possessive-pronoun reflexive)
      (about-block)
      (contact-block)]])))
 
+(defn format-pronoun-json [& pronouns]
+  (json/write-str pronouns))
+
+(defn trim-slashes [string]
+  (s/replace string #"^/|/$" ""))
+
+(defn parse-pronoun-uri [pronouns-string]
+  (->> (s/split (trim-slashes pronouns-string) #"/")
+       (map url-decode)
+       (map escape-html)
+       (vec)))
 
 (defn parse-pronouns-with-lookup [pronouns-string pronouns-table]
-  (let [inputs (s/split pronouns-string #"/")
+  (let [inputs (parse-pronoun-uri pronouns-string)
         n (count inputs)]
     (if (>= n 5)
       (take 5 inputs)
@@ -104,25 +151,79 @@
         title "Pronoun Island"]
     (html
      [:html
-      [:head
-       [:title title]
-       [:meta {:name "viewport" :content "width=device-width"}]
-       [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+      (head title)
       [:body
        (title-block title)
        [:div {:class "table"}
        [:p "pronoun.is is a www site for showing people how to use pronouns in English."]
        [:p "here are some pronouns the site knows about:"]
-       [:ul links]]]
-      (contact-block)])))
+       [:ul links]]
+       (custom-pronoun-block
+         "Fill out the example to create a link to your own pronouns:"
+         :placeholder (rand-nth pronouns-table))
+       (contact-block)
+       [:script {:src "/custom-pronouns.js"}]]])))
 
-(defn not-found []
-  (str "We couldn't find those pronouns in our database, please ask us to "
-       "add them, or issue a pull request at "
-       "https://github.com/witch-house/pronoun.is/blob/master/resources/pronouns.tab"))
+(defn not-found [path]
+  (let [pronouns (parse-pronoun-uri path)
+        title "Pronoun Island: Not Found"
+        db-url "https://github.com/witch-house/pronoun.is/blob/master/resources/pronouns.tab"]
+    (html
+     [:html
+      (head title)
+      [:body
+       (title-block title)
+       (custom-pronoun-block
+         [:span "We couldn't find those pronouns in our database. Please ask us "
+          "to add them, " [:a {:href db-url} "issue a pull request"] ", "
+          "or fill out the example for a link to a set of custom pronouns:"]
+         :value
+         (u/pad-pronouns pronouns))
+       (about-block)
+       (contact-block)
+       [:script {:src "/custom-pronouns.js"}]]])))
 
-(defn pronouns [path pronouns-table]
-  (let [pronouns (parse-pronouns-with-lookup (escape-html path) pronouns-table)]
+(defn not-found-json [path]
+  (json/write-str {:error "Not found"}))
+
+(defn pronouns-page [path pronouns-table format-pronouns not-found]
+  (let [pronouns (parse-pronouns-with-lookup path pronouns-table)]
     (if pronouns
-      (apply format-pronoun-examples pronouns)
-      (not-found))))
+      (apply format-pronouns pronouns)
+      (not-found path))))
+
+(defn pronouns [path pronouns-table accept]
+  (if (= accept :json)
+    (pronouns-page path pronouns-table format-pronoun-json not-found-json)
+    (pronouns-page path pronouns-table format-pronoun-examples not-found)))
+
+(defn custom-pronoun-page [pronouns]
+  (let [title "Pronoun Island: Custom Pronouns"]
+    (html
+      [:html
+       (head title)
+       [:body
+        (title-block title)
+        (custom-pronoun-block
+          [:span {:class "error"}
+           "You need to fill out every example to create a link to your own pronouns:"]
+          :value
+          pronouns)
+        (about-block)
+        (contact-block)
+        [:script {:src "/custom-pronouns.js"}]]])))
+
+(defn pronouns-from-form [form]
+  (->> ["subject" "object" "possessive-determiner" "possessive-pronoun" "reflexive"]
+       (map #(u/format-pronoun (get form % "")))
+       (vec)))
+
+(defn custom-pronoun-submit [form]
+  (let [pronouns (pronouns-from-form form)]
+    (if (u/complete? pronouns)
+      {:status 303 ; See other
+       :headers {"Location" (str "/" (->> (map url-encode pronouns)
+                                          (s/join "/")))}}
+      {:status 400
+       :headers {"Content-Type" "text/html; charset=utf-8"}
+       :body (custom-pronoun-page pronouns)})))
