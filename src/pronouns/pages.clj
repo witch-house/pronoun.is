@@ -120,17 +120,30 @@
       (contact-block)])))
 
 (defn not-found []
-  (str "We couldn't find those pronouns in our database, please ask us to "
-       "add them, or issue a pull request at "
-       "https://github.com/witch-house/pronoun.is/blob/master/resources/pronouns.tab"))
+  (let [title "Pronoun Island: English Language Examples"]
+    (html
+     [:html
+      [:head
+       [:title title]
+       [:meta {:name "viewport" :content "width=device-width"}]
+       [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+      [:body
+       (title-block title)
+      [:div {:class "examples"}
+       [:p [:h2 (str "We couldn't find those pronouns in our database."
+                     "If you think we should have them, please reach out!")]]]
+       (about-block)
+       (contact-block)]])))
 
 (defn pronouns [params pronouns-table]
   (let [path (params :*)
         alts (or (params "or") [])
         pronouns (concat [path] (u/vec-coerce alts))
-        pronoun-declensions (map #(lookup-pronouns (escape-html %)
-                                          pronouns-table)
-                        pronouns)]
-    (if pronoun-declensions
+        pronoun-declensions (filter some? (map #(lookup-pronouns (escape-html %)
+                                                                pronouns-table)
+                                              pronouns))]
+    (println path)
+    (println pronoun-declensions)
+    (if (seq pronoun-declensions)
       (format-pronoun-examples pronoun-declensions)
       (not-found))))
