@@ -43,13 +43,17 @@
 
 (defn examples-block
   [subject object possessive-determiner possessive-pronoun reflexive]
-  [:div {:class "examples"}
-   [:p [:h2 "Here are some usage examples for my pronouns:"]]
-   (subject-example subject)
-   (object-example object)
-   (posessive-determiner-example subject possessive-determiner)
-   (possessive-pronoun-example possessive-pronoun)
-   (reflexive-example subject reflexive)])
+  (let [sub-obj (str subject "/" object)
+        header-str (str "Here are some usage examples for my "
+                        sub-obj
+                        " pronouns")]
+    [:div {:class "examples"}
+     [:p [:h2 header-str]]
+     (subject-example subject)
+     (object-example object)
+     (posessive-determiner-example subject possessive-determiner)
+     (possessive-pronoun-example possessive-pronoun)
+     (reflexive-example subject reflexive)]))
 
 (defn about-block []
   [:div {:class "about"}
@@ -72,8 +76,6 @@
 
 (defn format-pronoun-examples
   [pronoun-declension alternates]
-  (println pronoun-declension)
-  (println alternates)
   (let [title "Pronoun Island: English Language Examples"]
     (html
      [:html
@@ -88,7 +90,7 @@
        (about-block)
        (contact-block)]])))
 
-(defn parse-pronouns-with-lookup [pronouns-string pronouns-table]
+(defn lookup-pronouns [pronouns-string pronouns-table]
   (let [inputs (s/split pronouns-string #"/")
         n (count inputs)]
     (if (>= n 5)
@@ -124,16 +126,13 @@
        "https://github.com/witch-house/pronoun.is/blob/master/resources/pronouns.tab"))
 
 (defn pronouns [params pronouns-table]
-  (println params)
   (let [path (params :*)
         ors (u/vec-coerce (params "or"))
-        a (println path)
-        pronoun-declension (parse-pronouns-with-lookup (escape-html path)
-                                                       pronouns-table)
-        alternates (map #(parse-pronouns-with-lookup (escape-html %)
-                                                     pronouns-table)
-                        ors)
-        ]
+        pronoun-declension (lookup-pronouns (escape-html path)
+                                            pronouns-table)
+        alternates (map #(lookup-pronouns (escape-html %)
+                                          pronouns-table)
+                        ors)]
     (println pronoun-declension)
     (if pronoun-declension
       (format-pronoun-examples pronoun-declension alternates)
