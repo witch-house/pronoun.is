@@ -75,7 +75,7 @@
 
 
 (defn format-pronoun-examples
-  [pronoun-declension alternates]
+  [pronoun-declensions]
   (let [title "Pronoun Island: English Language Examples"]
     (html
      [:html
@@ -85,8 +85,7 @@
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
        (title-block title)
-       (apply examples-block pronoun-declension)
-       (map #(apply examples-block %) alternates)
+       (map #(apply examples-block %) pronoun-declensions)
        (about-block)
        (contact-block)]])))
 
@@ -127,12 +126,11 @@
 
 (defn pronouns [params pronouns-table]
   (let [path (params :*)
-        ors (u/vec-coerce (params "or"))
-        pronoun-declension (lookup-pronouns (escape-html path)
-                                            pronouns-table)
-        alternates (map #(lookup-pronouns (escape-html %)
+        alts (or (params "or") [])
+        pronouns (concat [path] (u/vec-coerce alts))
+        pronoun-declensions (map #(lookup-pronouns (escape-html %)
                                           pronouns-table)
-                        ors)]
-    (if pronoun-declension
-      (format-pronoun-examples pronoun-declension alternates)
+                        pronouns)]
+    (if pronoun-declensions
+      (format-pronoun-examples pronoun-declensions)
       (not-found))))
