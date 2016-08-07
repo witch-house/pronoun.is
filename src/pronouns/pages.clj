@@ -69,7 +69,7 @@
     "Written by "
     (twitter-name "morganastra")
     ", whose "
-    [:a {:href "http://pronoun.is/ze/zir"} "pronoun.is/ze/zir"]
+    [:a {:href "http://pronoun.is/ze/zir?or=she"} "pronoun.is/ze/zir?or=she"]
     ". "
    "Visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github!"]]]))
 
