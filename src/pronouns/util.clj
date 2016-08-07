@@ -29,3 +29,6 @@
   "given a list of pronoun rows, return a list of minimum unabiguous paths"
   [pronouns-table]
   (map (partial minimum-unambiguous-path pronouns-table) pronouns-table))
+
+(defn vec-coerce [x]
+  (if (vector? x) x [x]))

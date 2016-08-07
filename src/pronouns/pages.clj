@@ -71,20 +71,22 @@
 
 
 (defn format-pronoun-examples
-  [subject object possessive-determiner possessive-pronoun reflexive]
+  [pronoun-declension alternates]
+  (println pronoun-declension)
+  (println alternates)
   (let [title "Pronoun Island: English Language Examples"]
-  (html
-   [:html
-    [:head
-     [:title title]
-     [:meta {:name "viewport" :content "width=device-width"}]
-     [:link {:rel "stylesheet" :href "/pronouns.css"}]]
-    [:body
-     (title-block title)
-     (examples-block subject object possessive-determiner possessive-pronoun reflexive)
-     (about-block)
-     (contact-block)]])))
-
+    (html
+     [:html
+      [:head
+       [:title title]
+       [:meta {:name "viewport" :content "width=device-width"}]
+       [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+      [:body
+       (title-block title)
+       (apply examples-block pronoun-declension)
+       (map #(apply examples-block %) alternates)
+       (about-block)
+       (contact-block)]])))
 
 (defn parse-pronouns-with-lookup [pronouns-string pronouns-table]
   (let [inputs (s/split pronouns-string #"/")
@@ -121,8 +123,18 @@
        "add them, or issue a pull request at "
        "https://github.com/witch-house/pronoun.is/blob/master/resources/pronouns.tab"))
 
-(defn pronouns [path pronouns-table]
-  (let [pronouns (parse-pronouns-with-lookup (escape-html path) pronouns-table)]
-    (if pronouns
-      (apply format-pronoun-examples pronouns)
+(defn pronouns [params pronouns-table]
+  (println params)
+  (let [path (params :*)
+        ors (u/vec-coerce (params "or"))
+        a (println path)
+        pronoun-declension (parse-pronouns-with-lookup (escape-html path)
+                                                       pronouns-table)
+        alternates (map #(parse-pronouns-with-lookup (escape-html %)
+                                                     pronouns-table)
+                        ors)
+        ]
+    (println pronoun-declension)
+    (if pronoun-declension
+      (format-pronoun-examples pronoun-declension alternates)
       (not-found))))
