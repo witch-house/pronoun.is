@@ -133,7 +133,6 @@
         alternates (map #(lookup-pronouns (escape-html %)
                                           pronouns-table)
                         ors)]
-    (println pronoun-declension)
     (if pronoun-declension
       (format-pronoun-examples pronoun-declension alternates)
       (not-found))))
