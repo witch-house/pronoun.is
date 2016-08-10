@@ -51,7 +51,3 @@
 (defn -main []
   (let [port (Integer. (:port env))]
     (jetty/run-jetty app {:port port})))
-
-;; For interactive development:
-;; (.stop server)
-;; (def server (-main))
