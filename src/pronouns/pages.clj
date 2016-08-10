@@ -1,5 +1,6 @@
 (ns pronouns.pages
   (:require [clojure.string :as s]
+            [pronouns.config :refer [*pronouns-table*]]
             [pronouns.util :as u]
             [hiccup.core :refer :all]
             [hiccup.util :refer [escape-html]]))
@@ -89,20 +90,22 @@
        (about-block)
        (contact-block)]])))
 
-(defn lookup-pronouns [pronouns-string pronouns-table]
+(defn lookup-pronouns [pronouns-string]
   (let [inputs (s/split pronouns-string #"/")
         n (count inputs)]
+    (println *pronouns-table*)
     (if (>= n 5)
       (take 5 inputs)
-      (u/table-lookup inputs pronouns-table))))
+      (u/table-lookup inputs *pronouns-table*))))
 
 (defn make-link [path]
   (let [link (str "/" path)
         label path]
     [:li [:a {:href link} label]]))
 
-(defn front [pronouns-table]
-  (let [abbreviations (u/abbreviate pronouns-table)
+(defn front []
+  (let [blah (println *pronouns-table*)
+        abbreviations (u/abbreviate *pronouns-table*)
         links (map make-link abbreviations)
         title "Pronoun Island"]
     (html
@@ -135,15 +138,13 @@
        (about-block)
        (contact-block)]])))
 
-(defn pronouns [params pronouns-table]
+(defn pronouns [params]
   (let [path (params :*)
         alts (or (params "or") [])
         pronouns (concat [path] (u/vec-coerce alts))
-        pronoun-declensions (filter some? (map #(lookup-pronouns (escape-html %)
-                                                                pronouns-table)
-                                              pronouns))]
-    (println path)
-    (println pronoun-declensions)
+        pronoun-declensions (filter some? (map #(lookup-pronouns
+                                                 (escape-html %))
+                                               pronouns))]
     (if (seq pronoun-declensions)
       (format-pronoun-examples pronoun-declensions)
       (not-found))))

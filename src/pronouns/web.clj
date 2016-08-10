@@ -12,15 +12,11 @@
             [pronouns.util :as u]
             [pronouns.pages :as pages]))
 
-(def config {:default-server-port 5000
-             :pronoun-table-path "resources/pronouns.tab"})
-(def pronouns-table (u/slurp-tabfile (:pronoun-table-path config)))
-
 (defroutes app-routes
   (GET "/" []
        {:status 200
         :headers {"Content-Type" "text/html"}
-        :body (pages/front pronouns-table)})
+        :body (pages/front)})
 
   (GET "/pronouns.css" []
      {:status 200
@@ -30,7 +26,7 @@
   (GET "/*" {params :params}
        {:status 200
         :headers {"Content-Type" "text/html"}
-        :body (pages/pronouns params pronouns-table)})
+        :body (pages/pronouns params)})
 
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
@@ -39,9 +35,11 @@
   (fn [req]
     (try (handler req)
          (catch Exception e
-           {:status 500
-            :headers {"Content-Type" "text/html"}
-            :body (slurp (io/resource "500.html"))}))))
+           (binding [*out* *err*]
+             (println e)
+             {:status 500
+              :headers {"Content-Type" "text/html"}
+              :body (slurp (io/resource "500.html"))})))))
 
 (def app
   (-> app-routes
@@ -51,8 +49,7 @@
       params/wrap-params))
 
 (defn -main []
-  (let [port (Integer. (:port env
-                              (:default-server-port config)))]
+  (let [port (Integer. (:port env))]
     (jetty/run-jetty app {:port port})))
 
 ;; For interactive development:
