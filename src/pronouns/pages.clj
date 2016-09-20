@@ -59,7 +59,7 @@
                    "."))
 
 (defn title-block [title]
-  [:div {:class "title"}
+  [:div {:class "section title"}
    [:h1 title]])
 
 (defn examples-block
@@ -68,7 +68,7 @@
         header-str (str "Here are some usage examples for my "
                         sub-obj
                         " pronouns")]
-    [:div {:class "examples"}
+    [:div {:class "section examples"}
      [:p [:h2 header-str]]
      (subject-example subject)
      (object-example object)
@@ -77,7 +77,7 @@
      (reflexive-example subject reflexive)]))
 
 (defn about-block []
-  [:div {:class "about"}
+  [:div {:class "section about"}
    [:p "Full usage: "
     [:tt "http://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
     " displays examples of your pronouns."]
@@ -86,7 +86,7 @@
 (defn contact-block []
   (let [twitter-name (fn [handle] (href (str "https://www.twitter.com/" handle)
                                        (str "@" handle)))]
-  [:div {:class "contact"}
+  [:div {:class "section contact"}
    [:p
     "Written by "
     (twitter-name "morganastra")
@@ -131,8 +131,7 @@
     [:li (href link label)]))
 
 (defn front []
-  (let [blah (println *pronouns-table*)
-        abbreviations (u/abbreviate *pronouns-table*)
+  (let [abbreviations (u/abbreviate *pronouns-table*)
         links (map make-link abbreviations)
         title "Pronoun Island"]
     (html
@@ -143,7 +142,7 @@
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
        (title-block title)
-       [:div {:class "table"}
+       [:div {:class "section table"}
        [:p "pronoun.is is a www site for showing people how to use pronouns in English."]
        [:p "here are some pronouns the site knows about:"]
        [:ul links]]]
@@ -159,7 +158,7 @@
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
        (title-block title)
-      [:div {:class "examples"}
+      [:div {:class "section examples"}
        [:p [:h2 (str "We couldn't find those pronouns in our database."
                      "If you think we should have them, please reach out!")]]]
        (about-block)

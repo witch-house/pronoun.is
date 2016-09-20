@@ -3,32 +3,23 @@ body {
 	background-color: #F6CEFC;
 }
 
-.examples {
+.section {
 	margin: 8px;
 	padding: 4px 6px 4px 6px;
 	border: 4px solid #eeeeee;
+}
+
+.examples {
 }
 
 .title {
-	margin: 8px;
-	padding: 4px 6px 4px 6px;
-	border: 4px solid #eeeeee;
 }
 
 .about {
-	margin: 8px;
-	padding: 4px 6px 4px 6px;
-	border: 4px solid #eeeeee;
 }
 
 .contact {
-	margin: 8px;
-	padding: 4px 6px 4px 6px;
-	border: 4px solid #eeeeee;
 }
 
 .table {
-	margin: 8px;
-	padding: 4px 6px 4px 6px;
-	border: 4px solid #eeeeee;
 }
