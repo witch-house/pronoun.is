@@ -1,9 +1,29 @@
+;; pronoun.is - a website for pronoun usage examples
+;; Copyright (C) 2014 - 2016 Morgan Astra
+
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU Affero General Public License as
+;; published by the Free Software Foundation, either version 3 of the
+;; License, or (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU Affero General Public License for more details.
+
+;; You should have received a copy of the GNU Affero General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>
+
 (ns pronouns.pages
   (:require [clojure.string :as s]
             [pronouns.config :refer [*pronouns-table*]]
             [pronouns.util :as u]
             [hiccup.core :refer :all]
             [hiccup.util :refer [escape-html]]))
+
+(defn href
+  [url text]
+  [:a {:href url} text])
 
 (defn wrap-pronoun
   [pronoun]
@@ -64,15 +84,20 @@
    [:p "This is a bit unwieldy. If we have a good guess we'll let you use just the first one or two."]])
 
 (defn contact-block []
-  (let [twitter-name (fn [handle] [:a {:href (str "https://www.twitter.com/" handle)} (str "@" handle)])]
+  (let [twitter-name (fn [handle] (href (str "https://www.twitter.com/" handle)
+                                       (str "@" handle)))]
   [:div {:class "contact"}
    [:p
     "Written by "
     (twitter-name "morganastra")
     ", whose "
-    [:a {:href "http://pronoun.is/ze/zir?or=she"} "pronoun.is/ze/zir?or=she"]
+    (href "http://pronoun.is/ze/zir?or=she" "pronoun.is/ze/zir?or=she")
     ". "
-   "Visit the project on " [:a {:href "https://github.com/witch-house/pronoun.is"} "github!"]]]))
+    "pronoun.is is free software under the "
+    (href "https://www.gnu.org/licenses/agpl.html" "AGPLv3")
+    ", visit the project on "
+    (href "https://github.com/witch-house/pronoun.is" "github")
+    ","]]))
 
 
 (defn format-pronoun-examples
@@ -101,7 +126,7 @@
 (defn make-link [path]
   (let [link (str "/" path)
         label path]
-    [:li [:a {:href link} label]]))
+    [:li (href link label)]))
 
 (defn front []
   (let [blah (println *pronouns-table*)
