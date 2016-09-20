@@ -92,12 +92,15 @@
     (twitter-name "morganastra")
     ", whose "
     (href "http://pronoun.is/ze/zir?or=she" "pronoun.is/ze/zir?or=she")
-    ". "
+    [:br]
+    [:br]
     "pronoun.is is free software under the "
     (href "https://www.gnu.org/licenses/agpl.html" "AGPLv3")
-    ", visit the project on "
+    "! visit the project on "
     (href "https://github.com/witch-house/pronoun.is" "github")
-    ","]]))
+    [:br]
+    [:br]
+    "<3"]]))
 
 
 (defn format-pronoun-examples
@@ -118,7 +121,6 @@
 (defn lookup-pronouns [pronouns-string]
   (let [inputs (s/split pronouns-string #"/")
         n (count inputs)]
-    (println *pronouns-table*)
     (if (>= n 5)
       (take 5 inputs)
       (u/table-lookup inputs *pronouns-table*))))

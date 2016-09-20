@@ -52,7 +52,6 @@
     (try (handler req)
          (catch Exception e
            (binding [*out* *err*]
-             (println e)
              {:status 500
               :headers {"Content-Type" "text/html"}
               :body (slurp (io/resource "500.html"))})))))
