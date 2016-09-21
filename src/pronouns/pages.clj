@@ -69,38 +69,33 @@
                         sub-obj
                         " pronouns")]
     [:div {:class "section examples"}
-     [:p [:h2 header-str]]
-     (subject-example subject)
-     (object-example object)
-     (posessive-determiner-example subject possessive-determiner)
-     (possessive-pronoun-example possessive-pronoun)
-     (reflexive-example subject reflexive)]))
+     [:h2 header-str]
+     [:p (subject-example subject)
+         (object-example object)
+         (posessive-determiner-example subject possessive-determiner)
+         (possessive-pronoun-example possessive-pronoun)
+         (reflexive-example subject reflexive)]]))
 
 (defn about-block []
   [:div {:class "section about"}
    [:p "Full usage: "
-    [:tt "http://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
-    " displays examples of your pronouns."]
+       [:tt "http://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
+       " displays examples of your pronouns."]
    [:p "This is a bit unwieldy. If we have a good guess we'll let you use just the first one or two."]])
 
 (defn contact-block []
   (let [twitter-name (fn [handle] (href (str "https://www.twitter.com/" handle)
                                        (str "@" handle)))]
-  [:div {:class "section contact"}
-   [:p
-    "Written by "
-    (twitter-name "morganastra")
-    ", whose "
-    (href "http://pronoun.is/ze/zir?or=she" "pronoun.is/ze/zir?or=she")
-    [:br]
-    [:br]
-    "pronoun.is is free software under the "
-    (href "https://www.gnu.org/licenses/agpl.html" "AGPLv3")
-    "! visit the project on "
-    (href "https://github.com/witch-house/pronoun.is" "github")
-    [:br]
-    [:br]
-    "<3"]]))
+    [:footer {:class "section contact"}
+     [:p "Written by "
+         (twitter-name "morganastra")
+         ", whose "
+         (href "http://pronoun.is/ze/zir?or=she" "pronoun.is/ze/zir?or=she")]
+     [:p "pronoun.is is free software under the "
+         (href "https://www.gnu.org/licenses/agpl.html" "AGPLv3")
+         "! visit the project on "
+         (href "https://github.com/witch-house/pronoun.is" "github")]
+     [:p "<3"]]))
 
 
 (defn format-pronoun-examples
