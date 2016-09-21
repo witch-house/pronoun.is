@@ -143,7 +143,7 @@
       [:body
        (title-block title)
        [:div {:class "section table"}
-       [:p "pronoun.is is a www site for showing people how to use pronouns in English."]
+       [:p "pronoun.is is a website for personal pronoun usage examples"]
        [:p "here are some pronouns the site knows about:"]
        [:ul links]]]
       (contact-block)])))

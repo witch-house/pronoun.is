@@ -1,5 +1,5 @@
 (defproject witch-house/pronouns "1.9.0-SNAPSHOT"
-  :description "Pronoun.is is a web app for showing usage examples of personal pronouns in English."
+  :description "Pronoun.is is a website for personal pronoun usage examples"
   :url "http://pronoun.is"
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [compojure "1.1.8"]

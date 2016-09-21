@@ -1,4 +1,4 @@
-# [pronoun.is](http://pronoun.is) is a www site for showing people how to use pronouns
+**[pronoun.is](http://pronoun.is) is a website for personal pronoun usage examples**
 
 ## For users
 
