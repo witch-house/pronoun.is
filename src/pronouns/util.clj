@@ -21,26 +21,40 @@
   (let [lines (s/split (slurp path) #"\n")]
     (map #(s/split % #"\t") lines)))
 
+(defn table-front-filter
+  [query-key table]
+  (let [arity (count query-key)]
+    (filter #(= query-key (take arity %)) table)))
+
+(defn table-end-filter
+  [query-key table]
+  (let [table-arity (count (first table))
+        query-arity (count query-key)]
+    (filter #(= query-key (drop (- table-arity query-arity) %)) table)))
+
 (defn table-lookup
   [query-key table]
-  (let [arity (count query-key)
-        filtered-table (filter #(= query-key (take arity %)) table)]
-    (first filtered-table)))
+  (if (some #(= "..." %) query-key)
+    (let [[query-front query-end-] (split-with #(not= "..." %) query-key)
+          query-end (drop 1 query-end-)
+          front-matches (table-front-filter query-front table)]
+      (first (table-end-filter query-end front-matches)))
+    (first (table-front-filter query-key table))))
 
 (defn tabfile-lookup
   [query-key tabfile]
   (table-lookup query-key (slurp-tabfile tabfile)))
 
 (defn minimum-unambiguous-path
-  ([table sections] (minimum-unambiguous-path table sections 1))
-  ([table sections number-of-sections]
-    (let [sections-subset (take number-of-sections sections)
-          results (filter #(= (take number-of-sections %) sections-subset)
+  ([table columns] (minimum-unambiguous-path table columns 1))
+  ([table columns number-of-columns]
+    (let [columns-subset (take number-of-columns columns)
+          results (filter #(= (take number-of-columns %) columns-subset)
                           table)]
       (case (count results)
         0 nil
-        1 (clojure.string/join "/" sections-subset)
-        (recur table sections (+ number-of-sections 1))))))
+        1 (clojure.string/join "/" columns-subset)
+        (recur table columns (+ number-of-columns 1))))))
 
 (defn abbreviate
   "given a list of pronoun rows, return a list of minimum unabiguous paths"
