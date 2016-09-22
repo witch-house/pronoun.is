@@ -18,21 +18,25 @@
   (:require [clojure.string :as s]))
 
 (defn slurp-tabfile [path]
+  "read a tabfile from a filesystem <path> as a table"
   (let [lines (s/split (slurp path) #"\n")]
     (map #(s/split % #"\t") lines)))
 
 (defn table-front-filter
+  "filter a <table> to the rows which begin with <query-key>"
   [query-key table]
   (let [arity (count query-key)]
     (filter #(= query-key (take arity %)) table)))
 
 (defn table-end-filter
+  "filter a <table> to the rows which end with <query-key>"
   [query-key table]
   (let [table-arity (count (first table))
         query-arity (count query-key)]
     (filter #(= query-key (drop (- table-arity query-arity) %)) table)))
 
 (defn table-lookup
+  "find the row corresponding to <query-key> in <table>"
   [query-key table]
   (if (some #(= "..." %) query-key)
     (let [[query-front query-end-] (split-with #(not= "..." %) query-key)
@@ -41,25 +45,26 @@
       (first (table-end-filter query-end front-matches)))
     (first (table-front-filter query-key table))))
 
-(defn tabfile-lookup
-  [query-key tabfile]
-  (table-lookup query-key (slurp-tabfile tabfile)))
-
 (defn minimum-unambiguous-path
-  ([table columns] (minimum-unambiguous-path table columns 1))
-  ([table columns number-of-columns]
-    (let [columns-subset (take number-of-columns columns)
-          results (filter #(= (take number-of-columns %) columns-subset)
+  "compute the shortest (in number of path elements) path which refers to
+  a specific <row> in a <table> unambiguously."
+  ([table row] (minimum-unambiguous-path table row 1))
+  ([table row number-of-row]
+    (let [row-subset (take number-of-row row)
+          results (filter #(= (take number-of-row %) row-subset)
                           table)]
       (case (count results)
         0 nil
-        1 (clojure.string/join "/" columns-subset)
-        (recur table columns (+ number-of-columns 1))))))
+        1 (clojure.string/join "/" row-subset)
+        (recur table row (+ number-of-row 1))))))
 
 (defn abbreviate
-  "given a list of pronoun rows, return a list of minimum unabiguous paths"
+  "return the list of minimum unabiguous paths from a <table>"
   [table]
   (map (partial minimum-unambiguous-path table) table))
 
 (defn vec-coerce [x]
+  "wrap a value <x> in a vector if it is not already in one. note that if
+  <x> is already in a sequence for which vector? is false, this will add
+  another layer of nesting."
   (if (vector? x) x [x]))
