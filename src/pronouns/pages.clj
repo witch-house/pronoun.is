@@ -86,7 +86,7 @@
 (defn contact-block []
   (let [twitter-name (fn [handle] (href (str "https://www.twitter.com/" handle)
                                        (str "@" handle)))]
-    [:footer {:class "section contact"}
+    [:div {:class "section contact"}
      [:p "Written by "
          (twitter-name "morganastra")
          ", whose "
@@ -97,6 +97,8 @@
          (href "https://github.com/witch-house/pronoun.is" "github")]
      [:p "<3"]]))
 
+(defn footer-block []
+  [:footer (about-block) (contact-block)])
 
 (defn format-pronoun-examples
   [pronoun-declensions]
@@ -110,8 +112,7 @@
       [:body
        (title-block title)
        (map #(apply examples-block %) pronoun-declensions)
-       (about-block)
-       (contact-block)]])))
+       (footer-block)]])))
 
 (defn lookup-pronouns [pronouns-string]
   (let [inputs (s/split pronouns-string #"/")
@@ -141,7 +142,7 @@
        [:p "pronoun.is is a website for personal pronoun usage examples"]
        [:p "here are some pronouns the site knows about:"]
        [:ul links]]]
-      (contact-block)])))
+      (footer-block)])))
 
 (defn not-found []
   (let [title "Pronoun Island: English Language Examples"]
@@ -156,8 +157,7 @@
       [:div {:class "section examples"}
        [:p [:h2 (str "We couldn't find those pronouns in our database."
                      "If you think we should have them, please reach out!")]]]
-       (about-block)
-       (contact-block)]])))
+       (footer-block)]])))
 
 (defn pronouns [params]
   (let [path (params :*)
