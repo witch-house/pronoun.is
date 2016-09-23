@@ -76,8 +76,8 @@
          (possessive-pronoun-example possessive-pronoun)
          (reflexive-example subject reflexive)]]))
 
-(defn about-block []
-  [:div {:class "section about"}
+(defn usage-block []
+  [:div {:class "section usage"}
    [:p "Full usage: "
        [:tt "http://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
        " displays examples of your pronouns."]
@@ -98,7 +98,7 @@
      [:p "<3"]]))
 
 (defn footer-block []
-  [:footer (about-block) (contact-block)])
+  [:footer (usage-block) (contact-block)])
 
 (defn format-pronoun-examples
   [pronoun-declensions]
