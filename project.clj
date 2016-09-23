@@ -1,4 +1,4 @@
-(defproject witch-house/pronouns "1.9.0-SNAPSHOT"
+(defproject witch-house/pronouns "1.10.0-SNAPSHOT"
   :description "Pronoun.is is a website for personal pronoun usage examples"
   :url "http://pronoun.is"
   :dependencies [[org.clojure/clojure "1.6.0"]
