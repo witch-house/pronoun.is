@@ -17,6 +17,8 @@
 (ns pronouns.util
   (:require [clojure.string :as s]))
 
+(defn print-and-return "for debugging" [x] (println x) x)
+
 (defn slurp-tabfile [path]
   "read a tabfile from a filesystem <path> as a table"
   (let [lines (s/split (slurp path) #"\n")]
@@ -45,23 +47,56 @@
       (first (table-end-filter query-end front-matches)))
     (first (table-front-filter query-key table))))
 
-(defn minimum-unambiguous-path
-  "compute the shortest (in number of path elements) path which refers to
-  a specific <row> in a <table> unambiguously."
-  ([table row] (minimum-unambiguous-path table row 1))
-  ([table row number-of-row]
-    (let [row-subset (take number-of-row row)
-          results (filter #(= (take number-of-row %) row-subset)
-                          table)]
-      (case (count results)
-        0 nil
-        1 (clojure.string/join "/" row-subset)
-        (recur table row (+ number-of-row 1))))))
+(defn shortest-unambiguous-forward-path
+  "Compute the shortest (in number of path elements) forward path which
+  unambiguously refers to a specific <row> in a <table>. The behavior of
+  this function is undefined if given a <row> that is not in the <table>.
+
+  See also: shortest-unambiguous-path"
+  [table row]
+  (loop [n 1]
+    (let [row-front (take n row)]
+      (if (>= 1 (count (table-front-filter row-front table)))
+        row-front
+        (recur (inc n))))))
+
+(defn shortest-unambiguous-ellipses-path
+  "Compute the shortest (in number of path elements) ellipses path which
+  unambiguously refers to a specific <row> in a <table>. The behavior of
+  this function is undefined if given a <row> that is not in the <table>.
+
+  See also: shortest-unambiguous-path"
+  [table row]
+  (let [row-end (last row)
+        filtered-table (table-end-filter [row-end] table)]
+    (loop [n 1]
+      (let [row-front (take n row)]
+        (if (>= 1 (count (table-front-filter row-front filtered-table)))
+          (concat row-front ["..." row-end])
+          (recur (inc n)))))))
+
+(defn shortest-unambiguous-path
+  "Compute the shortest (in number of path elements) path which unambiguously
+  refers to a specific <row> in a <table>. The behavior of this function is
+  undefined if given a <row> that is not in the <table>.
+
+  A path can either be a 'forward path', in which it specifies the row with
+  elements from the front (e.g. ze/zir), or an 'ellipses path', which elides
+  unnecessary elements from the middle (e.g. they/.../themselves). If the
+  shortest forward and ellipses paths are the same length, prefer the forward
+  path"
+  [table row]
+  (let [forward-path (shortest-unambiguous-forward-path table row)
+        ellipses-path (shortest-unambiguous-ellipses-path table row)]
+    (s/join "/"
+            (if (> (count forward-path) (count ellipses-path))
+              ellipses-path
+              forward-path))))
 
 (defn abbreviate
   "return the list of minimum unabiguous paths from a <table>"
   [table]
-  (map (partial minimum-unambiguous-path table) table))
+  (map (partial shortest-unambiguous-path table) table))
 
 (defn vec-coerce [x]
   "wrap a value <x> in a vector if it is not already in one. note that if
