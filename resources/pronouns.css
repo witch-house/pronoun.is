@@ -1,34 +1,30 @@
 body {
-	font-family: Futura, sans-serif;
-	background-color: #F6CEFC;
+    font-family: Futura, sans-serif;
+    background-color: #F6CEFC;
+}
+
+footer {
+    font-size: 0.8em;
+}
+
+.section {
+    margin: 8px;
+    padding: 4px 6px 4px 6px;
+    border: 4px solid #EEEEEE;
+    border-radius: 7px;
 }
 
 .examples {
-	margin: 8px;
-	padding: 4px 6px 4px 6px;
-	border: 4px solid #eeeeee;
 }
 
 .title {
-	margin: 8px;
-	padding: 4px 6px 4px 6px;
-	border: 4px solid #eeeeee;
 }
 
 .about {
-	margin: 8px;
-	padding: 4px 6px 4px 6px;
-	border: 4px solid #eeeeee;
 }
 
 .contact {
-	margin: 8px;
-	padding: 4px 6px 4px 6px;
-	border: 4px solid #eeeeee;
 }
 
 .table {
-	margin: 8px;
-	padding: 4px 6px 4px 6px;
-	border: 4px solid #eeeeee;
 }

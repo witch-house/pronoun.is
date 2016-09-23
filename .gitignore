@@ -7,3 +7,4 @@ pom.xml
 /checkouts
 /.env
 /target
+.nrepl-port
