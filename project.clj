@@ -14,5 +14,6 @@
             [lein-ring "0.9.7"]]
   :hooks [environ.leiningen.hooks]
   :uberjar-name "pronouns-standalone.jar"
-  :profiles {:production {:env {:production true}}}
+  :profiles {:production {:env {:production true}}
+             :dev {:dependencies [[midje "1.6.3"]]}}
   :ring {:handler pronouns.web/app})

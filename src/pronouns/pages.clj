@@ -25,7 +25,7 @@
   [items]
   (let [c (count items)]
     (cond
-      (<= c 1) (first items)
+      (<= c 1) (or (first items) "")
       (= c 2) (s/join " and " items)
       :else (str (s/join ", " (butlast items)) ", and " (last items)))))
 
@@ -122,7 +122,7 @@
        [:meta {:name "viewport" :content "width=device-width"}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
-       (title-block title)
+       (header-block title)
        (map #(apply examples-block %) pronoun-declensions)
        (footer-block)]])))
 
@@ -149,7 +149,7 @@
        [:meta {:name "viewport" :content "width=device-width"}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
-       (title-block title)
+       (header-block title)
        [:div {:class "section table"}
        [:p "pronoun.is is a website for personal pronoun usage examples"]
        [:p "here are some pronouns the site knows about:"]
@@ -165,7 +165,7 @@
        [:meta {:name "viewport" :content "width=device-width"}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
-       (title-block title)
+       (header-block title)
       [:div {:class "section examples"}
        [:p [:h2 (str "We couldn't find those pronouns in our database."
                      "If you think we should have them, please reach out!")]]]
