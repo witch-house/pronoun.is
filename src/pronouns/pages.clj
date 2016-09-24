@@ -21,6 +21,14 @@
             [hiccup.core :refer :all]
             [hiccup.util :refer [escape-html]]))
 
+(defn prose-comma-list
+  [items]
+  (let [c (count items)]
+    (cond
+      (<= c 1) (first items)
+      (= c 2) (s/join " and " items)
+      :else (str (s/join ", " (butlast items)) ", and " (last items)))))
+
 (defn href
   [url text]
   [:a {:href url} text])
@@ -49,7 +57,9 @@
 
 (defn possessive-pronoun-example
   [possessive-pronoun]
-  (render-sentence "At least I think it was " (wrap-pronoun possessive-pronoun) "."))
+  (render-sentence "At least I think it was "
+                   (wrap-pronoun possessive-pronoun)
+                   "."))
 
 (defn reflexive-example
   [subject reflexive]
@@ -58,16 +68,16 @@
                    (wrap-pronoun reflexive)
                    "."))
 
-(defn title-block [title]
+(defn header-block [header]
   [:div {:class "section title"}
-   [:h1 title]])
+   (href "/" [:h1 header])])
 
 (defn examples-block
   [subject object possessive-determiner possessive-pronoun reflexive]
-  (let [sub-obj (str subject "/" object)
-        header-str (str "Here are some usage examples for my "
+  (let [sub-obj (s/join "/" [subject object])
+        header-str (str "Here are some example sentences using my "
                         sub-obj
-                        " pronouns")]
+                        " pronouns:")]
     [:div {:class "section examples"}
      [:h2 header-str]
      [:p (subject-example subject)
@@ -81,7 +91,8 @@
    [:p "Full usage: "
        [:tt "http://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
        " displays examples of your pronouns."]
-   [:p "This is a bit unwieldy. If we have a good guess we'll let you use just the first one or two."]])
+   [:p "This is a bit unwieldy. If we have a good guess we'll let you use"
+       " just the first one or two."]])
 
 (defn contact-block []
   (let [twitter-name (fn [handle] (href (str "https://www.twitter.com/" handle)
@@ -102,7 +113,8 @@
 
 (defn format-pronoun-examples
   [pronoun-declensions]
-  (let [title "Pronoun Island: English Language Examples"]
+  (let [sub-objs (map #(s/join "/" (take 2 %)) pronoun-declensions)
+        title (str "Pronoun Island: " (prose-comma-list sub-objs) " examples")]
     (html
      [:html
       [:head
