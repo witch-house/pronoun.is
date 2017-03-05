@@ -1,5 +1,5 @@
 ;; pronoun.is - a website for pronoun usage examples
-;; Copyright (C) 2014 - 2016 Morgan Astra
+;; Copyright (C) 2014 - 2017 Morgan Astra
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU Affero General Public License as
@@ -20,6 +20,14 @@
             [pronouns.util :as u]
             [hiccup.core :refer :all]
             [hiccup.util :refer [escape-html]]))
+
+(defn prose-comma-list
+  [items]
+  (let [c (count items)]
+    (cond
+      (<= c 1) (or (first items) "")
+      (= c 2) (s/join " and " items)
+      :else (str (s/join ", " (butlast items)) ", and " (last items)))))
 
 (defn href
   [url text]
@@ -49,7 +57,9 @@
 
 (defn possessive-pronoun-example
   [possessive-pronoun]
-  (render-sentence "At least I think it was " (wrap-pronoun possessive-pronoun) "."))
+  (render-sentence "At least I think it was "
+                   (wrap-pronoun possessive-pronoun)
+                   "."))
 
 (defn reflexive-example
   [subject reflexive]
@@ -58,16 +68,16 @@
                    (wrap-pronoun reflexive)
                    "."))
 
-(defn title-block [title]
+(defn header-block [header]
   [:div {:class "section title"}
-   [:h1 title]])
+   (href "/" [:h1 header])])
 
 (defn examples-block
   [subject object possessive-determiner possessive-pronoun reflexive]
-  (let [sub-obj (str subject "/" object)
-        header-str (str "Here are some usage examples for my "
+  (let [sub-obj (s/join "/" [subject object])
+        header-str (str "Here are some example sentences using my "
                         sub-obj
-                        " pronouns")]
+                        " pronouns:")]
     [:div {:class "section examples"}
      [:h2 header-str]
      [:p (subject-example subject)
@@ -76,12 +86,13 @@
          (possessive-pronoun-example possessive-pronoun)
          (reflexive-example subject reflexive)]]))
 
-(defn about-block []
-  [:div {:class "section about"}
+(defn usage-block []
+  [:div {:class "section usage"}
    [:p "Full usage: "
        [:tt "http://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
        " displays examples of your pronouns."]
-   [:p "This is a bit unwieldy. If we have a good guess we'll let you use just the first one or two."]])
+   [:p "This is a bit unwieldy. If we have a good guess we'll let you use"
+       " just the first one or two."]])
 
 (defn contact-block []
   (let [twitter-name (fn [handle] (href (str "https://www.twitter.com/" handle)
@@ -91,6 +102,10 @@
          (twitter-name "morganastra")
          ", whose "
          (href "http://pronoun.is/ze/zir?or=she" "pronoun.is/ze/zir?or=she")]
+     [:p "Want to support this and similar websites? "
+         "Join us on "
+         (href "https://www.patreon.com/user?u=5238484" "Patreon")
+         "!"]
      [:p "pronoun.is is free software under the "
          (href "https://www.gnu.org/licenses/agpl.html" "AGPLv3")
          "! visit the project on "
@@ -98,11 +113,12 @@
      [:p "<3"]]))
 
 (defn footer-block []
-  [:footer (about-block) (contact-block)])
+  [:footer (usage-block) (contact-block)])
 
 (defn format-pronoun-examples
   [pronoun-declensions]
-  (let [title "Pronoun Island: English Language Examples"]
+  (let [sub-objs (map #(s/join "/" (take 2 %)) pronoun-declensions)
+        title (str "Pronoun Island: " (prose-comma-list sub-objs) " examples")]
     (html
      [:html
       [:head
@@ -110,7 +126,7 @@
        [:meta {:name "viewport" :content "width=device-width"}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
-       (title-block title)
+       (header-block title)
        (map #(apply examples-block %) pronoun-declensions)
        (footer-block)]])))
 
@@ -137,7 +153,7 @@
        [:meta {:name "viewport" :content "width=device-width"}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
-       (title-block title)
+       (header-block title)
        [:div {:class "section table"}
        [:p "pronoun.is is a website for personal pronoun usage examples"]
        [:p "here are some pronouns the site knows about:"]
@@ -153,7 +169,7 @@
        [:meta {:name "viewport" :content "width=device-width"}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
-       (title-block title)
+       (header-block title)
       [:div {:class "section examples"}
        [:p [:h2 (str "We couldn't find those pronouns in our database."
                      "If you think we should have them, please reach out!")]]]

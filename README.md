@@ -49,7 +49,7 @@ It is possible to use these example sentences to demonstrate the usage of words 
 
 
 ## License
-Copyright © 2014-2016 Morgan Astra <m@morganastra.me>
+Copyright © 2014-2017 Morgan Astra <m@morganastra.me>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
@@ -62,5 +62,5 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/> */
+along with this program.  If not, see <http://www.gnu.org/licenses/>
 

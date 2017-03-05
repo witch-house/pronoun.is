@@ -1,4 +1,4 @@
-(defproject witch-house/pronouns "1.10.0-SNAPSHOT"
+(defproject witch-house/pronouns "1.11.0-SNAPSHOT"
   :description "Pronoun.is is a website for personal pronoun usage examples"
   :url "http://pronoun.is"
   :license "GNU Affero General Public License 3.0"
@@ -14,5 +14,6 @@
             [lein-ring "0.9.7"]]
   :hooks [environ.leiningen.hooks]
   :uberjar-name "pronouns-standalone.jar"
-  :profiles {:production {:env {:production true}}}
+  :profiles {:production {:env {:production true}}
+             :dev {:dependencies [[midje "1.6.3"]]}}
   :ring {:handler pronouns.web/app})
