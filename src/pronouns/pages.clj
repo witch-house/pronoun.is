@@ -1,5 +1,5 @@
 ;; pronoun.is - a website for pronoun usage examples
-;; Copyright (C) 2014 - 2016 Morgan Astra
+;; Copyright (C) 2014 - 2017 Morgan Astra
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU Affero General Public License as
@@ -102,6 +102,10 @@
          (twitter-name "morganastra")
          ", whose "
          (href "http://pronoun.is/ze/zir?or=she" "pronoun.is/ze/zir?or=she")]
+     [:p "Want to support this and similar websites? "
+         "Join us on "
+         (href "https://www.patreon.com/user?u=5238484" "Patreon")
+         "!"]
      [:p "pronoun.is is free software under the "
          (href "https://www.gnu.org/licenses/agpl.html" "AGPLv3")
          "! visit the project on "
