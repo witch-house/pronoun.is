@@ -118,16 +118,18 @@
 (defn format-pronoun-examples
   [pronoun-declensions]
   (let [sub-objs (map #(s/join "/" (take 2 %)) pronoun-declensions)
-        title (str "Pronoun Island: " (prose-comma-list sub-objs) " examples")]
+        title (str "Pronoun Island: " (prose-comma-list sub-objs) " examples")
+        examples (map #(apply examples-block %) pronoun-declensions)]
     (html
      [:html
       [:head
        [:title title]
        [:meta {:name "viewport" :content "width=device-width"}]
+       [:meta {:name "description" :content (u/strip-markup examples)}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
        (header-block title)
-       (map #(apply examples-block %) pronoun-declensions)
+       examples
        (footer-block)]])))
 
 (defn lookup-pronouns [pronouns-string]

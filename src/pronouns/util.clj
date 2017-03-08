@@ -103,3 +103,7 @@
   <x> is already in a sequence for which vector? is false, this will add
   another layer of nesting."
   (if (vector? x) x [x]))
+
+(defn strip-markup [form]
+  (s/join " " (filter string? (flatten form))))
+
