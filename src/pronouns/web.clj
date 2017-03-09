@@ -18,11 +18,14 @@
   (:require [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
             [compojure.handler :refer [site]]
             [compojure.route :as route]
-            [clojure.java.io :as io]
             [clojure.string :as s]
+            [clojure.java.io :as io]
             [ring.middleware.logger :as logger]
             [ring.middleware.stacktrace :as trace]
             [ring.middleware.params :as params]
+            [ring.middleware.resource :refer [wrap-resource]]
+            [ring.middleware.content-type :refer [wrap-content-type]]
+            [ring.middleware.not-modified :refer [wrap-not-modified]]
             [ring.adapter.jetty :as jetty]
             [environ.core :refer [env]]
             [pronouns.util :as u]
@@ -58,6 +61,9 @@
 
 (def app
   (-> app-routes
+      (wrap-resource "images")
+      wrap-content-type
+      wrap-not-modified
       logger/wrap-with-logger
       wrap-error-page
       trace/wrap-stacktrace

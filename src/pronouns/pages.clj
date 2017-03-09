@@ -19,6 +19,7 @@
             [pronouns.config :refer [*pronouns-table*]]
             [pronouns.util :as u]
             [hiccup.core :refer :all]
+            [hiccup.element :as e]
             [hiccup.util :refer [escape-html]]))
 
 (defn prose-comma-list
@@ -70,7 +71,7 @@
 
 (defn header-block [header]
   [:div {:class "section title"}
-   (href "/" [:h1 header])])
+   (href "/" [:h1 (e/image "/purple-flag64.png" "flag logo") header])])
 
 (defn examples-block
   [subject object possessive-determiner possessive-pronoun reflexive]
