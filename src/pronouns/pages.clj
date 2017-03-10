@@ -121,6 +121,7 @@
 ;; <meta name="twitter:title" content="Small Island Developing States Photo Submission" />
 ;; <meta name="twitter:description" content="View the album on Flickr." />
 ;; <meta name="twitter:image" content="https://farm6.staticflickr.com/5510/14338202952_93595258ff_z.jpg" />
+;; not all of these are required!
 
 (defn format-pronoun-examples
   [pronoun-declensions]
@@ -133,11 +134,9 @@
        [:title title]
        [:meta {:name "viewport" :content "width=device-width"}]
        [:meta {:name "description" :content (u/strip-markup examples)}]
-       [:meta {:name "twitter:card" :content (u/strip-markup examples)}]
-       [:meta {:name "twitter:site" :content "@morganastra"}]
+       [:meta {:name "twitter:card" :content "summary"}]
        [:meta {:name "twitter:title" :content title}]
        [:meta {:name "twitter:description" :content (u/strip-markup examples)}]
-       [:meta {:name "twitter:image" :content "https://pronoun.is/purple-flag64.png"}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
        (header-block title)
