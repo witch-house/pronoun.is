@@ -9,7 +9,7 @@ That's pretty unwieldy! Fortunately you can also give it only the
 first pronoun or two: http://pronoun.is/she/her or http://pronoun.is/they
 
 Automatically filling in the rest from only one or two forms only
-works for pronouns in the [database](resources/pronouns.tab). If the
+works for pronouns in the [database][pronoun-database]. If the
 pronouns you or a friend uses aren't supported, please let us know and
 we'll add them. Alternatively you could add them yourself and submit a
 pull request (see the next section for details)
@@ -29,7 +29,7 @@ tab characters in that file (a thing your editor might normally be
 configured not to do!) In Emacs, you can input real tabs by doing
 Ctrl+q <tab>
 
-[pronoun-database]: https://github.com/witch-house/pronoun.is/blob/develop/resources/pronouns.tab
+[pronoun-database]: resources/pronouns.tab
 
 ### Running the app in a dev environment
 
