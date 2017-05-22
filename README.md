@@ -18,8 +18,7 @@ pull request (see the next section for details)
 
 ### The database
 
-The pronouns "database" is a tab-delimited file with fields and
-example values as follows:
+The pronouns "database" is a tab-delimited file located in [resources/pronouns.tab][pronoun-database] with fields and example values as follows:
 
 subject|object|possessive-determiner|possessive-pronoun|reflexive
 -------|------|---------------------|------------------|---------
@@ -30,10 +29,12 @@ tab characters in that file (a thing your editor might normally be
 configured not to do!) In Emacs, you can input real tabs by doing
 Ctrl+q <tab>
 
+[pronoun-database]: https://github.com/witch-house/pronoun.is/blob/develop/resources/pronouns.tab
+
 ### Running the app in a dev environment
 
-You can launch the app on your own computer by running the following
-command:
+First, install [leiningen](https://leiningen.org/). Then you can launch the app
+on your own computer by running the following command:
 
 ```
 $ lein ring server
