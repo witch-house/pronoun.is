@@ -174,7 +174,7 @@
       (footer-block)])))
 
 (defn not-found []
-  (let [title "Pronoun Island: English Language Examples"]
+  (let [title "Pronoun Island: English-Only Examples."]
     (html
      [:html
       [:head
