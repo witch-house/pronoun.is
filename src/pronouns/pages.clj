@@ -184,8 +184,8 @@
       [:body
        (header-block title)
       [:div {:class "section examples"}
-       [:p [:h2 (str "We couldn't find those pronouns in our database."
-                     "If you think we should have them, please reach out!")]]]
+       [:p [:h2 (str "We couldn't find your pronouns in our database."
+                     "If you think we should have them, please submit a github pull request.")]]]
        (footer-block)]])))
 
 (defn pronouns [params]
