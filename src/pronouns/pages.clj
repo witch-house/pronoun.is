@@ -92,14 +92,14 @@
    [:p "Full usage: "
        [:tt "http://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
        " displays examples of your pronouns."]
-   [:p "This is a bit unwieldy. If we have a good guess we'll let you use"
-       " just the first one or two."]])
+   [:p "You don't have to use all of these options."
+       " The first two should work."]])
 
 (defn contact-block []
   (let [twitter-name (fn [handle] (href (str "https://www.twitter.com/" handle)
                                        (str "@" handle)))]
     [:div {:class "section contact"}
-     [:p "Written by "
+     [:p "Originally written by "
          (twitter-name "morganastra")
          ", whose "
          (href "http://pronoun.is/ze/zir?or=she" "pronoun.is/ze/zir?or=she")]
