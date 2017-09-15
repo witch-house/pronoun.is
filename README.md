@@ -30,16 +30,21 @@ tab characters in that file (a thing your editor might normally be
 configured not to do!) In Emacs, you can input real tabs by doing
 Ctrl+q <tab>
 
+This file can be found in `resources/pronouns.tab`
+
 ### Running the app in a dev environment
 
-You can launch the app on your own computer by running the following
+The app is written in Clojure, so you will first need the 'lein' script on your computer as well as a Java Runtime Environment.
+You can get lein from the [Leiningen](https://leiningen.org/) website.
+
+You can then launch the app on your own computer by running the following
 command:
 
 ```
 $ lein ring server
 ```
 
-This will launch a server running the app and open your default web browser to the index page. The server will automatically reload files as you edit them.
+This will launch a server running the app on port 3001 and open your default web browser to the index page. The server will automatically reload files as you edit them.
 
 ## Philosophy on pronoun inclusion
 
