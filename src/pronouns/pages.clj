@@ -102,10 +102,6 @@
          (twitter-name "morganastra")
          ", whose "
          (href "http://pronoun.is/ze/zir?or=she" "pronoun.is/ze/zir?or=she")]
-     [:p "Want to support this and similar websites? "
-         "Join us on "
-         (href "https://www.patreon.com/user?u=5238484" "Patreon")
-         "!"]
      [:p "pronoun.is is free software under the "
          (href "https://www.gnu.org/licenses/agpl.html" "AGPLv3")
          "! visit the project on "
