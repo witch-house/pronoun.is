@@ -9,7 +9,7 @@ That's pretty unwieldy! Fortunately you can also give it only the
 first pronoun or two: https://pronoun.is/she/her or https://pronoun.is/they
 
 Automatically filling in the rest from only one or two forms only
-works for pronouns in the [database](resources/pronouns.tab). If the
+works for pronouns in the [database][pronoun-database]. If the
 pronouns you or a friend uses aren't supported, please let us know and
 we'll add them. Alternatively you could add them yourself and submit a
 pull request (see the next section for details)
@@ -18,8 +18,7 @@ pull request (see the next section for details)
 
 ### The database
 
-The pronouns "database" is a tab-delimited file with fields and
-example values as follows:
+The pronouns "database" is a tab-delimited file located in [resources/pronouns.tab][pronoun-database] with fields and example values as follows:
 
 subject|object|possessive-determiner|possessive-pronoun|reflexive
 -------|------|---------------------|------------------|---------
@@ -30,10 +29,12 @@ tab characters in that file (a thing your editor might normally be
 configured not to do!) In Emacs, you can input real tabs by doing
 Ctrl+q <tab>
 
+[pronoun-database]: resources/pronouns.tab
+
 ### Running the app in a dev environment
 
-You can launch the app on your own computer by running the following
-command:
+First, install [leiningen](https://leiningen.org/). Then you can launch the app
+on your own computer by running the following command:
 
 ```
 $ lein ring server
