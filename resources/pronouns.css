@@ -1,6 +1,8 @@
 body {
-    font-family: Futura, sans-serif;
-    background-color: #F6CEFC;
+    background-color: #ffffff;
+    margin: 0;
+    font-family: "Roboto", "Helvetica Neue", "Verdana", "Arial", sans-serif;
+    font-weight: 300;
 }
 
 footer {
@@ -8,23 +10,21 @@ footer {
 }
 
 .section {
-    margin: 8px;
-    padding: 4px 6px 4px 6px;
-    border: 4px solid #EEEEEE;
-    border-radius: 7px;
-}
-
-.examples {
+    max-width: 960px;
+    background-color: #efddef;
+    margin: 0 auto;
+    padding: 4px 20px;
+    border-bottom: 4px solid #ffffff;
 }
 
 .title {
+    margin-top: 4px;
 }
 
-.usage {
+a, a:visited {
+    color: #1f1f77;
 }
 
-.contact {
-}
-
-.table {
+h1 {
+    font-weight: 500;
 }
