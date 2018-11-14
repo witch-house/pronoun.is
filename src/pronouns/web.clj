@@ -50,6 +50,11 @@
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
+(defn wrap-gnu-natalie-nguyen [handler]
+  (fn [req]
+    (when-let [resp (handler req)]
+      (assoc-in resp [:headers "X-Clacks-Overhead"] "GNU Natalie Nguyen"))))
+
 (defn wrap-error-page [handler]
   (fn [req]
     (try (handler req)
@@ -66,6 +71,7 @@
       wrap-not-modified
       ;logger/wrap-with-logger
       wrap-error-page
+      wrap-gnu-natalie-nguyen
       trace/wrap-stacktrace
       params/wrap-params))
 
