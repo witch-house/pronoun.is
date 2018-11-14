@@ -19,8 +19,9 @@
 
 (defn print-and-return "for debugging" [x] (println x) x)
 
-(defn slurp-tabfile [path]
-  "read a tabfile from a filesystem <path> as a table"
+(defn slurp-tabfile
+  "Read a tabfile from a filesystem <path> as a table"
+  [path]
   (let [lines (s/split (slurp path) #"\n")]
     (map #(s/split % #"\t") lines)))
 
@@ -98,10 +99,11 @@
   [table]
   (map (partial shortest-unambiguous-path table) table))
 
-(defn vec-coerce [x]
+(defn vec-coerce
   "wrap a value <x> in a vector if it is not already in one. note that if
   <x> is already in a sequence for which vector? is false, this will add
   another layer of nesting."
+  [x]
   (if (vector? x) x [x]))
 
 (defn strip-markup [form]
