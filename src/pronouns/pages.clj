@@ -34,6 +34,8 @@
   [url text]
   [:a {:href url} text])
 
+;; FIXME morgan.astra <2018-11-14 Wed>
+;; use a div for this instead of a plain bold tag
 (defn wrap-pronoun
   [pronoun]
   [:b pronoun])
@@ -90,6 +92,8 @@
 (defn usage-block []
   [:div {:class "section usage"}
    [:p "Full usage: "
+    ;; FIXME morgan.astra <2018-11-14 Wed>
+    ;; This looks really ugly in the browser
        [:tt "https://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
        " displays examples of your pronouns."]
    [:p "This is a bit unwieldy. If we have a good guess we'll let you use"
