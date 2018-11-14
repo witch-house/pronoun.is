@@ -20,13 +20,13 @@
             [compojure.route :as route]
             [clojure.string :as s]
             [clojure.java.io :as io]
-            [ring.middleware.logger :as logger]
+            [ring.adapter.jetty :as jetty]
+            ;[ring.middleware.logger :as logger]
             [ring.middleware.stacktrace :as trace]
             [ring.middleware.params :as params]
             [ring.middleware.resource :refer [wrap-resource]]
             [ring.middleware.content-type :refer [wrap-content-type]]
             [ring.middleware.not-modified :refer [wrap-not-modified]]
-            [ring.adapter.jetty :as jetty]
             [environ.core :refer [env]]
             [pronouns.util :as u]
             [pronouns.pages :as pages]))
@@ -64,7 +64,7 @@
       (wrap-resource "images")
       wrap-content-type
       wrap-not-modified
-      logger/wrap-with-logger
+      ;logger/wrap-with-logger
       wrap-error-page
       trace/wrap-stacktrace
       params/wrap-params))

@@ -2,18 +2,16 @@
   :description "Pronoun.is is a website for personal pronoun usage examples"
   :url "http://pronoun.is"
   :license "GNU Affero General Public License 3.0"
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [compojure "1.1.8"]
-                 [ring/ring-jetty-adapter "1.2.2"]
-                 [ring.middleware.logger "0.5.0"]
-                 [ring/ring-devel "1.2.2"]
-                 [environ "0.5.0"]
+  :dependencies [[org.clojure/clojure "1.9.0"]
+                 [compojure "1.6.1"]
+                 [ring/ring-jetty-adapter "1.7.1"]
+                 [ring/ring-devel "1.7.1"]
+                 [environ "1.1.0"]
                  [hiccup "1.0.5"]]
   :min-lein-version "2.0.0"
   :plugins [[environ/environ.lein "0.2.1"]
             [lein-ring "0.9.7"]]
   :hooks [environ.leiningen.hooks]
   :uberjar-name "pronouns-standalone.jar"
-  :profiles {:production {:env {:production true}}
-             :dev {:dependencies [[midje "1.6.3"]]}}
+  :profiles {:production {:env {:production true}}}
   :ring {:handler pronouns.web/app})
