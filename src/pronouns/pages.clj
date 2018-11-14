@@ -90,7 +90,7 @@
 (defn usage-block []
   [:div {:class "section usage"}
    [:p "Full usage: "
-       [:tt "http://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
+       [:tt "https://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
        " displays examples of your pronouns."]
    [:p "This is a bit unwieldy. If we have a good guess we'll let you use"
        " just the first one or two."]])
@@ -102,7 +102,7 @@
      [:p "Written by "
          (twitter-name "morganastra")
          ", whose "
-         (href "http://pronoun.is/ze/zir?or=she" "pronoun.is/ze/zir?or=she")]
+         (href "https://pronoun.is/she" "pronoun.is/she")]
      [:p "pronoun.is is free software under the "
          (href "https://www.gnu.org/licenses/agpl.html" "AGPLv3")
          "! visit the project on "
