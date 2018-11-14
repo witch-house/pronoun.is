@@ -17,8 +17,6 @@
 (ns pronouns.util
   (:require [clojure.string :as s]))
 
-(defn print-and-return "for debugging" [x] (println x) x)
-
 (defn slurp-tabfile
   "Read a tabfile from a filesystem <path> as a table"
   [path]
