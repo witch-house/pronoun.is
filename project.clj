@@ -5,7 +5,6 @@
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [compojure "1.6.1"]
                  [ring/ring-jetty-adapter "1.7.1"]
-                 [ring/ring-devel "1.7.1"]
                  [environ "1.1.0"]
                  [hiccup "1.0.5"]]
   :min-lein-version "2.0.0"
@@ -13,5 +12,8 @@
             [lein-ring "0.9.7"]]
   :hooks [environ.leiningen.hooks]
   :uberjar-name "pronouns-standalone.jar"
-  :profiles {:production {:env {:production true}}}
+  ;; FIXME morgan.astra <2018-11-14 Wed>
+  ;; Is this production profile used for anything?
+  :profiles {:production {:env {:production true}}
+             :dev {:dependencies [[ring/ring-devel "1.7.1"]]}}
   :ring {:handler pronouns.web/app})
