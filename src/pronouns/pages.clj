@@ -167,7 +167,7 @@
       [:body
        (header-block title)
       [:div {:class "section examples"}
-       [:p [:h2 (str "We couldn't find those pronouns in our database."
+       [:p [:h2 (str "We couldn't find those pronouns in our database. "
                      "If you think we should have them, please reach out!")]]]
        (footer-block)]])))
 
