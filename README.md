@@ -27,7 +27,7 @@ they   | them | their               | theirs           | themselves
 If you edit it with a text editor, make sure your editor inputs real
 tab characters in that file (a thing your editor might normally be
 configured not to do!) In Emacs, you can input real tabs by doing
-Ctrl+q <tab>
+Ctrl+q <tab>. In Vi you can use Ctrl+v <tab>.
 
 [pronoun-database]: resources/pronouns.tab
 
