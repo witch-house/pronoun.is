@@ -50,7 +50,7 @@ It is possible to use these example sentences to demonstrate the usage of words 
 
 
 ## License
-Copyright © 2014-2017 Morgan Astra <m@morganastra.me>
+Copyright © 2014-2018 Morgan Astra <m@morganastra.me>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as

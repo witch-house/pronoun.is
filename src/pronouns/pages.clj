@@ -1,5 +1,5 @@
 ;; pronoun.is - a website for pronoun usage examples
-;; Copyright (C) 2014 - 2017 Morgan Astra
+;; Copyright (C) 2014 - 2018 Morgan Astra
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU Affero General Public License as
@@ -71,7 +71,7 @@
 
 (defn header-block [header]
   [:div {:class "section title"}
-   (href "/" [:h1 (e/image "/purple-flag64.png" "flag logo") header])])
+   (href "/" [:h1 header])])
 
 (defn examples-block
   [subject object possessive-determiner possessive-pronoun reflexive]
