@@ -156,7 +156,7 @@
     [:li (href link label)]))
 
 (defn front []
-  (let [abbreviations (take 5 (u/abbreviate *pronouns-table*))
+  (let [abbreviations (take 6 (u/abbreviate *pronouns-table*))
         links (map make-link abbreviations)
         title "Pronoun Island"]
     (html
