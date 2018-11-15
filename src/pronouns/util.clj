@@ -1,5 +1,5 @@
 ;; pronoun.is - a website for pronoun usage examples
-;; Copyright (C) 2014 - 2017 Morgan Astra
+;; Copyright (C) 2014 - 2018 Morgan Astra
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU Affero General Public License as
@@ -12,15 +12,14 @@
 ;; GNU Affero General Public License for more details.
 
 ;; You should have received a copy of the GNU Affero General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>
 
 (ns pronouns.util
   (:require [clojure.string :as s]))
 
-(defn print-and-return "for debugging" [x] (println x) x)
-
-(defn slurp-tabfile [path]
-  "read a tabfile from a filesystem <path> as a table"
+(defn slurp-tabfile
+  "Read a tabfile from a filesystem <path> as a table"
+  [path]
   (let [lines (s/split (slurp path) #"\n")]
     (map #(s/split % #"\t") lines)))
 
@@ -98,8 +97,13 @@
   [table]
   (map (partial shortest-unambiguous-path table) table))
 
-(defn vec-coerce [x]
+(defn vec-coerce
   "wrap a value <x> in a vector if it is not already in one. note that if
   <x> is already in a sequence for which vector? is false, this will add
   another layer of nesting."
+  [x]
   (if (vector? x) x [x]))
+
+(defn strip-markup [form]
+  (s/join " " (filter string? (flatten form))))
+

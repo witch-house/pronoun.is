@@ -1,5 +1,5 @@
 ;; pronoun.is - a website for pronoun usage examples
-;; Copyright (C) 2014 - 2017 Morgan Astra
+;; Copyright (C) 2014 - 2018 Morgan Astra
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU Affero General Public License as
@@ -12,13 +12,14 @@
 ;; GNU Affero General Public License for more details.
 
 ;; You should have received a copy of the GNU Affero General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>
 
 (ns pronouns.pages
   (:require [clojure.string :as s]
             [pronouns.config :refer [*pronouns-table*]]
             [pronouns.util :as u]
             [hiccup.core :refer :all]
+            [hiccup.element :as e]
             [hiccup.util :refer [escape-html]]))
 
 (defn prose-comma-list
@@ -33,6 +34,8 @@
   [url text]
   [:a {:href url} text])
 
+;; FIXME morgan.astra <2018-11-14 Wed>
+;; use a div for this instead of a plain bold tag
 (defn wrap-pronoun
   [pronoun]
   [:b pronoun])
@@ -89,7 +92,9 @@
 (defn usage-block []
   [:div {:class "section usage"}
    [:p "Full usage: "
-       [:tt "http://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
+    ;; FIXME morgan.astra <2018-11-14 Wed>
+    ;; This looks really ugly in the browser
+       [:tt "https://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
        " displays examples of your pronouns."]
    [:p "This is a bit unwieldy. If we have a good guess we'll let you use"
        " just the first one or two."]])
@@ -101,7 +106,7 @@
      [:p "Written by "
          (twitter-name "morganastra")
          ", whose "
-         (href "http://pronoun.is/ze/zir?or=she" "pronoun.is/ze/zir?or=she")]
+         (href "https://pronoun.is/she" "pronoun.is/she")]
      [:p "pronoun.is is free software under the "
          (href "https://www.gnu.org/licenses/agpl.html" "AGPLv3")
          "! visit the project on "
@@ -114,16 +119,21 @@
 (defn format-pronoun-examples
   [pronoun-declensions]
   (let [sub-objs (map #(s/join "/" (take 2 %)) pronoun-declensions)
-        title (str "Pronoun Island: " (prose-comma-list sub-objs) " examples")]
+        title (str "Pronoun Island: " (prose-comma-list sub-objs) " examples")
+        examples (map #(apply examples-block %) pronoun-declensions)]
     (html
      [:html
       [:head
        [:title title]
        [:meta {:name "viewport" :content "width=device-width"}]
+       [:meta {:name "description" :content (u/strip-markup examples)}]
+       [:meta {:name "twitter:card" :content "summary"}]
+       [:meta {:name "twitter:title" :content title}]
+       [:meta {:name "twitter:description" :content (u/strip-markup examples)}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
        (header-block title)
-       (map #(apply examples-block %) pronoun-declensions)
+       examples
        (footer-block)]])))
 
 (defn lookup-pronouns [pronouns-string]
@@ -139,6 +149,25 @@
     [:li (href link label)]))
 
 (defn front []
+  (let [abbreviations (take 6 (u/abbreviate *pronouns-table*))
+        links (map make-link abbreviations)
+        title "Pronoun Island"]
+    (html
+     [:html
+      [:head
+       [:title title]
+       [:meta {:name "viewport" :content "width=device-width"}]
+       [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+      [:body
+       (header-block title)
+       [:div {:class "section table"}
+        [:p "pronoun.is is a website for personal pronoun usage examples"]
+        [:p "here are some pronouns the site knows about:"]
+        [:ul links]
+        [:p [:small (href "all-pronouns" "see all pronouns in the database")]]]]
+      (footer-block)])))
+
+(defn all-pronouns []
   (let [abbreviations (u/abbreviate *pronouns-table*)
         links (map make-link abbreviations)
         title "Pronoun Island"]
@@ -151,9 +180,8 @@
       [:body
        (header-block title)
        [:div {:class "section table"}
-       [:p "pronoun.is is a website for personal pronoun usage examples"]
-       [:p "here are some pronouns the site knows about:"]
-       [:ul links]]]
+        [:p "All pronouns the site knows about:"]
+        [:ul links]]]
       (footer-block)])))
 
 (defn not-found []
