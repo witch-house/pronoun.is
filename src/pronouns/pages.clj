@@ -168,9 +168,27 @@
       [:body
        (header-block title)
        [:div {:class "section table"}
-       [:p "pronoun.is is a website for personal pronoun usage examples"]
-       [:p "here are some pronouns the site knows about:"]
-       [:ul links]]]
+        [:p "pronoun.is is a website for personal pronoun usage examples"]
+        [:p "here are some pronouns the site knows about:"]
+        [:ul links]
+        [:p [:small (href "all-pronouns" "see all pronouns in the database")]]]]
+      (footer-block)])))
+
+(defn all-pronouns []
+  (let [abbreviations (u/abbreviate *pronouns-table*)
+        links (map make-link abbreviations)
+        title "Pronoun Island"]
+    (html
+     [:html
+      [:head
+       [:title title]
+       [:meta {:name "viewport" :content "width=device-width"}]
+       [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+      [:body
+       (header-block title)
+       [:div {:class "section table"}
+        [:p "All pronouns the site knows about:"]
+        [:ul links]]]
       (footer-block)])))
 
 (defn not-found []

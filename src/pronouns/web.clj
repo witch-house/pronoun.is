@@ -39,6 +39,12 @@
         :headers {"Content-Type" "text/html"}
         :body (pages/front)})
 
+  (GET "/all-pronouns" []
+       {:status 200
+        :headers {"Content-Type" "text/html"}
+        :body (pages/all-pronouns)})
+
+
   (GET "/pronouns.css" []
      {:status 200
      :headers {"Content-Type" "text/css"}
