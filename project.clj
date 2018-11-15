@@ -5,6 +5,7 @@
   :dependencies [[compojure "1.6.1"]
                  [environ "1.1.0"]
                  [hiccup "1.0.5"]
+                 [lambdaisland/ring.middleware.logger "0.5.1"]
                  [org.clojure/clojure "1.9.0"]
                  [ring/ring-devel "1.7.1"]
                  [ring/ring-jetty-adapter "1.7.1"]]

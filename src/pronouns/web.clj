@@ -21,9 +21,7 @@
             [clojure.string :as s]
             [clojure.java.io :as io]
             [ring.adapter.jetty :as jetty]
-            ;; FIXME morgan.astra <2018-11-14 Wed>
-            ;; make this logger work or use another one
-            ;; [ring.middleware.logger :as logger]
+            [ring.middleware.logger :as logger]
             [ring.middleware.stacktrace :as trace]
             [ring.middleware.params :as params]
             [ring.middleware.resource :refer [wrap-resource]]
@@ -79,9 +77,7 @@
       ;; (wrap-resource "images")
       wrap-content-type
       wrap-not-modified
-      ;; FIXME morgan.astra <2018-11-14 Wed>
-      ;; make this logger work or use another one
-      ;logger/wrap-with-logger
+      logger/wrap-with-logger
       wrap-error-page
       wrap-gnu-natalie-nguyen
       trace/wrap-stacktrace
