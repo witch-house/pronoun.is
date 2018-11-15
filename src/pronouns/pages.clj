@@ -116,13 +116,6 @@
 (defn footer-block []
   [:footer (usage-block) (contact-block)])
 
-;; <meta name="twitter:card" content="summary" />
-;; <meta name="twitter:site" content="@flickr" />
-;; <meta name="twitter:title" content="Small Island Developing States Photo Submission" />
-;; <meta name="twitter:description" content="View the album on Flickr." />
-;; <meta name="twitter:image" content="https://farm6.staticflickr.com/5510/14338202952_93595258ff_z.jpg" />
-;; not all of these are required!
-
 (defn format-pronoun-examples
   [pronoun-declensions]
   (let [sub-objs (map #(s/join "/" (take 2 %)) pronoun-declensions)
