@@ -24,12 +24,49 @@ subject|object|possessive-determiner|possessive-pronoun|reflexive
 -------|------|---------------------|------------------|---------
 they   | them | their               | theirs           | themselves
 
-If you edit it with a text editor, make sure your editor inputs real
-tab characters in that file (a thing your editor might normally be
-configured not to do!) In Emacs, you can input real tabs by doing
-Ctrl+q <tab>. In Vi you can use Ctrl+v <tab>.
+The top 6 pronouns are displayed on the front page. Please don't edit these
+without talking to me, they've been hand-curated based on usage frequency.
+Below the top 6, the remaining pronouns are sorted in alphabetical order by
+subject and then in roughly frequency order for sets that have the same subject
+pronoun. If you're adding a set that shares the same object pronoun as other
+set(s) already in the database, please insert it immediately below those ones.
+
+If you edit the database with a text editor, make sure your editor inputs real
+tab characters in that file (a thing your editor might normally be configured 
+not to do!) In Emacs, you can input real tabs by doing Ctrl+q <tab>. 
+In Vi you can use Ctrl+v <tab>.
 
 [pronoun-database]: resources/pronouns.tab
+
+### The code
+
+The top-level logic for running the server lives in [`pronouns.web`](src/pronouns/web.clj)
+
+Page rendering markup is in [`pronouns.pages`](src/pronouns/pages.clj), it uses
+[hiccup](https://github.com/weavejester/hiccup) for rendering HTML from Clojure
+datastructures.
+
+[`pronouns.config`](src/pronouns/config.clj) is currently used only for loading
+the [pronouns database][pronoun-database]
+
+The unfortunately-named [`pronouns.util`](src/pronouns/util.clj) includes both
+actual utility functions used elsewhere in the code, but also what you might
+think of as "controllers" if you're used to the MVC model of web design - code
+that does the computations necessary for the `pages` (analogous to "views")
+to render themselves. We should probably break up `util` into (at least) two
+namespaces and be a little more deliberate about where everything currently
+in that namespace should live!
+
+### Tests
+
+Run the suite with `lein test`
+
+Test coverage is not great but getting better. Please run the tests and
+confirm that everything passes before merging changes, and please include
+tests with any new logic you introduce in a PR!
+
+Goals for the future include setting up automated CI to run the tests for
+us on every PR branch
 
 ### Running the app in a dev environment
 
