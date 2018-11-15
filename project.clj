@@ -15,5 +15,5 @@
   ;; FIXME morgan.astra <2018-11-14 Wed>
   ;; Is this production profile used for anything?
   :profiles {:production {:env {:production true}}
-             :dev {:dependencies [[ring/ring-devel "1.7.1"]]}}
+             :test {:dependencies [[ring/ring-devel "1.7.1"]]}}
   :ring {:handler pronouns.web/app})

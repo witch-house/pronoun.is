@@ -1,9 +1,8 @@
 (ns pronouns.util-test
   (:require [pronouns.util :as util]
-            [clojure.test :refer [deftest testing is]]))
+            [clojure.test :refer [deftest testing is are]]))
 
-(def test-table [
-                 ["ze" "hir" "hir" "hirs" "hirself"]
+(def test-table [["ze" "hir" "hir" "hirs" "hirself"]
                  ["ze" "zir" "zir" "zirs" "zirself"]
                  ["she" "her" "her" "hers" "herself"]
                  ["he" "him" "his" "his" "himself"]
@@ -12,19 +11,19 @@
 
 (deftest table-filters
   (testing "table-front-filter"
-    (are [arg return] (= (table-front-filter arg test-table) return)
+    (are [arg return] (= (util/table-front-filter arg test-table) return)
       ["she"] [["she" "her" "her" "hers" "herself"]]
       ["ze"] [["ze" "hir" "hir" "hirs" "hirself"]
               ["ze" "zir" "zir" "zirs" "zirself"]]
       ["ze" "zir"] [["ze" "zir" "zir" "zirs" "zirself"]]))
 
   (testing "table-end-filter"
-    (are [arg return] (= (table-end-filter arg test-table) return)
+    (are [arg return] (= (util/table-end-filter arg test-table) return)
       ["themself"] [["they" "them" "their" "theirs" "themself"]]
-      ["themselves" [["they" "them" "their" "theirs" "themselves"]]])))
+      ["themselves"] [["they" "them" "their" "theirs" "themselves"]])))
 
 (deftest table-lookup
-  (are [arg return] (= (table-lookup arg test-table) return)
+  (are [arg return] (= (util/table-lookup arg test-table) return)
     ["she"] ["she" "her" "her" "hers" "herself"]
     ["ze"] ["ze" "hir" "hir" "hirs" "hirself"]
     ["ze" "zir"] ["ze" "zir" "zir" "zirs" "zirself"]
