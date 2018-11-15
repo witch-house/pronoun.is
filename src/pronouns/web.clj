@@ -1,5 +1,5 @@
 ;; pronoun.is - a website for pronoun usage examples
-;; Copyright (C) 2014 - 2017 Morgan Astra
+;; Copyright (C) 2014 - 2018 Morgan Astra
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU Affero General Public License as
@@ -12,7 +12,7 @@
 ;; GNU Affero General Public License for more details.
 
 ;; You should have received a copy of the GNU Affero General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>
 
 (ns pronouns.web
   (:require [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
@@ -20,13 +20,13 @@
             [compojure.route :as route]
             [clojure.string :as s]
             [clojure.java.io :as io]
+            [ring.adapter.jetty :as jetty]
             [ring.middleware.logger :as logger]
             [ring.middleware.stacktrace :as trace]
             [ring.middleware.params :as params]
             [ring.middleware.resource :refer [wrap-resource]]
             [ring.middleware.content-type :refer [wrap-content-type]]
             [ring.middleware.not-modified :refer [wrap-not-modified]]
-            [ring.adapter.jetty :as jetty]
             [environ.core :refer [env]]
             [pronouns.util :as u]
             [pronouns.pages :as pages]))
@@ -36,6 +36,12 @@
        {:status 200
         :headers {"Content-Type" "text/html"}
         :body (pages/front)})
+
+  (GET "/all-pronouns" []
+       {:status 200
+        :headers {"Content-Type" "text/html"}
+        :body (pages/all-pronouns)})
+
 
   (GET "/pronouns.css" []
      {:status 200
@@ -50,6 +56,11 @@
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
+(defn wrap-gnu-natalie-nguyen [handler]
+  (fn [req]
+    (when-let [resp (handler req)]
+      (assoc-in resp [:headers "X-Clacks-Overhead"] "GNU Natalie Nguyen"))))
+
 (defn wrap-error-page [handler]
   (fn [req]
     (try (handler req)
@@ -61,11 +72,14 @@
 
 (def app
   (-> app-routes
-      (wrap-resource "images")
+      ;; FIXME morgan.astra <2018-11-14 Wed>
+      ;; use this resource or delete it
+      ;; (wrap-resource "images")
       wrap-content-type
       wrap-not-modified
       logger/wrap-with-logger
       wrap-error-page
+      wrap-gnu-natalie-nguyen
       trace/wrap-stacktrace
       params/wrap-params))
 

@@ -1,5 +1,5 @@
 ;; pronoun.is - a website for pronoun usage examples
-;; Copyright (C) 2014 - 2017 Morgan Astra
+;; Copyright (C) 2014 - 2018 Morgan Astra
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU Affero General Public License as
@@ -12,7 +12,7 @@
 ;; GNU Affero General Public License for more details.
 
 ;; You should have received a copy of the GNU Affero General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>
 
 (ns pronouns.pages
   (:require [clojure.string :as s]
@@ -34,6 +34,8 @@
   [url text]
   [:a {:href url} text])
 
+;; FIXME morgan.astra <2018-11-14 Wed>
+;; use a div for this instead of a plain bold tag
 (defn wrap-pronoun
   [pronoun]
   [:b pronoun])
@@ -71,7 +73,7 @@
 
 (defn header-block [header]
   [:div {:class "section title"}
-   (href "/" [:h1 (e/image "/purple-flag64.png" "flag logo") header])])
+   (href "/" [:h1 header])])
 
 (defn examples-block
   [subject object possessive-determiner possessive-pronoun reflexive]
@@ -90,7 +92,9 @@
 (defn usage-block []
   [:div {:class "section usage"}
    [:p "Full usage: "
-       [:tt "http://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
+    ;; FIXME morgan.astra <2018-11-14 Wed>
+    ;; This looks really ugly in the browser
+       [:tt "https://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
        " displays examples of your pronouns."]
    [:p "This is a bit unwieldy. If we have a good guess we'll let you use"
        " just the first one or two."]])
@@ -102,11 +106,7 @@
      [:p "Written by "
          (twitter-name "morganastra")
          ", whose "
-         (href "http://pronoun.is/ze/zir?or=she" "pronoun.is/ze/zir?or=she")]
-     [:p "Want to support this and similar websites? "
-         "Join us on "
-         (href "https://www.patreon.com/user?u=5238484" "Patreon")
-         "!"]
+         (href "https://pronoun.is/she" "pronoun.is/she")]
      [:p "pronoun.is is free software under the "
          (href "https://www.gnu.org/licenses/agpl.html" "AGPLv3")
          "! visit the project on "
@@ -115,13 +115,6 @@
 
 (defn footer-block []
   [:footer (usage-block) (contact-block)])
-
-;; <meta name="twitter:card" content="summary" />
-;; <meta name="twitter:site" content="@flickr" />
-;; <meta name="twitter:title" content="Small Island Developing States Photo Submission" />
-;; <meta name="twitter:description" content="View the album on Flickr." />
-;; <meta name="twitter:image" content="https://farm6.staticflickr.com/5510/14338202952_93595258ff_z.jpg" />
-;; not all of these are required!
 
 (defn format-pronoun-examples
   [pronoun-declensions]
@@ -156,6 +149,25 @@
     [:li (href link label)]))
 
 (defn front []
+  (let [abbreviations (take 6 (u/abbreviate *pronouns-table*))
+        links (map make-link abbreviations)
+        title "Pronoun Island"]
+    (html
+     [:html
+      [:head
+       [:title title]
+       [:meta {:name "viewport" :content "width=device-width"}]
+       [:link {:rel "stylesheet" :href "/pronouns.css"}]]
+      [:body
+       (header-block title)
+       [:div {:class "section table"}
+        [:p "pronoun.is is a website for personal pronoun usage examples"]
+        [:p "here are some pronouns the site knows about:"]
+        [:ul links]
+        [:p [:small (href "all-pronouns" "see all pronouns in the database")]]]]
+      (footer-block)])))
+
+(defn all-pronouns []
   (let [abbreviations (u/abbreviate *pronouns-table*)
         links (map make-link abbreviations)
         title "Pronoun Island"]
@@ -168,9 +180,8 @@
       [:body
        (header-block title)
        [:div {:class "section table"}
-       [:p "pronoun.is is a website for personal pronoun usage examples"]
-       [:p "here are some pronouns the site knows about:"]
-       [:ul links]]]
+        [:p "All pronouns the site knows about:"]
+        [:ul links]]]
       (footer-block)])))
 
 (defn not-found []
@@ -184,7 +195,7 @@
       [:body
        (header-block title)
       [:div {:class "section examples"}
-       [:p [:h2 (str "We couldn't find those pronouns in our database."
+       [:p [:h2 (str "We couldn't find those pronouns in our database. "
                      "If you think we should have them, please reach out!")]]]
        (footer-block)]])))
 
