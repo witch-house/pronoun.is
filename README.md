@@ -77,7 +77,20 @@ on your own computer by running the following command:
 $ lein ring server
 ```
 
-This will launch a server running the app and open your default web browser to the index page. The server will automatically reload files as you edit them.
+This will launch a server running the app and open your default web browser to 
+the index page. The server will automatically reload files as you edit them -
+with the unfortunate exception of `pronouns.tab`, which is loaded as a resource
+and requires an app restart to reload.
+
+### The git repo
+
+For most of this project's history we had separate `master` and `develop`
+branches but that's proven to be more trouble than it's worth. Going
+forward we'll be doing all development in feature branches off of `master`,
+and PRs should be issued against `master`.
+
+Please follow [this guide](https://chris.beams.io/posts/git-commit/) 
+for writing good commit messages :)
 
 ## Philosophy on pronoun inclusion
 
