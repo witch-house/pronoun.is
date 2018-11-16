@@ -1,9 +1,11 @@
-# **[pronoun.is](https://pronoun.is) is a website for personal pronoun usage examples**
+# pronoun.is
+
+[pronoun.is](https://pronoun.is) is a website for personal pronoun usage examples
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
-- [**[pronoun.is](https://pronoun.is) is a website for personal pronoun usage examples**](#pronounishttpspronounis-is-a-website-for-personal-pronoun-usage-examples)
+- [pronoun.is](#pronounis)
     - [For users](#for-users)
     - [For developers](#for-developers)
         - [The database](#the-database)
