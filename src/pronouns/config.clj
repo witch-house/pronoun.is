@@ -17,5 +17,13 @@
 (ns pronouns.config
   (:require [pronouns.util :as u]))
 
-(def ^:dynamic *pronouns-table*
-  (u/slurp-tabfile "resources/pronouns.tab"))
+(def pronouns-table
+  (atom (u/slurp-tabfile "resources/pronouns.tab")))
+
+(defn replace-value [old new] new)
+
+(defn reload-table! []
+  (swap! pronouns-table
+         replace-value
+         (u/slurp-tabfile "resources/pronouns.tab")))
+
