@@ -202,7 +202,7 @@
 (defn pronouns [params]
   (let [path (params :*)
         alts (or (params "or") [])
-        pronouns (concat [path] (u/vec-coerce alts))
+        pronouns (concat (s/split path #"/or/") (u/vec-coerce alts))
         pronoun-declensions (filter some? (map #(lookup-pronouns
                                                  (escape-html %))
                                                pronouns))]
