@@ -1,4 +1,26 @@
-**[pronoun.is](https://pronoun.is) is a website for personal pronoun usage examples**
+# **[pronoun.is](https://pronoun.is) is a website for personal pronoun usage examples**
+
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [**[pronoun.is](https://pronoun.is) is a website for personal pronoun usage examples**](#pronounishttpspronounis-is-a-website-for-personal-pronoun-usage-examples)
+    - [For users](#for-users)
+    - [For developers](#for-developers)
+        - [The database](#the-database)
+        - [The code](#the-code)
+        - [Tests](#tests)
+        - [Running the app in a dev environment](#running-the-app-in-a-dev-environment)
+        - [The git repo](#the-git-repo)
+    - [Philosophy on pronoun inclusion](#philosophy-on-pronoun-inclusion)
+    - [FAQ](#faq)
+        - [Can we translate pronoun.is into another language?](#can-we-translate-pronounis-into-another-language)
+        - [Can we change the example sentences?](#can-we-change-the-example-sentences)
+        - [Can we add pronunciation guides?](#can-we-add-pronunciation-guides)
+        - [Can we add pluralization support (i.e. themself vs themselves)](#can-we-add-pluralization-support-ie-themself-vs-themselves)
+    - [License](#license)
+
+<!-- markdown-toc end -->
+
 
 ## For users
 
@@ -98,6 +120,43 @@ Pronoun.is aims foremost and exclusively to be a useful resource for people to c
 
 It is possible to use these example sentences to demonstrate the usage of words that are not personal pronouns, or even cleverly insert an [entire story](https://pronoun.is/she/or%20they,%20those%20ships%20who%20were%20docked%20and%20still%20equipped%20with%20ancillaries,%20arranged%20to%20share%20the%20duty%20of%20monitoring%20our%20guest%20as%20it%20fit%20into%20their%20routines;%20that%20was%20the%20agreement,%20despite%20it%20being%20less%20convenient%20for%20me%20to%20participate%20at%20all,%20on%20the%20grounds%20that%20certain%20visitors%20might%20prefer%20a%20constant%20individual%20companion%20to%20what%20might%20seem,%20depending%20on%20their%20past%20experiences,%20to%20be%20undue%20attention%20from%20every%20soldier%20they%20passed.%20As%20usual,%20then,%20I%20took%20the%20first%20shift/the%20one%20possession%20of%20hers%20that%20Station%20Security%20hadn't%20confiscated,%20a/knowingly%20left%20with%20her.%20What%20a%20Presger%20frisbee%20might%20do%20or%20even%20look%20like%20I%20couldn't%20say.%20She%20hadn't%20seemed%20the%20sort%20to%20have%20alien%20technology,%20but,%20then%20again,%20neither%20had%20I/another%20unremarkable%20stranger,%20quite%20a%20ways%20down%20the%20concourse,%20who%20caught%20it%20with%20a%20degree%20of%20coordination%20that%20most%20would%20have%20overlooked.%20It%20did%20not%20escape%20my%20notice,%20however.%20"Cousin,"%20I%20said,%20enough%20to%20convey%20-%20unless%20our%20visitor%20were%20quite%20ignorant,%20but,%20of%20course,%20at%20this%20point%20I%20was%20certain%20that%20she%20couldn't%20be%20-%20both%20that%20I%20knew%20what%20she%20was%20not%20and%20that%20I%20was%20giving%20her%20the%20benefit%20of%20the%20doubt%20as%20to%20what,%20or%20who,%20she%20was)! However, as a policy we will not include such entries in the database.
 
+
+## FAQ
+
+### Can we translate pronoun.is into another language?
+
+I'd love to see pronoun.is-like apps exist in the world for other languages.
+I'll answer any questions you need answered if you decide to fork the code to
+create a similar site for a different language, and I'll also entertain the
+idea of patching the pronoun.is codebase to support rending pages in different
+languages as long as it doesn't make the code substantially more complicated.
+
+Even if we add I18N support to the code, other language versions of the site
+should have their own domains names (ideally with clever TLD puns like 
+pronoun.is has for english!)
+
+(This was discussed in issues #13, #14, and #66)
+
+### Can we change the example sentences?
+
+Probably not, sorry, I really like these ones! Maybe in the future we can add
+multiple different example sentence sets, though.
+
+### Can we add pronunciation guides?
+
+The short answer is, this is very hard! I'd love to have them if someone can
+come up with a design for how to do this that'd work (including the logistics
+of hosting media files and stuff).
+
+(This was discussed in issues #43 and #80)
+
+### Can we add pluralization support (i.e. themself vs themselves)
+
+All of the ways I can think of to do this are pretty ugly (both visually
+and in the code) so I'm pretty reluctant to do it. That's not an absolute no,
+but any proposed solution would need to keep the pronouns database simple
+enough that non-programmers can edit it and keep the URLs short, pretty, and
+readable to humans as a sentence if you take all the punctuation out.
 
 ## License
 Copyright © 2014-2018 Morgan Astra <m@morganastra.me>

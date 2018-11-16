@@ -4,6 +4,8 @@ about: Suggest an idea for this project
 labels: 
 
 ---
+*please search the issues for duplicates and read the [FAQ](/witch-house/pronoun.is/blob/master/README.md#FAQ) 
+before submitting a new issue :)*
 
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]

@@ -4,6 +4,9 @@ about: Create a report to help us improve
 labels: 
 
 ---
+*please search the issues for duplicates and read the [FAQ](/witch-house/pronoun.is/blob/master/README.md#FAQ) 
+before submitting a new issue :)*
+
 
 **Describe the bug**
 A clear and concise description of what the bug is.
