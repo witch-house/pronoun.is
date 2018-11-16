@@ -136,12 +136,19 @@
        examples
        (footer-block)]])))
 
-(defn lookup-pronouns [pronouns-string]
+(defn table-lookup* [pronouns-string]
   (let [inputs (s/split pronouns-string #"/")
         n (count inputs)]
     (if (>= n 5)
       (take 5 inputs)
       (u/table-lookup inputs @pronouns-table))))
+
+(defn lookup-pronouns
+  "Given a seq of pronoun sets, look up each set in the pronouns table"
+  [pronoun-sets]
+  (->> pronoun-sets
+       (map (comp table-lookup* escape-html))
+       (filter some?)))
 
 (defn make-link [path]
   (let [link (str "/" path)
@@ -184,8 +191,9 @@
         [:ul links]]]
       (footer-block)])))
 
-(defn not-found []
-  (let [title "Pronoun Island: English Language Examples"]
+(defn not-found [path]
+  (let [title "Pronoun Island: English Language Examples"
+        or-re #"/[oO][rR]/"]
     (html
      [:html
       [:head
@@ -194,18 +202,24 @@
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
        (header-block title)
-      [:div {:class "section examples"}
-       [:p [:h2 (str "We couldn't find those pronouns in our database. "
-                     "If you think we should have them, please reach out!")]]]
+       [:div {:class "section examples"}
+        [:p [:h2 "We couldn't find those pronouns in our database :("]
+         "If you think we should have them, please reach out!"]
+        (when (re-find or-re path)
+          (let [alts (s/split path or-re)
+                new-path (str "/" (s/join "/:OR/" alts))]
+            [:div
+             "Did you mean: "
+             (href new-path
+                   (str "pronoun.is"
+                        new-path))]))]
        (footer-block)]])))
 
 (defn pronouns [params]
   (let [path (params :*)
-        alts (or (params "or") [])
-        pronouns (concat (s/split path #"/or/") (u/vec-coerce alts))
-        pronoun-declensions (filter some? (map #(lookup-pronouns
-                                                 (escape-html %))
-                                               pronouns))]
-    (if (seq pronoun-declensions)
-      (format-pronoun-examples pronoun-declensions)
-      (not-found))))
+        param-alts (u/vec-coerce (or (params "or") []))
+        path-alts (s/split path #"/:[oO][rR]/")
+        pronouns (lookup-pronouns (concat path-alts param-alts))]
+    (if (seq pronouns)
+      (format-pronoun-examples pronouns)
+      (not-found path))))
