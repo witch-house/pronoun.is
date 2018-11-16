@@ -16,7 +16,7 @@
 
 (ns pronouns.pages
   (:require [clojure.string :as s]
-            [pronouns.config :refer [*pronouns-table*]]
+            [pronouns.config :refer [pronouns-table]]
             [pronouns.util :as u]
             [hiccup.core :refer :all]
             [hiccup.element :as e]
@@ -141,7 +141,7 @@
         n (count inputs)]
     (if (>= n 5)
       (take 5 inputs)
-      (u/table-lookup inputs *pronouns-table*))))
+      (u/table-lookup inputs @pronouns-table))))
 
 (defn make-link [path]
   (let [link (str "/" path)
@@ -149,7 +149,7 @@
     [:li (href link label)]))
 
 (defn front []
-  (let [abbreviations (take 6 (u/abbreviate *pronouns-table*))
+  (let [abbreviations (take 6 (u/abbreviate @pronouns-table))
         links (map make-link abbreviations)
         title "Pronoun Island"]
     (html
@@ -168,7 +168,7 @@
       (footer-block)])))
 
 (defn all-pronouns []
-  (let [abbreviations (u/abbreviate *pronouns-table*)
+  (let [abbreviations (u/abbreviate @pronouns-table)
         links (map make-link abbreviations)
         title "Pronoun Island"]
     (html
