@@ -15,7 +15,8 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>
 
 (ns pronouns.pages
-  (:require [clojure.string :as s]
+  (:require [clojure.data.json :as json]
+            [clojure.string :as s]
             [pronouns.config :refer [pronouns-table]]
             [pronouns.util :as u]
             [hiccup.core :refer :all]
@@ -215,11 +216,23 @@
                         new-path))]))]
        (footer-block)]])))
 
-(defn pronouns [params]
+(defn pronouns [params format-fn not-found-fn]
   (let [path (params :*)
         param-alts (u/vec-coerce (or (params "or") []))
         path-alts (s/split path #"/:[oO][rR]/")
         pronouns (lookup-pronouns (concat path-alts param-alts))]
     (if (seq pronouns)
-      (format-pronoun-examples pronouns)
-      (not-found path))))
+      (format-fn pronouns)
+      (not-found-fn path))))
+
+(defn format-pronoun-json [& pronouns]
+  (json/write-str pronouns))
+
+(defn not-found-json []
+  (json/write-str {:error "Not found"}))
+
+(defn pronouns-json [path pronouns-table]
+  (pronouns params format-pronoun-json not-found-json))
+
+(defn pronouns-html [path pronouns-table]
+  (pronouns params format-pronoun-examples not-found))
