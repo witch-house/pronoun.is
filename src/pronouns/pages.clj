@@ -225,14 +225,14 @@
       (format-fn pronouns)
       (not-found-fn path))))
 
-(defn format-pronoun-json [& pronouns]
+(defn format-pronoun-json [pronouns]
   (json/write-str pronouns))
 
 (defn not-found-json []
   (json/write-str {:error "Not found"}))
 
-(defn pronouns-json [path pronouns-table]
+(defn pronouns-json [params]
   (pronouns params format-pronoun-json not-found-json))
 
-(defn pronouns-html [path pronouns-table]
+(defn pronouns-html [params]
   (pronouns params format-pronoun-examples not-found))

@@ -51,10 +51,10 @@
        (if (= "application/json" (s/lower-case (get headers "accept")))
          {:status 200
           :headers {"Content-Type" "application/json"}
-          :body (pages/pronouns-json params pronouns-table)}
+          :body (pages/pronouns-json params)}
          {:status 200
           :headers {"Content-Type" "text/html"}
-          :body (pages/pronouns params pronouns-table)}))
+          :body (pages/pronouns params)}))
 
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
