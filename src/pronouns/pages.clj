@@ -226,10 +226,17 @@
       (not-found-fn path))))
 
 (defn format-pronoun-json [pronouns]
-  (json/write-str pronouns))
+  (json/write-str {:api-version "0.1"
+                   :status :ok
+                   :pronouns (first pronouns)
+                   :alt-pronouns (rest pronouns)}))
 
-(defn not-found-json []
-  (json/write-str {:error "Not found"}))
+(defn not-found-json [_]
+  (json/write-str {:api-version "0.1"
+                   :status :not-found
+                   :error "Not found"
+                   :pronouns []
+                   :alt-pronouns []}))
 
 (defn pronouns-json [params]
   (pronouns params format-pronoun-json not-found-json))
