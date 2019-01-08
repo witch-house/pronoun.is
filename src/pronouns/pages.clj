@@ -165,6 +165,9 @@
       [:head
        [:title title]
        [:meta {:name "description" :content description}]
+       [:meta {:name "twitter:card" :content "summary"}]
+       [:meta {:name "twitter:title" :content title}]
+       [:meta {:name "twitter:description" :content description}]
        [:meta {:name "viewport" :content "width=device-width"}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
