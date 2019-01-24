@@ -159,11 +159,16 @@
 (defn front []
   (let [abbreviations (take 6 (u/abbreviate @pronouns-table))
         links (map make-link abbreviations)
-        title "Pronoun Island"]
+        title "Pronoun Island"
+        description "Pronoun.is is a website for personal pronoun usage examples."]
     (html
      [:html
       [:head
        [:title title]
+       [:meta {:name "description" :content description}]
+       [:meta {:name "twitter:card" :content "summary"}]
+       [:meta {:name "twitter:title" :content title}]
+       [:meta {:name "twitter:description" :content description}]
        [:meta {:name "viewport" :content "width=device-width"}]
        [:meta {:charset "utf-8"}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
