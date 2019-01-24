@@ -111,7 +111,7 @@
          (href "https://www.gnu.org/licenses/agpl.html" "AGPLv3")
          "! visit the project on "
          (href "https://github.com/witch-house/pronoun.is" "github")]
-     [:p "<3"]]))
+     [:p "&lt;3"]]))
 
 (defn footer-block []
   [:footer (usage-block) (contact-block)])
@@ -126,6 +126,7 @@
       [:head
        [:title title]
        [:meta {:name "viewport" :content "width=device-width"}]
+       [:meta {:charset "utf-8"}]
        [:meta {:name "description" :content (u/strip-markup examples)}]
        [:meta {:name "twitter:card" :content "summary"}]
        [:meta {:name "twitter:title" :content title}]
@@ -169,6 +170,7 @@
        [:meta {:name "twitter:title" :content title}]
        [:meta {:name "twitter:description" :content description}]
        [:meta {:name "viewport" :content "width=device-width"}]
+       [:meta {:charset "utf-8"}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
        (header-block title)
@@ -188,6 +190,7 @@
       [:head
        [:title title]
        [:meta {:name "viewport" :content "width=device-width"}]
+       [:meta {:charset "utf-8"}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
        (header-block title)
@@ -204,6 +207,7 @@
       [:head
        [:title title]
        [:meta {:name "viewport" :content "width=device-width"}]
+       [:meta {:charset "utf-8"}]
        [:link {:rel "stylesheet" :href "/pronouns.css"}]]
       [:body
        (header-block title)
