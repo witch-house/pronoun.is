@@ -7,6 +7,7 @@
                  [hiccup "1.0.5"]
                  [lambdaisland/ring.middleware.logger "0.5.1"]
                  [org.clojure/clojure "1.9.0"]
+                 [org.clojure/data.json "0.2.6"]
                  [ring/ring-devel "1.7.1"]
                  [ring/ring-jetty-adapter "1.7.1"]]
   :min-lein-version "2.0.0"
