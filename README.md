@@ -137,7 +137,7 @@ Even if we add I18N support to the code, other language versions of the site
 should have their own domains names (ideally with clever TLD puns like 
 pronoun.is has for english!)
 
-(This was discussed in issues #13, #14, and #66)
+(This was discussed in issues [#13](https://github.com/witch-house/pronoun.is/issues/13), [#14](https://github.com/witch-house/pronoun.is/issues/14), and [#66](https://github.com/witch-house/pronoun.is/issues/66))
 
 ### Can we change the example sentences?
 
@@ -150,7 +150,7 @@ The short answer is, this is very hard! I'd love to have them if someone can
 come up with a design for how to do this that'd work (including the logistics
 of hosting media files and stuff).
 
-(This was discussed in issues #43 and #80)
+(This was discussed in issues [#43](https://github.com/witch-house/pronoun.is/issues/43) and [#80](https://github.com/witch-house/pronoun.is/issues/80))
 
 ### Can we add pluralization support (i.e. themself vs themselves)
 
