@@ -115,3 +115,7 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
 
+## Design
+Proposed by Geoffrey Crofte ([Twitter](https://twitter.com/geoffreycrofte) - [Website](https://geoffrey.crofte.fr/en/)) based on Morgan Astra's initial structure.
+CSS For The Win!
+
