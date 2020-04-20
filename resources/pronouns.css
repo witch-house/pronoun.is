@@ -121,6 +121,7 @@ li a:focus {
         bottom: 0;
         display: flex;
         width: 25%;
+        padding: 40px;
         align-items: center;
         background: linear-gradient(to top right, var(--grad1), var(--grad2));
         clip-path: polygon(0 0, 92% 0, 100% 32%, 85% 100%, 0 100%);
@@ -268,10 +269,6 @@ footer {
 
 footer p {
     margin: 0;
-}
-
-footer .section {
-    
 }
 
 footer .section.usage {
