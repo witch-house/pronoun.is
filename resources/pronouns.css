@@ -1,30 +1,297 @@
-body {
-    font-family: Futura, sans-serif;
-    background-color: #F6CEFC;
+:root {
+	--bg: #FFF;
+	--text: #57455B;
+	--darkpurple: #78368A;
+	--purple: #CA46A7;
+	--lightpurple: #F0D8EA;
+	--lighterpurple: #F5EBF3;
+	--grad1: #172368;
+	--grad2: #E249AF;
 }
 
-footer {
-    font-size: 0.8em;
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 1.7;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    color: var(--text);
+    background: var(--bg);
+}
+
+::selection {
+    color: var(--bg);
+    background: var(--darkpuple);
+}
+
+::-moz-selection {
+    color: var(--bg);
+    background: var(--darkpuple);
+}
+
+a,
+a:link {
+    color: var(--purple);
+}
+a:visited {
+    color: var(--darkpuple);
+}
+
+p {
+    max-width: 800px;
+    margin: 1.5em 0;
+}
+
+p:empty {
+    display: none;
+}
+
+h2 {
+    font-size: 2em;
+    font-weight: 500;
+    margin-bottom: 1.2em;
+}
+
+ul {
+    padding: 0;
+    
+}
+
+li {
+    position: relative;
+    margin: 0;
+    padding: 0 0 0 1.125em;
+    list-style: none;
+}
+
+li::before {
+    position: absolute;
+    top: 1.25em;
+    left: 0;
+    content: '';
+    width: 12px;
+    height: 3px;
+    transform: skewX(15deg);
+    background: linear-gradient(to top right, var(--grad1), var(--grad2));
+    opacity: .5;
+}
+
+li a {
+    display: inline-block;
+    padding: .4em .75em;
+    transition: all .275s;
+    clip-path: polygon(0 0, 92% 0, 100% 32%, 85% 100%, 0 100%);
+}
+
+li a:hover,
+li a:focus {
+    padding: .4em .95em;
+    background: var(--lightpurple);
 }
 
 .section {
-    margin: 8px;
-    padding: 4px 6px 4px 6px;
-    border: 4px solid #EEEEEE;
-    border-radius: 7px;
+    border: none;
+    margin: 0;
+    padding: 40px;
+    border-radius: 0;
 }
 
-.examples {
+.section.title {
+    padding: 80px 16px;
+    text-align: center;
+    background: linear-gradient(to right, var(--grad1), var(--grad2));
+    color: #FFF;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 65% 100%, 0 90%);
 }
 
-.title {
+@media (min-width: 980px) {
+    .section.title {
+        position: fixed;
+        left: 0;
+        top:0;
+        bottom: 0;
+        display: flex;
+        width: 25%;
+        align-items: center;
+        background: linear-gradient(to top right, var(--grad1), var(--grad2));
+        clip-path: polygon(0 0, 92% 0, 100% 32%, 85% 100%, 0 100%);
+    }
 }
 
-.usage {
+.section.title a {
+    position: relative;
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
 }
 
-.contact {
+.section.title a h1:before,
+.section.title a h1:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -.25em;
+    height: 4px;
+    background: rgba(255,255,255,.1);
 }
 
-.table {
+.section.title a h1:before {
+    right: 100%;
+    background: rgba(255,255,255,.5);
+    transition: all .275s;
+}
+
+.section.title a:hover h1:before,
+.section.title a:focus h1:before{
+    right: 0%;
+}
+
+.section.title a h1 {
+    position: relative;
+    color: inherit;
+    margin-top: -20vh;
+}
+
+/* Global left margin */
+.section.examples,
+.section.table {
+    justify-content: center;
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 980px) {
+    .section.examples,
+    .section.table {
+        margin-left: 25%;
+    }
+}
+
+
+/* Example Page */
+
+.section.examples p {
+    margin: .75em 0;
+}
+
+.section.examples .sentence {
+    
+}
+
+/* List of pronouns */
+.section.table p:first-child {
+    font-size: 1.6em;
+}
+
+@media (max-width: 780px){
+    .section.table p:first-child {
+        margin-top: 0;
+        margin-bottom: .5em;
+    }
+}
+
+/* The link to show all */
+.section.table ul + p small a {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 1.1em;
+    font-weight: 500;
+    color: #FFF;
+    text-decoration: none;
+    border-radius: 40px;
+    background: linear-gradient(to right, var(--grad1), var(--grad2));
+    background-size: 100%;
+    transition: all .275s;
+    box-shadow: 0 3px 3px rgba(61, 33, 116, .1),
+                0 1.5px 1.5px rgba(61, 33, 116, .08),
+                0 1px 1px rgba(61, 33, 116, .065);
+}
+
+.section.table ul + p small a:hover,
+.section.table ul + p small a:focus {
+    background-size: 200%;
+    background-position: 50%;
+    transform: translateY(-2px);
+    box-shadow: 0 15px 16px rgba(61, 33, 116, .16),
+                0 6.25px 6.6px rgba(61, 33, 116, .115),
+                0 3.3px 3.6px rgba(61, 33, 116, .095),
+                0 2px 2px rgba(61, 33, 116, .08),
+                0 1px 1px rgba(61, 33, 116, .065),
+                0 .4px .4px rgba(61, 33, 116, .045);
+}
+
+.section.table ul + p small a:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 3px rgba(61, 33, 116, .1),
+                0 1.5px 1.5px rgba(61, 33, 116, .08),
+                0 1px 1px rgba(61, 33, 116, .065);
+}
+
+.section.table ul + p small a:first-letter {
+    text-transform: uppercase;
+}
+
+
+footer {
+    margin-top: auto;
+    background: var(--lighterpurple);
+    font-size: 1em;
+}
+
+@media (min-width: 780px){
+    footer {
+        display: flex;
+        text-align: right;
+    }
+    
+    footer .section.contact {
+        display: inline-flex;
+    }
+}
+
+@media (min-width: 980px) {
+    footer {
+        padding-left: calc(22.5% + 40px);
+    }
+}
+
+footer p {
+    margin: 0;
+}
+
+footer .section {
+    
+}
+
+footer .section.usage {
+    flex: 64% 0 1;
+    text-align: left;
+}
+
+footer .section.contact {
+    flex: 36% 1 1;
+    flex-direction: column;
+    margin-left: auto;
+    justify-content: flex-end;
+    width: auto;
+    font-size: 0.875em;
+    text-align: right;
+    background:var(--lightpurple);
+    clip-path: polygon(2.5% 35%, 33% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+footer .section.contact p {
+    margin-left: auto;
+    width: auto;
 }

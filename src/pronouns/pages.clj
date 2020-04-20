@@ -106,7 +106,9 @@
      [:p "Written by "
          (twitter-name "morganastra")
          ", whose "
-         (href "https://pronoun.is/she" "pronoun.is/she")]
+         (href "https://pronoun.is/she" "pronoun.is/she")
+         ", design proposed by"
+         (href "Geoffrey" "https://geoffrey.crofte.fr/en/")]
      [:p "pronoun.is is free software under the "
          (href "https://www.gnu.org/licenses/agpl.html" "AGPLv3")
          "! visit the project on "
