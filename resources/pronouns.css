@@ -106,7 +106,7 @@ li a:focus {
 }
 
 .section.title {
-    padding: 80px 16px;
+    padding: 8px 16px 40px;
     text-align: center;
     background: linear-gradient(to right, var(--grad1), var(--grad2));
     color: #FFF;
@@ -160,8 +160,14 @@ li a:focus {
 .section.title a h1 {
     position: relative;
     color: inherit;
-    margin-top: -20vh;
 }
+
+@media (min-width: 980px) {
+   .section.title a h1 {
+        margin-top: -20vh;
+    }   
+}
+
 
 /* Global left margin */
 .section.examples,
