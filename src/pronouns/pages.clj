@@ -96,6 +96,11 @@
     ;; This looks really ugly in the browser
        [:tt "https://pronoun.is/subject-pronoun/object-pronoun/possessive-determiner/possessive-pronoun/reflexive"]
        " displays examples of your pronouns."]
+	[:p "If you use two or more pronouns: "
+    ;; FIXME morgan.astra <2018-11-14 Wed> Duplicated from above by egefeyzioglu <2020-07-29 Wed>
+    ;; This looks really ugly in the browser
+       [:tt "https://pronoun.is/pronoun-as-above/:or/pronoun-as-above"]
+       " displays examples of your pronouns."]
    [:p "This is a bit unwieldy. If we have a good guess we'll let you use"
        " just the first one or two."]])
 
