@@ -32,6 +32,10 @@ url path. For example, https://pronoun.is/ze/zir/zir/zirs/zirself
 That's pretty unwieldy! Fortunately you can also give it only the
 first pronoun or two: https://pronoun.is/she/her or https://pronoun.is/they
 
+Further, if you use more than one set of pronouns, that is supported as well.
+You can seperate different pronouns using <code>/:or</code>. For example,
+https://pronoun.is/they/:or/he
+
 Automatically filling in the rest from only one or two forms only
 works for pronouns in the [database][pronoun-database]. If the
 pronouns you or a friend uses aren't supported, please let us know and
