@@ -37,8 +37,8 @@
 ;; FIXME morgan.astra <2018-11-14 Wed>
 ;; use a div for this instead of a plain bold tag
 (defn wrap-pronoun
-  [pronoun]
-  [:b pronoun])
+  [pronoun] ;; Replace tabs with a period and apostrophes with an empty string. - tacosontitan 3 SEP 2021
+  [:b {:class (str/replace (str/replace (str "." pronoun) "\t" ".") "'" "")} pronoun])
 
 (defn render-sentence [& content]
   [:p [:span.sentence content]])
