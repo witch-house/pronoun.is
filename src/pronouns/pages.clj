@@ -89,6 +89,18 @@
          (possessive-pronoun-example possessive-pronoun)
          (reflexive-example subject reflexive)]]))
 
+(defn assumed-block 
+  [subject object possessive-determiner possessive-pronoun reflexive]
+  (let [sub-obj (s/join "/" [subject object])
+        header-str (str "We have assumed a full usage of:")]
+    [:div {:class "section assumed"}
+     [:p header-str]
+     [:tt (str "https://pronoun.is/" (s/join "/" [subject
+          object
+          possessive-determiner
+          possessive-pronoun
+          reflexive]))]]))
+
 (defn usage-block []
   [:div {:class "section usage"}
    [:p "Full usage: "
@@ -120,7 +132,8 @@
   [pronoun-declensions]
   (let [sub-objs (map #(s/join "/" (take 2 %)) pronoun-declensions)
         title (str "Pronoun Island: " (prose-comma-list sub-objs) " examples")
-        examples (map #(apply examples-block %) pronoun-declensions)]
+        examples (map #(apply examples-block %) pronoun-declensions)
+        assumed (map #(apply assumed-block %) pronoun-declensions)]
     (html
      [:html
       [:head
@@ -135,6 +148,7 @@
       [:body
        (header-block title)
        examples
+       assumed
        (footer-block)]])))
 
 (defn table-lookup* [pronouns-string]
