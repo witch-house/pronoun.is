@@ -17,7 +17,7 @@
          pronouns)
     ["she/her"]           '(["she" "her" "her" "hers" "herself" "#FF00D0"])
     ["she" "they"]        '(["she" "her" "her" "hers" "herself" "#FF00D0"]
-                            ["they" "them" "their" "theirs" "themselves" "#000000"])
+                            ["they" "them" "their" "theirs" "themselves" "#BB00FF"])
     ["she/her" "foo/bar"] '(["she" "her" "her" "hers" "herself" "#FF00D0"])
     ["foo/bar"]           '()
     ["a/b/c/d/e"]         '(("a" "b" "c" "d" "e" "#000000"))))
