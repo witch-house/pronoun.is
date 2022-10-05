@@ -37,38 +37,38 @@
 ;; FIXME morgan.astra <2018-11-14 Wed>
 ;; use a div for this instead of a plain bold tag
 (defn wrap-pronoun
-  [pronoun]
-  [:b pronoun])
+  [pronoun color]
+  [:b [:font {:color color} pronoun]])
 
 (defn render-sentence [& content]
   [:p [:span.sentence content]])
 
 (defn subject-example
-  [subject]
-  (render-sentence (wrap-pronoun (s/capitalize subject)) " went to the park."))
+  [subject color]
+  (render-sentence (wrap-pronoun (s/capitalize subject) color) " went to the park."))
 
 (defn object-example
-  [object]
-  (render-sentence "I went with " (wrap-pronoun object) "."))
+  [object color]
+  (render-sentence "I went with " (wrap-pronoun object color) "."))
 
 (defn posessive-determiner-example
-  [subject possessive-determiner]
-  (render-sentence (wrap-pronoun (s/capitalize subject))
+  [subject possessive-determiner color]
+  (render-sentence (wrap-pronoun (s/capitalize subject) color)
                    " brought "
-                   (wrap-pronoun possessive-determiner)
+                   (wrap-pronoun possessive-determiner color)
                    " frisbee."))
 
 (defn possessive-pronoun-example
-  [possessive-pronoun]
+  [possessive-pronoun color]
   (render-sentence "At least I think it was "
-                   (wrap-pronoun possessive-pronoun)
+                   (wrap-pronoun possessive-pronoun color)
                    "."))
 
 (defn reflexive-example
-  [subject reflexive]
-  (render-sentence (wrap-pronoun (s/capitalize subject))
+  [subject reflexive color]
+  (render-sentence (wrap-pronoun (s/capitalize subject) color)
                    " threw the frisbee to "
-                   (wrap-pronoun reflexive)
+                   (wrap-pronoun reflexive color)
                    "."))
 
 (defn header-block [header]
@@ -76,18 +76,17 @@
    (href "/" [:h1 header])])
 
 (defn examples-block
-  [subject object possessive-determiner possessive-pronoun reflexive]
+  [subject object possessive-determiner possessive-pronoun reflexive color]
   (let [sub-obj (s/join "/" [subject object])
-        header-str (str "Here are some example sentences using my "
-                        sub-obj
-                        " pronouns:")]
+        header-str-pre (str "Here are some example sentences using my ")
+        header-str-post (str " pronouns:")]
     [:div {:class "section examples"}
-     [:h2 header-str]
-     [:p (subject-example subject)
-         (object-example object)
-         (posessive-determiner-example subject possessive-determiner)
-         (possessive-pronoun-example possessive-pronoun)
-         (reflexive-example subject reflexive)]]))
+     [:h2 header-str-pre (wrap-pronoun sub-obj color) header-str-post]
+     [:p (subject-example subject color)
+         (object-example object color)
+         (posessive-determiner-example subject possessive-determiner color)
+         (possessive-pronoun-example possessive-pronoun color)
+         (reflexive-example subject reflexive color)]]))
 
 (defn usage-block []
   [:div {:class "section usage"}
