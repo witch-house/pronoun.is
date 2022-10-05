@@ -15,9 +15,9 @@
   (are [pronoun-strs pronouns]
       (= (pages/lookup-pronouns pronoun-strs)
          pronouns)
-    ["she/her"]           '(["she" "her" "her" "hers" "herself"])
-    ["she" "they"]        '(["she" "her" "her" "hers" "herself"]
-                            ["they" "them" "their" "theirs" "themselves"])
-    ["she/her" "foo/bar"] '(["she" "her" "her" "hers" "herself"])
+    ["she/her"]           '(["she" "her" "her" "hers" "herself" "#FF00D0"])
+    ["she" "they"]        '(["she" "her" "her" "hers" "herself" "#FF00D0"]
+                            ["they" "them" "their" "theirs" "themselves" "#000000"])
+    ["she/her" "foo/bar"] '(["she" "her" "her" "hers" "herself" "#FF00D0"])
     ["foo/bar"]           '()
-    ["a/b/c/d/e"]         '(("a" "b" "c" "d" "e"))))
+    ["a/b/c/d/e"]         '(("a" "b" "c" "d" "e" "#000000"))))
