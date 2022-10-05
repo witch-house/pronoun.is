@@ -32,9 +32,9 @@
 (defn table-end-filter
   "filter a <table> to the rows which end with <query-key>"
   [query-key table]
-  (let [table-arity (count (first table))
+  (let [table-arity (- (count (first table)) 1)
         query-arity (count query-key)]
-    (filter #(= query-key (drop (- table-arity query-arity) %)) table)))
+    (filter #(= query-key (drop-last 1 (drop (- table-arity query-arity) %))) table)))
 
 (defn table-lookup
   "find the row corresponding to <query-key> in <table>"
@@ -66,7 +66,7 @@
 
   See also: shortest-unambiguous-path"
   [table row]
-  (let [row-end (last row)
+  (let [row-end (first (take-last 2 row))
         filtered-table (table-end-filter [row-end] table)]
     (loop [n 1]
       (let [row-front (take n row)]
