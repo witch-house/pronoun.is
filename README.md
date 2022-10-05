@@ -44,9 +44,9 @@ pull request (see the next section for details)
 
 The pronouns "database" is a tab-delimited file located in [resources/pronouns.tab][pronoun-database] with fields and example values as follows:
 
-subject|object|possessive-determiner|possessive-pronoun|reflexive
--------|------|---------------------|------------------|---------
-they   | them | their               | theirs           | themselves
+subject|object|possessive-determiner|possessive-pronoun|reflexive  |color
+-------|------|---------------------|------------------|-----------|--------
+they   | them | their               | theirs           | themselves| #000000
 
 The top 6 pronouns are displayed on the front page. Please don't edit these
 without talking to me, they've been hand-curated based on usage frequency.
