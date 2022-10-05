@@ -140,7 +140,7 @@
   (let [inputs (s/split pronouns-string #"/")
         n (count inputs)]
     (if (>= n 5)
-      (take 5 inputs)
+      (concat (take 5 inputs) ["#000000"])
       (u/table-lookup inputs @pronouns-table))))
 
 (defn lookup-pronouns
