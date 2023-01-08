@@ -10,11 +10,13 @@
                  [ring/ring-devel "1.7.1"]
                  [ring/ring-jetty-adapter "1.7.1"]]
   :min-lein-version "2.0.0"
+  :main pronouns.web 
   :plugins [[environ/environ.lein "0.2.1"]
             [lein-ring "0.9.7"]]
   :hooks [environ.leiningen.hooks]
   :uberjar-name "pronouns-standalone.jar"
   ;; FIXME morgan.astra <2018-11-14 Wed>
   ;; Is this production profile used for anything?
-  :profiles {:production {:env {:production true}}}
+  :profiles {:production {:env {:production true}}
+             :uberjar {:aot :all}}
   :ring {:handler pronouns.web/app})
