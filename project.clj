@@ -18,6 +18,5 @@
   ;; FIXME morgan.astra <2018-11-14 Wed>
   ;; Is this production profile used for anything?
   :profiles {:production {:env {:production true}}
-             :uberjar {:aot :all}
-             }
+             :uberjar {:aot :all}}
   :ring {:handler pronouns.web/app})
