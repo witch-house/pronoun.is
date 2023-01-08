@@ -10,6 +10,7 @@
                  [ring/ring-devel "1.7.1"]
                  [ring/ring-jetty-adapter "1.7.1"]]
   :min-lein-version "2.0.0"
+  :main "pronouns.web"
   :plugins [[environ/environ.lein "0.2.1"]
             [lein-ring "0.9.7"]]
   :hooks [environ.leiningen.hooks]
