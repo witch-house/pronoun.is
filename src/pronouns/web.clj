@@ -29,7 +29,8 @@
             [ring.middleware.not-modified :refer [wrap-not-modified]]
             [environ.core :refer [env]]
             [pronouns.util :as u]
-            [pronouns.pages :as pages]))
+            [pronouns.pages :as pages])
+  (:gen-class))
 
 (defroutes app-routes
   (GET "/" []
