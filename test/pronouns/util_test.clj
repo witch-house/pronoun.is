@@ -1,6 +1,6 @@
 (ns pronouns.util-test
   (:require [pronouns.util :as util]
-            [clojure.test :refer [deftest testing is are]]))
+            [clojure.test :refer [deftest testing are]]))
 
 (def test-table [["ze" "hir" "hir" "hirs" "hirself"]
                  ["ze" "zir" "zir" "zirs" "zirself"]

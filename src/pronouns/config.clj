@@ -1,5 +1,5 @@
 ;; pronoun.is - a website for pronoun usage examples
-;; Copyright (C) 2014 - 2018 Morgan Astra
+;; Copyright (C) 2014 - 2026 Morgan Astra
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU Affero General Public License as
@@ -15,15 +15,16 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>
 
 (ns pronouns.config
-  (:require [pronouns.util :as u]))
+  (:require [clojure.java.io :as io]
+            [pronouns.util :as u]))
 
 (def pronouns-table
-  (atom (u/slurp-tabfile "resources/pronouns.tab")))
+  (atom (u/slurp-tabfile (io/resource "pronouns.tab"))))
 
-(defn replace-value [old new] new)
+(defn replace-value [_ new] new)
 
 (defn reload-table! []
   (swap! pronouns-table
          replace-value
-         (u/slurp-tabfile "resources/pronouns.tab")))
+         (u/slurp-tabfile (io/resource "pronouns.tab"))))
 

@@ -1,6 +1,6 @@
 (ns pronouns.pages-test
   (:require [pronouns.pages :as pages]
-            [clojure.test :refer [deftest testing is are]]))
+            [clojure.test :refer [deftest testing are]]))
 
 (deftest prose-comma-list
   (testing "`prose-comma-list` turns a list of strings into a prose list"
