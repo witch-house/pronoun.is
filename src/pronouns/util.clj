@@ -1,5 +1,5 @@
 ;; pronoun.is - a website for pronoun usage examples
-;; Copyright (C) 2014 - 2018 Morgan Astra
+;; Copyright (C) 2014 - 2026 Morgan Astra
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU Affero General Public License as
@@ -15,8 +15,7 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>
 
 (ns pronouns.util
-  (:require [clojure.string :as s]
-            [clojure.set :as set]))
+  (:require [clojure.string :as s]))
 
 (defn slurp-tabfile
   "Read a tabfile from a filesystem <path> as a table"

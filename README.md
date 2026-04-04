@@ -101,19 +101,19 @@ on your own computer by running the following command:
 $ PORT=3000 lein run
 ```
 
-This will launch a server running the app and open your default web browser to 
+This will launch a server running the app and open your default web browser to
 the index page. The server will automatically reload files as you edit them -
 with the unfortunate exception of `pronouns.tab`, which is loaded as a resource
 and requires an app restart to reload.
 
 ### The git repo
 
-For most of this project's history we had separate `master` and `develop`
+For most of this project's history we had separate `main` and `develop`
 branches but that's proven to be more trouble than it's worth. Going
-forward we'll be doing all development in feature branches off of `master`,
-and PRs should be issued against `master`.
+forward we'll be doing all development in feature branches off of `main`,
+and PRs should be issued against `main`.
 
-Please follow [this guide](https://chris.beams.io/posts/git-commit/) 
+Please follow [this guide](https://chris.beams.io/posts/git-commit/)
 for writing good commit messages :)
 
 ## Philosophy on pronoun inclusion
@@ -134,7 +134,7 @@ idea of patching the pronoun.is codebase to support rending pages in different
 languages as long as it doesn't make the code substantially more complicated.
 
 Even if we add I18N support to the code, other language versions of the site
-should have their own domains names (ideally with clever TLD puns like 
+should have their own domains names (ideally with clever TLD puns like
 pronoun.is has for english!)
 
 (This was discussed in issues #13, #14, and #66)
@@ -161,7 +161,7 @@ enough that non-programmers can edit it and keep the URLs short, pretty, and
 readable to humans as a sentence if you take all the punctuation out.
 
 ## License
-Copyright © 2014-2018 Morgan Astra <m@morganastra.me>
+Copyright © 2014-2026 Morgan Astra <m@morganastra.me>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as

@@ -1,5 +1,5 @@
 ;; pronoun.is - a website for pronoun usage examples
-;; Copyright (C) 2014 - 2018 Morgan Astra
+;; Copyright (C) 2014 - 2026 Morgan Astra
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
 (def pronouns-table
   (atom (u/slurp-tabfile (io/resource "pronouns.tab"))))
 
-(defn replace-value [old new] new)
+(defn replace-value [_ new] new)
 
 (defn reload-table! []
   (swap! pronouns-table
