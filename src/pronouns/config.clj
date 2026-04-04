@@ -15,15 +15,16 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>
 
 (ns pronouns.config
-  (:require [pronouns.util :as u]))
+  (:require [clojure.java.io :as io]
+            [pronouns.util :as u]))
 
 (def pronouns-table
-  (atom (u/slurp-tabfile "resources/pronouns.tab")))
+  (atom (u/slurp-tabfile (io/resource "pronouns.tab"))))
 
 (defn replace-value [old new] new)
 
 (defn reload-table! []
   (swap! pronouns-table
          replace-value
-         (u/slurp-tabfile "resources/pronouns.tab")))
+         (u/slurp-tabfile (io/resource "pronouns.tab"))))
 

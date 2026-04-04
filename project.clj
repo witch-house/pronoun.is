@@ -16,5 +16,9 @@
   :main pronouns.web
   ;; FIXME morgan.astra <2018-11-14 Wed>
   ;; Is this production profile used for anything?
-  :profiles {:production {:env {:production true}}}
+  :profiles {:production {:env {:production true}}
+           :dev {:ring {:handler pronouns.web/dev-app}}
+           :uberjar {:aot :all
+                     :ring {:handler pronouns.web/prod-app}
+                     :dependencies [[com.github.clj-easy/graal-build-time "1.0.5"]]}}
   :ring {:handler pronouns.web/app})

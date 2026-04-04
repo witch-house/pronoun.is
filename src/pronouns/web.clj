@@ -15,20 +15,19 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>
 
 (ns pronouns.web
-  (:require [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
+  (:require [compojure.core :refer [defroutes GET ANY]]
             [compojure.route :as route]
-            [clojure.string :as s]
             [clojure.java.io :as io]
             [ring.adapter.jetty :as jetty]
-            [ring.middleware.logger :as logger]
-            [ring.middleware.stacktrace :as trace]
-            [ring.middleware.params :as params]
-            [ring.middleware.resource :refer [wrap-resource]]
+            [ring.middleware.logger :refer [wrap-with-logger]]
+            [ring.middleware.stacktrace :refer [wrap-stacktrace]]
+            [ring.middleware.params :refer [wrap-params]]
+            [ring.middleware.reload :refer [wrap-reload]]
             [ring.middleware.content-type :refer [wrap-content-type]]
             [ring.middleware.not-modified :refer [wrap-not-modified]]
             [environ.core :refer [env]]
-            [pronouns.util :as u]
-            [pronouns.pages :as pages]))
+            [pronouns.pages :as pages])
+  (:gen-class))
 
 (defroutes app-routes
   (GET "/" []
@@ -68,18 +67,23 @@
               :headers {"Content-Type" "text/html"}
               :body (slurp (io/resource "500.html"))})))))
 
-(def app
+(def base-middleware
+  #(-> %
+       wrap-content-type
+       wrap-not-modified
+       wrap-with-logger
+       wrap-error-page
+       wrap-gnu-natalie-nguyen
+       wrap-params))
+
+(def prod-app
+  (base-middleware app-routes))
+
+(def dev-app
   (-> app-routes
-      ;; FIXME morgan.astra <2018-11-14 Wed>
-      ;; use this resource or delete it
-      ;; (wrap-resource "images")
-      wrap-content-type
-      wrap-not-modified
-      logger/wrap-with-logger
-      wrap-error-page
-      wrap-gnu-natalie-nguyen
-      trace/wrap-stacktrace
-      params/wrap-params))
+      base-middleware
+      wrap-stacktrace
+      wrap-reload))
 
 (defn -main []
   (when-not (:port env)
@@ -88,4 +92,4 @@
       (println "Example: PORT=3000 lein run"))
     (System/exit 1))
   (let [port (Integer. (:port env))]
-    (jetty/run-jetty app {:port port})))
+    (jetty/run-jetty prod-app {:port port})))
