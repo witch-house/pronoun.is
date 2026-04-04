@@ -1,6 +1,6 @@
 (ns pronouns.resource-test
   (:require [pronouns.util :as util]
-            [clojure.test :refer [deftest testing is]]))
+            [clojure.test :refer [deftest is]]))
 
 (deftest valid-pronouns-table
   (let [table (util/slurp-tabfile "resources/pronouns.tab")]
