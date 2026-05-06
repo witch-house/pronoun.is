@@ -14,16 +14,23 @@ jobs:
       - run:
           name: Run unit tests
           command: lein check && lein test
+
       - run:
           name: Build uberjar
           command: lein uberjar
+
       - run:
           name: Install curl
           command: apt-get update && apt-get install -y curl
+
       - run:
           name: Start server
-          command: lein ring server &> server.log
+          command: lein ring server &> /tmp/server.log
           background: true
+
+      - store_artifacts:
+          path: /tmp/server.log
+
       - run:
           name: Wait for server
           command: sleep 10 && curl -s http://localhost:3000 > /dev/null || (echo "Server failed to start" && cat server.log && exit 1)
