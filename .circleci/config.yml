@@ -7,7 +7,7 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: cimg/clojure:1.12
+      - image: clojure:temurin-25-lein-trixie
     steps:
       - checkout
       - run:
@@ -16,7 +16,7 @@ jobs:
 
   integration-test:
     docker:
-      - image: cimg/clojure:1.12
+      - image: clojure:temurin-25-lein-trixie
     steps:
       - checkout
       - run:
