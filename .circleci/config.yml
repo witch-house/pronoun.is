@@ -25,15 +25,13 @@ jobs:
 
       - run:
           name: Start server
-          command: lein ring server &> /tmp/server.log
+          command: lein ring server-headless &> /tmp/server.log
           background: true
-
-      - store_artifacts:
-          path: /tmp/server.log
 
       - run:
           name: Wait for server
-          command: sleep 10 && curl -s http://localhost:3000 > /dev/null || (echo "Server failed to start" && cat server.log && exit 1)
+          command: sleep 45 && curl -s http://localhost:3000 > /dev/null || (echo "Server failed to start" && cat /tmp/server.log && exit 1)
+
       - run:
           name: Run integration test
           command: curl -s http://localhost:3000 | grep -q '<a href="all-pronouns">' || (echo "Front page spot-check failed" && exit 1)
