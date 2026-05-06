@@ -14,13 +14,9 @@ jobs:
       - run:
           name: Run unit tests
           command: lein check && lein test
-
-  integration-test:
-    docker:
-      - image: clojure:temurin-25-lein-trixie
-    resource_class: small
-    steps:
-      - checkout
+      - run:
+          name: Build uberjar
+          command: lein uberjar
       - run:
           name: Install curl
           command: apt-get update && apt-get install -y curl
@@ -30,17 +26,12 @@ jobs:
           background: true
       - run:
           name: Wait for server
-          command: sleep 30 && curl -s http://localhost:3000 > /dev/null || (echo "Server failed to start" && cat server.log && exit 1)
+          command: sleep 10 && curl -s http://localhost:3000 > /dev/null || (echo "Server failed to start" && cat server.log && exit 1)
       - run:
           name: Run integration test
           command: curl -s http://localhost:3000 | grep -q '<a href="all-pronouns">' || (echo "Front page spot-check failed" && exit 1)
 
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/guides/orchestrate/workflows/ & https://circleci.com/docs/reference/configuration-reference/#workflows
 workflows:
   test-workflow:
     jobs:
       - test
-      - integration-test:
-          requires:
-            - test
