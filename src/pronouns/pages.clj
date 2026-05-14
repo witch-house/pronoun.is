@@ -91,7 +91,11 @@
 (defn usage-block []
   [:div {:class "section usage"}
    [:p "Full usage: "
-    [:tt "pronoun.is/subject/object/possessive-determiner/possessive/reflexive"]]
+    [:code "pronoun.is/subject/object/possessive-determiner/possessive/reflexive"]]
+   [:p "You can also specify two or more pronoun sets with "
+    [:code "?or="] " or " [:code "/:or"]]
+   [:p "For example: "
+    [:code "pronoun.is/she?or=they"]]
    [:p "This is a bit unwieldy. If we have a good guess we'll let you use"
     " just the first one or two."]])
 
