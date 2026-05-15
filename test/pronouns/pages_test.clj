@@ -1,7 +1,8 @@
 (ns pronouns.pages-test
   (:require [pronouns.pages :as pages]
             [clojure.walk :as walk]
-            [clojure.test :refer [deftest testing are is]]))
+            [clojure.test :refer [deftest testing are is]]
+            [clojure.string :as s]))
 
 ;; Tests for page logic functions
 (deftest ^:unit prose-comma-list
@@ -123,13 +124,25 @@
     (is nil? (find-element-by-path [:head :meta [:name "twitter:card"]]
                                    result))))
 
-(deftest ^:unit format-pronoun-examples-page
-  (let [result (pages/format-pronoun-examples
+(defn assert-open-html [page]
+  (is (s/starts-with? page "<html><head>")))
+
+(defn assert-close-html [page]
+  (is (s/ends-with? page "</body></html>")))
+
+(defn assert-final-render-html [data]
+  (let [page (pages/render data)]
+    (assert-open-html page)
+    (assert-close-html page)))
+
+(deftest ^:unit format-pronoun-examples*-page
+  (let [result (pages/format-pronoun-examples*
                 '(["she" "her" "her" "hers" "herself"]))
         title "Pronoun Island: she/her examples"]
     (assert-has-head-block result title)
     (assert-twitter-card result title)
-    (assert-contact-block result title)))
+    (assert-contact-block result title)
+    (assert-final-render-html result)))
 
 (deftest ^:unit front*-page
   (let [result (pages/front*)
@@ -137,7 +150,8 @@
         description "Pronoun.is is a website for personal pronoun usage examples."]
     (assert-has-head-block result title)
     (assert-contact-block result title)
-    (assert-twitter-card result title description)))
+    (assert-twitter-card result title description)
+    (assert-final-render-html result)))
 
 (deftest ^:unit all-pronouns*-page
   (let [result (pages/all-pronouns*)
@@ -145,18 +159,31 @@
         description "Pronoun.is is a website for personal pronoun usage examples."]
     (assert-has-head-block result title)
     (assert-twitter-card result title description)
-    (assert-contact-block result title)))
+    (assert-contact-block result title)
+    (assert-final-render-html result)))
 
 (deftest ^:unit not-found*-page
   (let [result (pages/not-found* "/foo/bar")
         title "Pronoun Island - Not Found :("]
     (assert-has-head-block result title)
     (assert-contact-block result title)
-    (assert-no-twitter-card result title)))
+    (assert-no-twitter-card result title)
+    (assert-final-render-html result)))
 
 (deftest ^:unit error*-page
   (let [result (pages/error* "/foo/bar")
         title "Pronoun Island - Error :("]
     (assert-has-head-block result title)
     (assert-contact-block result title)
-    (assert-no-twitter-card result title)))
+    (assert-no-twitter-card result title)
+    (assert-final-render-html result)))
+
+(deftest ^:unit pronouns-page-render
+  (let [pages (map pages/pronouns [{:* "/asdf"}
+                                   {:* "/ze/:or/they"}
+                                   {:* "/a/b/c/d/e"}
+                                   {:* "/he" "or" "they"}
+                                   {:* "/she"}])]
+    (doseq [page pages]
+      (assert-open-html page)
+      (assert-close-html page))))

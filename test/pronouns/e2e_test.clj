@@ -158,6 +158,12 @@
     :status 200
     :body-re #"<a href=\"all-pronouns\">"}])
 
+(defn cleanup
+  "Ensure <port> is unbound + shutdown-agents"
+  [port]
+  (sh "fuser" "-k" (str port "/tcp"))
+  (shutdown-agents))
+
 (deftest ^:e2e e2e-server-test
   (let [maxwait 120000
         port (find-open-port)
@@ -175,6 +181,6 @@
         (assert-logs final-log e2e-server-test-cases)
 
           ;; Nothing should ever crash the server
-        (is (not (re-find #"FATAL" final-log))))))
+        (is (not (re-find #"FATAL" final-log)))))
 
-  (shutdown-agents))
+    (cleanup port)))
