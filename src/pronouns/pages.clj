@@ -118,7 +118,7 @@
 (defn footer-block []
   [:footer (usage-block) (contact-block)])
 
-(defn format-pronoun-examples
+(defn format-pronoun-examples*
   [pronoun-declensions]
   (let [sub-objs (map #(s/join "/" (take 2 %)) pronoun-declensions)
         title (str "Pronoun Island: " (prose-comma-list sub-objs) " examples")
@@ -251,12 +251,13 @@
 (def all-pronouns (comp render all-pronouns*))
 (def not-found (comp render not-found*))
 (def error (comp render error*))
+(def format-pronoun-examples (comp render format-pronoun-examples*))
 
 (defn pronouns [params]
   (let [path (s/lower-case (params :*))
         param-alts (u/vec-coerce (or (params "or") []))
         path-alts (s/split path #"/:[oO][rR]/")
         pronouns (lookup-pronouns (concat path-alts param-alts))]
-    (render (if (seq pronouns)
-              (format-pronoun-examples pronouns)
-              (not-found path)))))
+    (if (seq pronouns)
+      (format-pronoun-examples pronouns)
+      (not-found path))))

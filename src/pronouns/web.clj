@@ -46,6 +46,11 @@
      :headers {"Content-Type" "text/css"}
      :body (slurp (io/resource "pronouns.css"))})
 
+  (GET "/robots.txt" []
+    {:status 200
+     :headers {"Content-Type" "text"}
+     :body "User-agent: *\nDisallow: /coffee"})
+
   (GET "/coffee" []
     {:status 418
      :headers {"Content-Type" "text/html"}
