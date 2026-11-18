@@ -8,4 +8,4 @@ ENV PORT 3000
 
 EXPOSE 3000
 
-CMD ["java", "-jar", "/pronoun.is/app.jar" ]
+CMD ["java", "-XX:-UseBASE64Intrinsics", "-jar", "/pronoun.is/app.jar" ]
